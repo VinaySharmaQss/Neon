@@ -1,0 +1,53 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+  --gray: #707070;
+  --rich-blue: #051828;
+  --satin-gold: #B79535;
+  --bright-green: #55BF3B;
+  --background-color: #F9F7F2;
+  --light-gray: #DDDDDD;
+  --text-color: #222222;
+  --white: #FFFFFF;
+  --error-red: #FF385C;
+  --success-green: #006B44;
+
+  /* Font/text values */
+  --font-family-brown: Brown;
+  --font-style-normal: normal;
+  --font-weight-normal: normal;
+  --font-size-18: 18px;
+  --character-spacing-0: 0px;
+  --line-spacing-28: 28px;
+}
+
+/* Character Styles */
+.text-style {
+  font-family: var(--font-family-brown);
+  font-style: var(--font-style-normal);
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-18);
+  line-height: var(--line-spacing-28);
+  letter-spacing: var(--character-spacing-0);
+  color: var(--text-color);
+}
+
+.font-brown {
+  font-family: var(--font-family-brown);
+}
+
+@font-face {
+  font-family: "IvyMode";
+  src: url("../fonts/IvyMode-Regular.ttf");
+}
+
+@font-face {
+  font-family: "BrownMedium";
+  src: url("../fonts/BrownMedium-Regular.ttf");
+}
+
+@font-face {
+  font-family: "BrownRegular";
+  src: url("../fonts/BrownLight-Regular.ttf");
+}

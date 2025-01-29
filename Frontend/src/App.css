@@ -1,0 +1,17 @@
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.button {
+  background-color: var(--satin-gold);
+  color: var(--white);
+}
+
+.button-success {
+  background-color: var(--bright-green);
+}
+
+.button-error {
+  background-color: var(--error-red);
+}
