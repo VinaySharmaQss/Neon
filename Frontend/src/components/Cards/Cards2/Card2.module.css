@@ -1,0 +1,77 @@
+.container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .left_top img {
+    position: relative;
+    opacity: 1;
+    width: 550px;
+    height: 270px;
+    object-fit: cover;
+    background: #f9f7f2;
+    border: 1px solid #222222;
+    border-radius: 12px;
+  }
+  
+  .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+  }
+  
+  .right h2 {
+    margin-top: 8px;
+    font: normal normal 600 16px/18px IvyMode;
+    letter-spacing: 0.5px;
+    color: #222222;
+  }
+  
+  .para1 {
+    margin-top: 0;
+    padding: 0;
+    font-size: 13px;
+    color: #222222;
+    opacity: 0.7;
+  }
+  
+  .para {
+    width: 550px;
+    height: auto;
+    font: normal normal normal 16px/24px BrownLight;
+    letter-spacing: 0.35px;
+    color: #222222;
+    margin-top: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .btn_group {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    gap: 16px;
+  }
+  
+  .btn_black {
+    background: #222222;
+    border-radius: 8px;
+    width: 180px;
+    height: 44px;
+    font: normal normal normal 14px/14px Poppins;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    text-align: center;
+  }
+  
+  .btn_white {
+    text-align: center;
+    padding-top: 12px;
+    width: 70px;
+    height: 20px;
+    font: normal normal normal 14px/14px Poppins;
+    letter-spacing: 0px;
+    color: #222222;
+    text-decoration: underline;
+  }
+  
