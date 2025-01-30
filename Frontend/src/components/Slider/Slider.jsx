@@ -1,8 +1,8 @@
 
-const Slider = () => {
+const Slider = ({children}) => {
   return (
     <>
-    Nothing in  Queue
+      {children}
     </>
   )
 }

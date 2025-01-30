@@ -20,7 +20,36 @@
   --font-size-18: 18px;
   --character-spacing-0: 0px;
   --line-spacing-28: 28px;
+--unnamed-color-707070: #707070;
+--unnamed-color-051828: #051828;
+--unnamed-color-b79535: #B79535;
+--unnamed-color-55bf3b: #55BF3B;
+--unnamed-color-f9f7f2: #F9F7F2;
+--unnamed-color-dddddd: #DDDDDD;
+--unnamed-color-222222: #222222;
+--unnamed-color-ffffff: #FFFFFF;
+--unnamed-color-ff385c: #FF385C;
+
+/* Font/text values */
+--unnamed-font-family-brown: Brown;
+--unnamed-font-style-normal: normal;
+--unnamed-font-weight-normal: normal;
+--unnamed-font-size-18: 18px;
+--unnamed-character-spacing-0: 0px;
+--unnamed-line-spacing-28: 28px;
 }
+
+/* Character Styles */
+.unnamed-character-style-1 {
+font-family: var(--unnamed-font-family-brown);
+font-style: var(--unnamed-font-style-normal);
+font-weight: var(--unnamed-font-weight-normal);
+font-size: var(--unnamed-font-size-18);
+line-height: var(--unnamed-line-spacing-28);
+letter-spacing: var(--unnamed-character-spacing-0);
+color: var(--unnamed-color-222222);
+}
+
 
 /* Character Styles */
 .text-style {
@@ -51,3 +80,5 @@
   font-family: "BrownRegular";
   src: url("../fonts/BrownLight-Regular.ttf");
 }
+
+
