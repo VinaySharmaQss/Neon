@@ -1,7 +1,6 @@
 body {
   background-color: var(--background-color);
   color: var(--text-color);
-  padding: 5%;
   font-family: var(--font-family-brown);
 }
 

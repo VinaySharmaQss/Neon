@@ -1,151 +1,150 @@
 .card {
-    display: flex;
-    flex-direction: row;
-    height: 270px; /* Adjusted proportionally */
-    width: 560px; /* Adjusted proportionally */
-    border: 1px solid #222222;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-    background: #f9f7f2 0% 0% no-repeat padding-box;
-    opacity: 1;
-  }
-  
-  .left {
-    width: 40%;
-    position: relative;
-  }
-  
-  .mainImage img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .leftContent {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    bottom: 8px;
-    left: 100px; /* Adjusted positioning */
-    color: white;
-    padding: 4px 8px;
-    border-radius: 5px;
-    align-items: center;
-  }
-  
-  .mainWeather {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  
-  .mainWeather img {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .temperture {
-    display: flex;
-    flex-direction: row;
-    gap: 4px;
-    font-size: 9px; /* Slightly reduced */
-    margin-top: 6px;
-  }
-  
-  .right {
-    width: 60%;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .header h1 {
-    font: normal normal normal 20px/30px IvyMode; /* Adjusted */
-    letter-spacing: 0.6px;
-    color: #222222;
-  }
-  
-  .content {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: #666;
-  }
-  
-  .starRating {
-    color: red;
-  }
-  
-  .ratingNun {
-    font: normal normal normal 12px/38px BrownLight; /* Adjusted */
-    letter-spacing: 0.25px;
-    color: #222222;
-  }
-  
-  .body {
-    font: normal normal normal 14px/16px BrownLight; /* Adjusted */
-    letter-spacing: 0.3px;
-    opacity: 1;
-  }
-  
-  .readMore {
-    font: normal normal normal 14px/16px BrownLight; /* Adjusted */
-    color: #ff385c;
-    text-decoration: underline;
-  }
-  
-  .logo_section {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .logo {
-    color: #ff385c 0% 0% no-repeat padding-box;
-    opacity: 1;
-  }
-  
-  .logo_content {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 10px; /* Adjusted */
-    color: #666;
-  }
-  
-  .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-    font-weight: bold;
-  }
-  
-  .footer_logo {
-    border-radius: 0px 0px 9px 9px;
-    opacity: 1;
-    margin-top: 4px;
-    padding: 8px;
-  }
-  
-  .footer_content {
-    display: flex;
-    flex-direction: row;
-  }
-  
-  .footer_description {
-    font: normal normal normal 12px/38px Brown; /* Adjusted */
-    letter-spacing: 0px;
-    color: #222222;
-  }
-  
-  .footer_link {
-    font: normal normal normal 12px/15px BrownMedium; /* Adjusted */
-    letter-spacing: 0.25px;
-    color: #222222;
-  }
-  
+  display: flex;
+  flex-direction: row;
+  height: 270px; /* Increased height */
+  width: 560px; /* Increased width */
+  border: 1px solid #222222;
+  border-radius: 12px; /* Increased border-radius */
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Increased shadow */
+  font-family: Arial, sans-serif;
+  background: #f9f7f2 0% 0% no-repeat padding-box;
+  opacity: 1;
+}
+
+.left {
+  width: 40%;
+  position: relative;
+}
+
+.mainImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.leftContent {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  bottom: 8px; /* Increased bottom spacing */
+  left: 100px; /* Increased left spacing */
+  color: white;
+  padding: 4px 8px; /* Increased padding */
+  border-radius: 5px; /* Increased border-radius */
+  align-items: center;
+}
+
+.mainWeather {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* Increased gap */
+}
+
+.mainWeather img {
+  width: 20px; /* Increased size */
+  height: 20px; /* Increased size */
+}
+
+.temperture {
+  display: flex;
+  flex-direction: row;
+  gap: 4px; /* Increased gap */
+  font-size: 9px; /* Increased font size */
+  margin-top: 6px; /* Increased margin */
+}
+
+.right {
+  width: 60%;
+  padding: 12px; /* Increased padding */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.header h1 {
+  font: normal normal normal 20px/30px IvyMode; /* Increased font size */
+  letter-spacing: 0.6px; /* Increased letter-spacing */
+  color: #222222;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px; /* Increased gap */
+  font-size: 12px; /* Increased font size */
+  color: #666;
+}
+
+.starRating {
+  color: red;
+}
+
+.ratingNum {
+  font: normal normal normal 12px/38px BrownLight; /* Increased font size */
+  letter-spacing: 0.25px; /* Increased letter-spacing */
+  color: #222222;
+}
+
+.body {
+  font: normal normal normal 14px/16px BrownLight; /* Increased font size */
+  letter-spacing: 0.3px; /* Increased letter-spacing */
+  opacity: 1;
+}
+
+.readMore {
+  font: normal normal normal 14px/16px BrownLight; /* Increased font size */
+  color: #ff385c;
+  text-decoration: underline;
+}
+
+.logo_section {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  color: #ff385c 0% 0% no-repeat padding-box;
+  opacity: 1;
+}
+
+.logo_content {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* Increased gap */
+  font-size: 10px; /* Increased font size */
+  color: #666;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px; /* Increased font size */
+  font-weight: bold;
+}
+
+.footer_logo {
+  border-radius: 0px 0px 9px 9px; /* Increased border-radius */
+  opacity: 1;
+  margin-top: 4px; /* Increased margin */
+  padding: 8px; /* Increased padding */
+}
+
+.footer_content {
+  display: flex;
+  flex-direction: row;
+}
+
+.footer_description {
+  font: normal normal normal 12px/38px Brown; /* Increased font size */
+  letter-spacing: 0px;
+  color: #222222;
+}
+
+.footer_link {
+  font: normal normal normal 12px/15px BrownMedium; /* Increased font size */
+  letter-spacing: 0.25px; /* Increased letter-spacing */
+  color: #222222;
+}

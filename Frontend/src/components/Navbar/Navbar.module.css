@@ -50,6 +50,27 @@ nav{
     font-size: 23px;
     position: relative;
  }
+ .navItem {
+  font-weight: 600;
+  font-size: 1rem;
+  background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+  border: 1px solid var(--unnamed-color-707070);
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #707070;
+  opacity: 0;
+  transition: color 0.3s;
+}
+
+.navItem:hover {
+  color: red;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.active {
+  color: red;
+}
 /* Responsive styles */
  @media (max-width: 768px) {
    nav {

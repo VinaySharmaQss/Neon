@@ -1,0 +1,96 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 195px; /* 280 * 0.6958 */
+  border-radius: 8px; /* 12 * 0.6958 */
+  overflow: hidden;
+  position: relative;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+}
+
+.cardImage {
+  width: 198px; /* 284 * 0.6958 */
+  height: 250px; /* 360 * 0.6958 */
+  object-fit: cover;
+  border-radius: 8px 8px 0 0; /* 12 * 0.6958 */
+}
+
+.icons {
+  position: absolute;
+  top: 6px; /* 8 * 0.6958 */
+  right: 6px; /* 8 * 0.6958 */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px; /* 4 * 0.6958 */
+  z-index: 2;
+}
+
+.heartIcon {
+  color: #888;
+  font-size: 18px; /* 26 * 0.6958 */
+}
+
+.cardNumber {
+  position: absolute;
+  top: 140px; /* 200 * 0.6958 */
+  left: 30px; /* 8 * 0.6958 */
+  font-size: 90px; /* 130 * 0.6958 */
+  font-weight: 1000;
+  font-family: 'Open Sans', sans-serif;
+  color: rgba(255, 255, 255, 0.3);
+  -webkit-text-stroke: 1px rgb(253, 251, 251); /* 2 * 0.6958 */
+  line-height: 1;
+  z-index: 0;
+}
+
+.content {
+  padding: 8px; /* 12 * 0.6958 */
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8px; /* 12 * 0.6958 */
+  color: #666;
+}
+
+.titleLeft {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* 6 * 0.6958 */
+}
+
+.titleLeft img {
+  width: 10px; /* 14 * 0.6958 */
+  height: 10px; /* 14 * 0.6958 */
+  background: #55BF3B;
+  border-radius: 50%;
+}
+
+.titleLeft > p {
+  font: normal normal normal 8px/28px Brown; /* 12 * 0.6958 */
+  letter-spacing: 0px;
+  color: #222222;
+}
+
+.titleRight {
+  font-weight: bold;
+}
+
+.description {
+  font-size: 11px; /* 16 * 0.6958 */
+  font-weight: bold;
+  color: #333;
+  margin: 6px 0; /* 8 * 0.6958 */
+}
+
+.footer {
+  font-size: 8px; /* 12 * 0.6958 */
+  color: #888;
+}

@@ -1,77 +1,90 @@
 .container {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .left_top img {
-    position: relative;
-    opacity: 1;
-    width: 550px;
-    height: 270px;
-    object-fit: cover;
-    background: #f9f7f2;
-    border: 1px solid #222222;
-    border-radius: 12px;
-  }
-  
-  .right {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 0;
-  }
-  
-  .right h2 {
-    margin-top: 8px;
-    font: normal normal 600 16px/18px IvyMode;
-    letter-spacing: 0.5px;
-    color: #222222;
-  }
-  
-  .para1 {
-    margin-top: 0;
-    padding: 0;
-    font-size: 13px;
-    color: #222222;
-    opacity: 0.7;
-  }
-  
-  .para {
-    width: 550px;
-    height: auto;
-    font: normal normal normal 16px/24px BrownLight;
-    letter-spacing: 0.35px;
-    color: #222222;
-    margin-top: 8px;
-    margin-bottom: 16px;
-  }
-  
-  .btn_group {
-    display: flex;
-    flex-direction: row;
-    align-items: start;
-    gap: 16px;
-  }
-  
-  .btn_black {
-    background: #222222;
-    border-radius: 8px;
-    width: 180px;
-    height: 44px;
-    font: normal normal normal 14px/14px Poppins;
-    letter-spacing: 0px;
-    color: #FFFFFF;
-    text-align: center;
-  }
-  
-  .btn_white {
-    text-align: center;
-    padding-top: 12px;
-    width: 70px;
-    height: 20px;
-    font: normal normal normal 14px/14px Poppins;
-    letter-spacing: 0px;
-    color: #222222;
-    text-decoration: underline;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  width: 500px; 
+}
+
+.left_top {
+  position: relative;
+
+}
+
+.img {
+  position: relative;
+  opacity: 1;
+  width: 500px; /* Increased width */
+  height: 250px; /* Increased height */
+  object-fit: cover;
+  background: #f9f7f2;
+  border: 1px solid #222222;
+  border-radius: 12px; /* Increased border radius */
+}
+
+.img_overlay {
+  position: absolute;
+  top: 10px; /* Adjusted position */
+  left: 10px; /* Adjusted position */
+  width: 40px; /* Increased width */
+  height: 40px; /* Increased height */
+  object-fit: cover;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.right h2 {
+  margin-top: 10px; /* Increased margin */
+  font: normal normal 600 16px/20px IvyMode; /* Increased font size */
+  letter-spacing: 0.5px; /* Increased letter spacing */
+  color: #222222;
+}
+
+.para1 {
+  margin-top: 0;
+  padding: 0;
+  font-size: 12px; /* Increased font size */
+  color: #222222;
+  opacity: 0.7;
+}
+
+.para {
+  width: 500px; /* Increased width */
+  height: auto;
+  font: normal normal normal 14px/20px BrownLight; /* Increased font size */
+  letter-spacing: 0.35px; /* Increased letter spacing */
+  color: #222222;
+  margin-top: 10px; /* Increased margin */
+  margin-bottom: 15px; /* Increased margin */
+}
+
+.btn_group {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 15px; /* Increased gap */
+}
+
+.btn_black {
+  background: #222222;
+  border-radius: 8px; /* Increased border radius */
+  width: 150px; /* Increased width */
+  height: 40px; /* Increased height */
+  font: normal normal normal 14px/14px Poppins; /* Increased font size */
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.btn_white {
+  text-align: center;
+  padding-top: 10px; /* Increased padding */
+  width: 70px; /* Increased width */
+  height: 20px; /* Increased height */
+  font: normal normal normal 14px/14px Poppins; /* Increased font size */
+  color: #222222;
+  text-decoration: underline;
+  cursor: pointer;
+}

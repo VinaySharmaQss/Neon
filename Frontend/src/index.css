@@ -68,17 +68,17 @@ color: var(--unnamed-color-222222);
 
 @font-face {
   font-family: "IvyMode";
-  src: url("../fonts/IvyMode-Regular.ttf");
+  src: url("../assets/fonts/IvyMode-Regular.ttf")format("truetype");
 }
 
 @font-face {
   font-family: "BrownMedium";
-  src: url("../fonts/BrownMedium-Regular.ttf");
+  src: url("../assets/fonts/Brown-Medium.ttf")format("truetype");
 }
 
 @font-face {
   font-family: "BrownRegular";
-  src: url("../fonts/BrownLight-Regular.ttf");
+  src: url("../assets/fonts/BrownLight-Regular.ttf")format("truetype");
 }
 
 
