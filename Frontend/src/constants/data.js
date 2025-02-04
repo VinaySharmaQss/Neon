@@ -5,12 +5,19 @@ import weatherLogo from "../../assets/img/weather_img.png";
 import logo from "../../assets/img/joy.svg";
 import Image from "../../assets/img/mountain.jpg";
 import Image2 from "../../assets/img/Mountains_waterfall.jpg";
-import artImage from "../../assets/img/art.jpg";
 import cardImg3_1 from "../../assets/img/card3_1.jpg"
 import cardImg3_2 from "../../assets/img/card3_2.jpg"
 import cardImg3_3 from "../../assets/img/card3_3.jpg"
 import cardImg3_4 from "../../assets/img/card3_4.jpg"
 import cardImg3_5 from "../../assets/img/card3_5.jpg"
+import cardImg4_1 from "../../assets/img/card4_1.jpg"
+import cardImg4_2 from "../../assets/img/card4_2.jpg"
+import cardImg4_3 from "../../assets/img/card4_3.jpg"
+import cardImg4_4 from "../../assets/img/card4_4.jpg"
+import cardImg4_5 from "../../assets/img/card4_5.jpg"
+import cardImg2_1 from "../../assets/img/card2_1.jpg"
+import cardImg2_2 from "../../assets/img/card2_2.jpg"
+
 
 export const card1Data = [
   {
@@ -92,7 +99,7 @@ export const card1Data = [
     footerLink: "Scheduled",
   },
   {
-    mainImage: CardImg1,
+    mainImage: cardImg3_4,
     weatherLogo: weatherLogo,
     temperature: "18",
     title: "Round of Golf",
@@ -156,7 +163,7 @@ export const card2Data = [
     ],
   },
   {
-    mainImage: Image,
+    mainImage: cardImg2_1,
     logo: logo,
     title: "Discover Gourmet French Delicacies",
     date: "on Jan 12, 2023",
@@ -174,7 +181,7 @@ export const card2Data = [
     ],
   },
   {
-    mainImage: Image2,
+    mainImage: cardImg2_2,
     logo: logo,
     title: "Savor the Best Mediterranean Dishes",
     date: "on Jan 25, 2023",
@@ -192,7 +199,7 @@ export const card2Data = [
     ],
   },
   {
-    mainImage: Image,
+    mainImage: cardImg3_1,
     logo: logo,
     title: "Relish Exquisite Indian Flavors",
     date: "on Feb 2, 2023",
@@ -259,3 +266,46 @@ export const card3Data = [
   },
 ];
 
+
+export const card4Data = [
+  {
+    mainImage: cardImg4_1,
+    title: "Round of Golf",
+    guests: 3,
+    date: "on Nov 17, 2022",
+    flag: true,
+    rating: "★ ★ ★ ★ ★",
+  },
+  {
+    mainImage: cardImg4_2,
+    title: "Beach",
+    guests: 5,
+    date: "on Dec 01, 2022",
+    flag: false,
+    rating: "★ ★ ★ ★ ☆",
+  },
+  {
+    mainImage: cardImg4_3,
+    title: "Mountain",
+    guests: 8,
+    date: "on Dec 10, 2022",
+    flag: true,
+    rating: "★ ★ ★ ★ ★",
+  },
+  {
+    mainImage: cardImg4_4,
+    title: "City Tour",
+    guests: 10,
+    date: "on Jan 05, 2023",
+    flag: false,
+    rating: "★ ★ ★ ☆ ☆",
+  },
+  {
+    mainImage: cardImg4_5,
+    title: "Food Festival",
+    guests: 12,
+    date: "on Feb 14, 2023",
+    flag: true,
+    rating: "★ ★ ★ ★ ★",
+  },
+];

@@ -16,3 +16,14 @@ body {
 .button-error {
   background-color: var(--error-red);
 }
+
+/* Hide scrollbar for all elements while keeping scrolling */
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
