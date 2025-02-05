@@ -7,6 +7,7 @@ import Logo from "../../../assets/img/logo2.png";
 import ProfileMenu from "../../UI/ProfileMenu";
 import { useState } from "react";
 import LanguagueMenu from "../../UI/LanguagueMenu";
+import { NavLink } from "react-router";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,9 +27,20 @@ const Navbar = () => {
 
       <div className={styles.right_section}>
         <div className={styles.nav_items}>
-          <NavbarItem >Dashboard</NavbarItem>
-          <NavbarItem >My favorites</NavbarItem>
-          <NavbarItem >Upcoming events</NavbarItem>
+         <NavLink to="/"
+         className={({isActive}) => isActive ? styles.active : ''}>
+         <NavbarItem >Dashboard</NavbarItem>
+         </NavLink>
+        
+         <NavLink to="/faviorates"
+         className={({isActive}) => isActive ? styles.active : ''}>
+         <NavbarItem >Faviorates</NavbarItem>
+         </NavLink>
+
+         <NavLink to="/upcoming-events"
+         className={({isActive}) => isActive ? styles.active : ''}>
+         <NavbarItem >Upcoming events</NavbarItem>
+         </NavLink>
         </div>
 
         <div className={styles.nav_icons}>

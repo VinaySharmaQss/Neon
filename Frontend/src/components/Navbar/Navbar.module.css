@@ -105,3 +105,9 @@ nav{
      font-size: 24px;
    }
  }
+
+ .active {
+  color: red;
+  text-decoration: underline;
+  text-decoration-color: red;
+}
