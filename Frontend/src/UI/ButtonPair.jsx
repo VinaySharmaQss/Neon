@@ -14,6 +14,7 @@ const ButtonPair = () => {
         {options[0]}
       </button>
       <button
+        style={{ borderLeft: "1px solid #707070", borderRight: "1px solid #707070" }}
         onClick={() => setSelected(1)}
         className={`px-1 py-1 w-full text-center text-xs transition-all ${
           selected === 1 ? "bg-black text-gray-200" : "text-black hover:bg-black hover:text-white"

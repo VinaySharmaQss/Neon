@@ -17,7 +17,11 @@ import cardImg4_4 from "../../assets/img/card4_4.jpg"
 import cardImg4_5 from "../../assets/img/card4_5.jpg"
 import cardImg2_1 from "../../assets/img/card2_1.jpg"
 import cardImg2_2 from "../../assets/img/card2_2.jpg"
-import RemoveBtn from "../UI/RemoveBtn";
+import user1 from "../../assets/img/user1.png"
+import user2 from "../../assets/img/user2.png"
+import user3 from "../../assets/img/user3.png"
+import user4 from "../../assets/img/user4.png"
+import user5 from "../../assets/img/user5.png"
 
 
 export const card1Data = [
@@ -597,3 +601,103 @@ export const events = [
     { name: "Kite Surfing" },
     { name: "Book Exhibitions" },
   ];
+
+
+   export const reviews = [
+    {
+      userImage: {card1Data},
+      userName: "Anastasia",
+      reviewDate: "Nov 2022",
+      reviewText:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      rating: 4.8,
+    },
+    {
+      userImage: {user2},
+      userName: "John Doe",
+      reviewDate: "Oct 2022",
+      reviewText:
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      rating: 4.5,
+    },
+    {
+      userImage: {user3},
+      userName: "Sophia Lee",
+      reviewDate: "Sep 2022",
+      reviewText:
+        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+      rating: 4.9,
+    },
+    {
+      userImage: {user4},
+      userName: "Michael Smith",
+      reviewDate: "Aug 2022",
+      reviewText:
+        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      rating: 4.7,
+    },
+    {
+      userImage: {user5},
+      userName: "Emily Davis",
+      reviewDate: "Jul 2022",
+      reviewText:
+        "Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra.",
+      rating: 4.6,
+    },
+    {
+      userImage: {user3},
+      userName: "Chris Taylor",
+      reviewDate: "Jun 2022",
+      reviewText:
+        "Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.",
+      rating: 4.4,
+    },
+    {
+      userImage: {user3},
+      userName: "Chris Taylor",
+      reviewDate: "Jun 2022",
+      reviewText:
+        "Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.",
+      rating: 4.4,
+    },
+  ];
+
+  export const eventData = [
+    {
+      eventTitle: "Jazz Concert",
+      eventLocation: "Sindalah City, Dubai",
+      eventDate: "2025-02-20T19:00:00", // Example future date
+      eventImage: cardImg3_3,            // Example image URL
+    },
+    {
+      eventTitle: "Rock Festival",
+      eventLocation: "Burj Khalifa Park, Dubai",
+      eventDate: "2025-06-15T18:00:00", // Example future date
+      eventImage: cardImg2_2,            // Example image URL
+    },
+    {
+      eventTitle: "Tech Conference",
+      eventLocation: "Dubai World Trade Center, Dubai",
+      eventDate: "2025-08-20T20:00:00", // Example future date
+      eventImage: cardImg3_2,            // Example image URL
+    },
+    {
+      eventTitle: "Fashion Show",
+      eventLocation: "Palm Jumeirah, Dubai",
+      eventDate: "2025-09-10T21:00:00", // Example future date
+      eventImage: cardImg3_5,            // Example image URL
+    },
+    {
+      eventTitle: "Cultural Expo",
+      eventLocation: "Dubai Expo Center, Dubai",
+      eventDate: "2025-11-05T17:00:00", // Example future date
+      eventImage: cardImg4_1,            // Example image URL
+    },
+    {
+      eventTitle: "Food Festival",
+      eventLocation: "Dubai Marina, Dubai",
+      eventDate: "2025-12-12T14:00:00", // Example future date
+      eventImage: cardImg3_5,            // Example image URL
+    },
+  ];
+  

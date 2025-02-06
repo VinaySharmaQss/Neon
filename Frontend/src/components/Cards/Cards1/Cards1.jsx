@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Card1.module.css";
+import { Link } from "react-router-dom";
 
 const Cards1 = ({
   mainImage,
@@ -54,7 +55,10 @@ const Cards1 = ({
         <div className={styles.body}>
           <p>
             {description}
+            <Link to="/event-details">
             <span className={styles.readMore}>{readMore}</span>
+            </Link>
+            
           </p>
         </div>
 

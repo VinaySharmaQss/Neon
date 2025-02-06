@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Card2.module.css';
+import { Link } from 'react-router';
 
 const Cards2 = ({ mainImage, logo, title, date, description, buttons }) => {
   return (
@@ -16,9 +17,11 @@ const Cards2 = ({ mainImage, logo, title, date, description, buttons }) => {
         <p className={styles.para}>{description}</p>
         <div className={styles.btn_group}>
           {buttons.map((button, index) => (
+          <Link to='/recommendations'>
             <button key={index} className={styles[button.class]}>
               {button.text}
             </button>
+          </Link>
           ))}
         </div>
       </div>

@@ -1,0 +1,141 @@
+.heading {
+  text-align: left;
+  font: var(--unnamed-font-style-normal) normal
+    var(--unnamed-font-weight-normal) 36px/44px IvyMode;
+  color: var(--unnamed-color-222222);
+  text-align: left;
+  font: normal normal normal 36px/44px IvyMode;
+  letter-spacing: 1.19px;
+  color: #222222;
+  opacity: 1;
+}
+
+.reviews {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 15px;
+  width: 100%;
+  height: 20px;
+}
+.stars {
+  color: red;
+  margin-top: 8px;
+}
+
+.reviewNum {
+  font: normal normal normal 12px/38px BrownLight; /* Increased font size */
+  letter-spacing: 0.25px; /* Increased letter-spacing */
+  color: #222222;
+  text-decoration: underline;
+  text-underline-position: under;
+  text-decoration-color: #222222;
+  margin-bottom: 20px;
+}
+.reviewCity {
+  margin-top: 10px;
+
+  font: var(--unnamed-font-style-normal) normal
+    var(--unnamed-font-weight-normal) 14px/20px var(--unnamed-font-family-brown);
+  color: var(--unnamed-color-222222);
+  text-align: left;
+  font: normal normal normal 14px/20px Brown;
+  letter-spacing: 0.31px;
+  color: #222222;
+  opacity: 1;
+}
+
+.Images {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.scheduled {
+  text-align: right;
+  padding-right: 10px;
+  font: var(--unnamed-font-style-normal) normal
+    var(--unnamed-font-weight-normal) 14px/17px BrownMedium;
+  color: var(--unnamed-color-222222);
+  text-align: right;
+  font: normal normal normal 14px/17px BrownMedium;
+  letter-spacing: 0.31px;
+  color: #222222;
+  opacity: 1;
+}
+
+.description {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 30px;
+}
+.content{
+  display: flex;
+  flex-direction: column;
+  margin-left: 40px;
+}
+.content h1{
+font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) 30px/20px IvyMode;
+color: var(--unnamed-color-222222);
+text-align: left;
+font: normal normal normal 30px/20px IvyMode;
+letter-spacing: 0.99px;
+color: #222222;
+opacity: 1;
+margin-top: 20px;
+margin-bottom: 20px;
+
+}
+
+.eventTitle{
+margin-top: 3px;
+font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-18)/21px BrownMedium;
+color: var(--unnamed-color-222222);
+text-align: left;
+font: normal normal normal 18px/21px BrownMedium;
+letter-spacing: 0.4px;
+color: #222222;
+opacity: 1;
+}
+.eventContent{
+  display: flex;
+  flex-direction: row;
+  padding: 5px 0px;
+   gap: 10px;
+}
+
+.icon{
+  margin-top: 3px;
+  font-size:25px;
+  font-weight: 400;
+}
+.eventDescription{
+  margin-top: 5px;
+  margin-left: 35px;
+  margin-bottom: 10px;
+  width: 650px;
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) 16px/32px BrownLight;
+color: var(--unnamed-color-222222);
+text-align: left;
+font: normal normal normal 16px/32px BrownLight;
+letter-spacing: 0.35px;
+color: #222222;
+opacity: 1;
+}
+.para{
+  margin-top: 40px;
+  margin-bottom:20px;
+}
+
+.reviewText{
+  width: 650px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) 16px/var(--unnamed-line-spacing-28) BrownLight;
+color: var(--unnamed-color-222222);
+text-align: left;
+font: normal normal normal 16px/28px BrownLight;
+letter-spacing: 0.35px;
+color: #222222;
+opacity: 1;
+}
