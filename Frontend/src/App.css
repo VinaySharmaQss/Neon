@@ -2,7 +2,7 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   font-family: var(--font-family-brown);
-  padding: 0 7vw;
+ 
 }
 
 .button {

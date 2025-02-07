@@ -11,6 +11,11 @@ import DatePicker from "../../UI/DatePicker";
 
 const UpcomingEvents = () => {
   const [activeEvent, setActiveEvent] = useState(null);
+  const [visibleCards, setVisibleCards] = useState(5);
+
+  const handleLoadMore = () => {
+    setVisibleCards((prevVisibleCards) => prevVisibleCards + 5);
+  };
   return (
     <>
       <div>
@@ -31,7 +36,7 @@ const UpcomingEvents = () => {
             </div>
 
             <div className={styles.contentRight}>
-              <p>What suits your schedules?</p>
+              <p>How are you willing to travel?</p>
               <div className={styles.RightButtons}>
                 <ButtonPair />
                 <ButtonPair />
@@ -58,12 +63,22 @@ const UpcomingEvents = () => {
             </div>
           </div>
         </div>
+       
         <div className="grid grid-cols-5 mr-24 ml-12">
-          {card3_1Data.map((card, index) => (
-            <Cards3 key={index} {...card} cardIcon={false} />
-          ))}
+        {card3_1Data.slice(0, visibleCards).map((card, index) => (
+          <Cards3 key={index} {...card} cardIcon={false} />
+        ))}
+      </div>
+{visibleCards < card3_1Data.length && (
+        <div className="flex flex-row justify-center items-center mt-8">
+          <button
+            onClick={handleLoadMore}
+            className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-300"
+          >
+            Load More
+          </button>
         </div>
-
+      )}
         <Footer />
       </div>
     </>

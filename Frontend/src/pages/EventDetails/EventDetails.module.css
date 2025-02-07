@@ -1,8 +1,6 @@
 .heading {
   text-align: left;
-  font: var(--unnamed-font-style-normal) normal
-    var(--unnamed-font-weight-normal) 36px/44px IvyMode;
-  color: var(--unnamed-color-222222);
+  font-family: "IvyMode";
   text-align: left;
   font: normal normal normal 36px/44px IvyMode;
   letter-spacing: 1.19px;
@@ -20,17 +18,17 @@
 }
 .stars {
   color: red;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .reviewNum {
-  font: normal normal normal 12px/38px BrownLight; /* Increased font size */
+  font-family: "BrownRegular";/* Increased font size */
   letter-spacing: 0.25px; /* Increased letter-spacing */
   color: #222222;
   text-decoration: underline;
   text-underline-position: under;
   text-decoration-color: #222222;
-  margin-bottom: 20px;
+  margin-top: 8px;
 }
 .reviewCity {
   margin-top: 10px;
@@ -39,7 +37,7 @@
     var(--unnamed-font-weight-normal) 14px/20px var(--unnamed-font-family-brown);
   color: var(--unnamed-color-222222);
   text-align: left;
-  font: normal normal normal 14px/20px Brown;
+  font-family: "BrownRegular";
   letter-spacing: 0.31px;
   color: #222222;
   opacity: 1;
@@ -52,12 +50,9 @@
 }
 .scheduled {
   text-align: right;
-  padding-right: 10px;
-  font: var(--unnamed-font-style-normal) normal
-    var(--unnamed-font-weight-normal) 14px/17px BrownMedium;
-  color: var(--unnamed-color-222222);
+  margin-right: 30px;
   text-align: right;
-  font: normal normal normal 14px/17px BrownMedium;
+  font-family: "BrownRegular";
   letter-spacing: 0.31px;
   color: #222222;
   opacity: 1;
@@ -72,14 +67,14 @@
 .content{
   display: flex;
   flex-direction: column;
-  margin-left: 40px;
+  margin-left:100px;
 }
 .content h1{
-font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) 30px/20px IvyMode;
-color: var(--unnamed-color-222222);
+
 text-align: left;
 font: normal normal normal 30px/20px IvyMode;
 letter-spacing: 0.99px;
+font-family: "IvyMode";
 color: #222222;
 opacity: 1;
 margin-top: 20px;
@@ -89,11 +84,11 @@ margin-bottom: 20px;
 
 .eventTitle{
 margin-top: 3px;
-font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-18)/21px BrownMedium;
-color: var(--unnamed-color-222222);
+
 text-align: left;
 font: normal normal normal 18px/21px BrownMedium;
 letter-spacing: 0.4px;
+font-family: "BrownRegular";
 color: #222222;
 opacity: 1;
 }
@@ -121,6 +116,7 @@ font: normal normal normal 16px/32px BrownLight;
 letter-spacing: 0.35px;
 color: #222222;
 opacity: 1;
+font-family: "BrownRegular";
 }
 .para{
   margin-top: 40px;

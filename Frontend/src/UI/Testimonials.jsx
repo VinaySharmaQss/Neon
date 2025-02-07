@@ -9,7 +9,7 @@ const Testimonials = ({ userImage, userName, reviewDate, reviewText, rating }) =
     <div
       className="max-w-72 p-4 border rounded-lg shadow-lg"
       style={{
-        fontFamily: "BrownLight",
+        fontFamily: "BrownRegular",
       }}
     >
       {/* User Info */}
@@ -24,13 +24,13 @@ const Testimonials = ({ userImage, userName, reviewDate, reviewText, rating }) =
           }}
         />
         <div>
-          <h3 className="font-semibold">{userName}</h3>
-          <p className="text-xs text-gray-500">{reviewDate}</p>
+          <h3 className="font-semibold" style={{ fontFamily: "IvyMode" }}>{userName}</h3>
+          <p className="text-xs text-gray-500" style={{ fontFamily: "BrownRegular" }}>{reviewDate}</p>
         </div>
       </div>
 
       {/* Review Content */}
-      <p className="mt-3 text-sm text-gray-700">
+      <p className="mt-3 text-sm text-gray-700" style={{ fontFamily: "BrownRegular" }}>
         {reviewText.length > 100
           ? `${reviewText.substring(0, 100)}...`
           : reviewText}
@@ -46,7 +46,7 @@ const Testimonials = ({ userImage, userName, reviewDate, reviewText, rating }) =
       </div>
 
       {/* Read More */}
-      {reviewText.length > 100 && (
+      {reviewText.length > 1000 && (
         <p className="mt-2 text-sm text-black underline cursor-pointer">
           Read more
         </p>

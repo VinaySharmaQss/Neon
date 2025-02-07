@@ -16,7 +16,7 @@ const EventDetails = () => {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col">
+      <div className="flex flex-col px-12">
         <h1 className={styles.heading}>Round of Golf</h1>
         <div className={styles.reviews}>
           <div className={styles.stars}>★★★★★</div>
@@ -101,14 +101,14 @@ const EventDetails = () => {
         </div>
       
       </div>
-      <div className="flex flex-col relative mb-10 ml-24">
-        <h1 className={styles.heading}>Round of Golf</h1>
+      <div className="flex flex-col relative mb-10 ml-40">
+        <h1 className={styles.heading} style={{fontFamily:"IvyMode"}}>Round of Golf</h1>
         <div className={styles.reviews}>
           <div className={styles.stars}>★★★★★</div>
-          <div className={styles.reviewNum}>4.5  (23 reviews)</div>
+          <div className={styles.reviewNum} style={{fontFamily:"BrownRegular"}} >4.5  (23 reviews)</div>
 
         </div>
-        <p className={styles.reviewText}>
+        <p className={styles.reviewText} style={{fontFamily:"BrownRegular"}}>
           Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elit.
           </p>
       </div>
@@ -116,7 +116,7 @@ const EventDetails = () => {
           <Slider4 cards={reviews} />
       </div>
 
-      <div className={styles.content}>
+      <div className={styles.content} style={{fontFamily:"IvyMode", marginLeft:"45px"}}>
         <h1 >Recommendations</h1>
       </div>
       <div className="grid grid-cols-5 mr-24 ml-12">

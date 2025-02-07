@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 const Cards2 = ({ mainImage, logo, title, date, description, buttons }) => {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} >
       <div className={styles.left}>
         <div className={styles.left_top}>
           <img src={mainImage} className={styles.img} alt="Mountain" />
@@ -12,13 +12,13 @@ const Cards2 = ({ mainImage, logo, title, date, description, buttons }) => {
         </div>
       </div>
       <div className={styles.right}>
-        <h2>{title}</h2>
-        <p className={styles.para1}>{date}</p>
-        <p className={styles.para}>{description}</p>
+        <h2 style={{fontFamily:"BrownRegular"}}>{title}</h2>
+        <p style={{fontFamily:"BrownRegular"}} className={styles.para1}>{date}</p>
+        <p  style={{fontFamily:"BrownRegular"}} className={styles.para}>{description}</p>
         <div className={styles.btn_group}>
           {buttons.map((button, index) => (
           <Link to='/recommendations'>
-            <button key={index} className={styles[button.class]}>
+            <button key={index} className={styles[button.class]} style={{fontFamily:"BrownRegular"}}>
               {button.text}
             </button>
           </Link>

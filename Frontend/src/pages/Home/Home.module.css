@@ -1,10 +1,10 @@
 .card2_text{
 color: var(--unnamed-color-222222);
-text-align: left;
-font:  IvyMode;
+font-family: "IvyMode";
 letter-spacing: 1.19px;
 color: #222222;
 opacity: 1;
-margin: 10px 50px;
+margin-left: 60px;
+margin-top: 25px;
 margin-bottom: 25px;
 }

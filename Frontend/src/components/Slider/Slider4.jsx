@@ -64,7 +64,7 @@ export default function Slider4({ cards }) {
             <div
               key={i}
               className=""
-              style={{ flex: `0 0 ${32 / cardsPerPage}%` }}
+              style={{ flex: `0 0 10%` }}
             >
               <Testimonials key={i} {...card} />
             </div>

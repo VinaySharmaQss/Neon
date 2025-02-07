@@ -3,7 +3,7 @@ import BlackWhiteButton from '../../UI/BlackWhiteButton'
 
  export const ImageGrid = ({Image}) => {
   return (
-    <div className="grid grid-cols-4 grid-rows-2  gap-1 rounded-2xl overflow-hidden">
+    <div className="grid grid-cols-4 grid-rows-2  gap-1 rounded-2xl overflow-hidden mx-[3vw]">
 
     {/* Top-right smaller images */}
     <div className="grid grid-rows-1 grid-cols-2 gap-1 col-span-2">

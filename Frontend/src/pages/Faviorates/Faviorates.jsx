@@ -11,8 +11,8 @@ const Faviorates = () => {
       <header>
         <Navbar />
         <div className="mx-[50px] my-8">
-          <h1 className="text-4xl font-brown mb-4">Good Morning Charlie!</h1>
-          <p className="font-brown text-xl">
+          <h1 className="text-3xl  mb-2" style={{ fontFamily: "IvyMode" }}>Good Morning Charlie!</h1>
+          <p className="font-brown text-xl" style={{ fontFamily: "BrownRegular" }}>
             You have short listed 8 events to join later.
           </p>
         </div>
@@ -26,7 +26,7 @@ const Faviorates = () => {
         </div>
 
         <div className="flex flex-col flex-wrap gap-4">
-          <p className={`text-4xl ${styles.card2_text}`}>
+          <p className={`text-3xl ${styles.card2_text}`} style={{ fontFamily: "IvyMode" }}>
             Today's recommendations for you, Charlie!
           </p>
           <div className="flex flex-wrap gap-4">

@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: row;
   height: 270px; /* Increased height */
-  width: 560px; /* Increased width */
+  width: 550px; /* Increased width */
   border: 1px solid #222222;
   border-radius: 12px; /* Increased border-radius */
   overflow: hidden;
@@ -10,6 +10,8 @@
   font-family: Arial, sans-serif;
   background: #f9f7f2 0% 0% no-repeat padding-box;
   opacity: 1;
+  justify-content:start;
+  gap: 10px;
 }
 
 .left {
@@ -28,7 +30,7 @@
   display: flex;
   flex-direction: column;
   bottom: 8px; /* Increased bottom spacing */
-  left: 100px; /* Increased left spacing */
+  left: 130px; /* Increased left spacing */
   color: white;
   padding: 4px 8px; /* Increased padding */
   border-radius: 5px; /* Increased border-radius */
@@ -39,6 +41,8 @@
   display: flex;
   align-items: center;
   gap: 4px; /* Increased gap */
+  font-size: 15px; /* Increased font size */
+
 }
 
 .mainWeather img {
@@ -56,8 +60,9 @@
 
 .right {
   width: 60%;
-  padding: 12px; /* Increased padding */
+  padding: 8px; /* Increased padding */
   display: flex;
+
   flex-direction: column;
   justify-content: space-between;
 }
@@ -75,10 +80,13 @@
   gap: 6px; /* Increased gap */
   font-size: 12px; /* Increased font size */
   color: #666;
+  font-family: "BrownRegular";
+  margin-top: -15px;
 }
 
 .starRating {
   color: red;
+  font-size: 18px;
 }
 
 .ratingNum {
@@ -91,17 +99,20 @@
   font: normal normal normal 14px/16px BrownLight; /* Increased font size */
   letter-spacing: 0.3px; /* Increased letter-spacing */
   opacity: 1;
+  font-family: "BrownRegular";
 }
 
 .readMore {
   font: normal normal normal 14px/16px BrownLight; /* Increased font size */
   color: #ff385c;
   text-decoration: underline;
+  font-family: "BrownRegular";
 }
 
 .logo_section {
   display: flex;
   flex-direction: column;
+  gap: 8px; /* Increased gap */
 }
 
 .logo {
@@ -114,7 +125,8 @@
   align-items: center;
   gap: 4px; /* Increased gap */
   font-size: 10px; /* Increased font size */
-  color: #666;
+  color: #111111;
+  font: 700;
 }
 
 .footer {
@@ -123,6 +135,8 @@
   align-items: center;
   font-size: 12px; /* Increased font size */
   font-weight: bold;
+  margin-left: -8px;
+  font-family: "BrownRegular";
 }
 
 .footer_logo {
@@ -135,16 +149,21 @@
 .footer_content {
   display: flex;
   flex-direction: row;
+
 }
 
 .footer_description {
   font: normal normal normal 12px/38px Brown; /* Increased font size */
   letter-spacing: 0px;
   color: #222222;
+  font-family: "BrownRegular";
 }
 
 .footer_link {
   font: normal normal normal 12px/15px BrownMedium; /* Increased font size */
   letter-spacing: 0.25px; /* Increased letter-spacing */
   color: #222222;
+  font-family: "BrownRegular";
+  font: bold;
+  font-weight: bold;
 }

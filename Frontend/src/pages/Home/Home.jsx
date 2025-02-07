@@ -26,7 +26,7 @@ const Home = () => {
       <main>
         <Slider cards={card1Data} />
         <div className="flex flex-col flex-wrap gap-4">
-          <p className={`text-4xl ${styles.card2_text}`}>
+          <p className='text-3xl mb-4 mt-16 ml-[50px]' style={{ fontFamily: "IvyMode" }}>
             Charlie, hope we understand you better
           </p>
           <Slider2 cards={card2Data} />
@@ -34,11 +34,11 @@ const Home = () => {
         {/* CARD-3 */}
         <div className="flex flex-col flex-wrap gap-4">
           <div className="flex flex-row flex-wrap gap-2 justify-center items-center">
-            <img src={joy} alt="joy" className="h-6 object-cover" />
+            <img src={joy} alt="joy" className="h-6 object-cover" style={{ fontFamily: "IvyMode" }} />
             <p>Joyed</p>
           </div>
           <div className="flex flex-col flex-wrap gap-4">
-            <p className={`text-4xl ${styles.card2_text}`}>
+            <p className='text-3xl mb-4 mt-8 ml-[50px]' style={{ fontFamily: "IvyMode" }}>
               Today's recommendations for you, Charlie!
             </p>
             <div className="flex flex-wrap gap-4  mx-16">
@@ -52,7 +52,7 @@ const Home = () => {
         {/* CARD-4 */}
         <div className="flex flex-col flex-wrap gap-4">
           <div className="flex flex-col flex-wrap gap-4">
-            <p className={`text-4xl ${styles.card2_text}`}>
+            <p className={`text-3xl ${styles.card2_text}`}>
               Charlie, here is your master journey with us so far!
             </p>
             <div className="flex flex-wrap gap-4  mx-16">

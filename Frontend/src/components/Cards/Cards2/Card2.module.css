@@ -12,8 +12,8 @@
 .img {
   position: relative;
   opacity: 1;
-  width: 500px; /* Increased width */
-  height: 250px; /* Increased height */
+  width: 600px; /* Increased width */
+  height: 350px; /* Increased height */
   object-fit: cover;
   background: #f9f7f2;
   border: 1px solid #222222;

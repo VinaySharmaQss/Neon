@@ -6,9 +6,11 @@ const ButtonRounded = ({ children, width }) => {
   return (
     <button
       onClick={() => setSelected(!selected)}
-      className={`w-${width} h-8 text-xs px-2 py-1 rounded-full transition-all border-2 border-gray-400 ${
+      className={`w-${width} h-8 text-xs px-2 py-1 rounded-full transition-all border-2 border-black ${
         selected ? "bg-black text-white border-2 border-white" : "text-black"
-      }`}
+      }`
+    }
+    style={{ fontFamily: "BrownRegular" }}
     >
       {children}
     </button>

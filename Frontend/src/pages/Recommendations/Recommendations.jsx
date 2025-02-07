@@ -26,8 +26,8 @@ const Recommendations = () => {
     <>
       <Navbar />
       <div className={styles.title}>
-        <h1>Hey Charlie,</h1>
-        <p>
+        <h1 style={{ fontFamily: "IvyMode" }}>Hey Charlie,</h1>
+        <p style={{ fontFamily: "BrownRegular" }}>
           We have a few similar event for you against your today's cancelled
           event "Round of Golf" because of unfavorable conditions. And one of
           them is just starting in an hour and 5 minutes drive away.
@@ -51,7 +51,7 @@ const Recommendations = () => {
           <ArrowRight className="w-6 h-6" />
         </button>
       </div>
-      <div className={styles.title}>
+      <div className={styles.title_1}>
         <h1>Some similar recommendation for you, Charlie.</h1>
         <div className={styles.RightButtons}>
           <ButtonPair />

@@ -1,0 +1,25 @@
+.carouselContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+  
+  .carousel {
+    width: 100%;
+  }
+  
+  .navigationButtons {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+  }
+  
+  .navButton {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  

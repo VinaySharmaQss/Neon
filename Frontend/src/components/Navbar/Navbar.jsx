@@ -1,51 +1,81 @@
-import React from "react";
-import styles from "./Navbar.module.css";
-import NavbarItem from "../../UI/NavbarItem";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import { IoIosNotifications, IoIosMenu } from "react-icons/io";
 import { RiGlobalLine } from "react-icons/ri";
 import Logo from "../../../assets/img/logo2.png";
 import ProfileMenu from "../../UI/ProfileMenu";
-import { useState } from "react";
 import LanguagueMenu from "../../UI/LanguagueMenu";
-import { NavLink } from "react-router";
+import styles from "./Navbar.module.css";
+import { Bell } from "lucide-react";
+import { GiCancel } from "react-icons/gi";
+import { TbBellRinging2Filled } from "react-icons/tb";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isOpens, setIsOpens] = useState(false);
 
+  const toggleNotification = () => {
+    setIsOpens(!isOpens);
+  };
   function toggleLang() {
     setMenuOpen(!menuOpen);
   }
+
   function toggleMenu() {
     setIsOpen(!isOpen);
   }
+
   return (
     <nav className={styles.nav}>
       <div className={styles.logo}>
-        <img className="w-auto h-16 object-cover" src={Logo} alt="" />
+        <img className="w-auto h-16 object-cover" src={Logo} alt="Logo" />
       </div>
 
       <div className={styles.right_section}>
         <div className={styles.nav_items}>
-         <NavLink to="/"
-         className={({isActive}) => isActive ? styles.active : ''}>
-         <NavbarItem >Dashboard</NavbarItem>
-         </NavLink>
-        
-         <NavLink to="/faviorates"
-         className={({isActive}) => isActive ? styles.active : ''}>
-         <NavbarItem >Faviorates</NavbarItem>
-         </NavLink>
+          <NavLink
+            to="/"
+            className={({ isActive }) => (isActive ? styles.active : "")}
+          >
+            <div className={styles.navItem}>Dashboard</div>
+          </NavLink>
 
-         <NavLink to="/upcoming-events"
-         className={({isActive}) => isActive ? styles.active : ''}>
-         <NavbarItem >Upcoming events</NavbarItem>
-         </NavLink>
+          <NavLink
+            to="/faviorates"
+            className={({ isActive }) => (isActive ? styles.active : "")}
+          >
+            <div className={styles.navItem}>Faviorates</div>
+          </NavLink>
+
+          <NavLink
+            to="/upcoming-events"
+            className={({ isActive }) => (isActive ? styles.active : "")}
+          >
+            <div className={styles.navItem}>Upcoming events</div>
+          </NavLink>
         </div>
 
         <div className={styles.nav_icons}>
           <div className={styles.bell_icon}>
-            <IoIosNotifications />
+           <button className={styles.bellButton} onClick={toggleNotification}>
+           <IoIosNotifications  />
+           </button>
+           {isOpens && (
+        <div className={styles.notificationModal}>
+          <div className={styles.modalHeader}>
+            <span className={styles.title}>Hey Charlie <TbBellRinging2Filled size={16} /></span>
+            <button className={styles.closeButton} onClick={toggleNotification}>
+              <GiCancel />
+            </button>
+          </div>
+          <p >"We regret to inform you that the current weather conditions are not conducive for a golf session. Would you like to reschedule or cancel your golf session for today?"</p>
+          <div className={styles.buttonContainer}>
+            <button className={styles.rescheduleButton}>Reschedule</button>
+            <button className={styles.cancelButton}>Cancel</button>
+          </div>
+        </div>
+      )}
           </div>
           <div className={styles.profile}>
             <div className={styles.menu}>
@@ -56,9 +86,9 @@ const Navbar = () => {
                 onClick={toggleMenu}
                 className="bg-yellow-600 text-white rounded-full w-6 h-6 flex items-center justify-center"
               >
-                <ProfileMenu isOpen={isOpen} />
                 C
               </button>
+              <ProfileMenu isOpen={isOpen} />
             </div>
           </div>
           <div className={styles.global}>

@@ -31,56 +31,76 @@ function useCardsPerPage() {
 }
 
 export default function Slider2({ cards }) {
-  // Determine the number of cards visible per page
   const cardsPerPage = useCardsPerPage();
-  const totalPages = Math.ceil(cards.length / cardsPerPage);
-  const [page, setPage] = useState(0);
+  const [translateX, setTranslateX] = useState(0);
 
-  const nextSlide = () => {
-    setPage((prev) => (prev + 1) % totalPages);
+  const gap = 24; // Gap between cards in pixels
+  const totalGap = (cardsPerPage - 1) * gap; // Total gap for all visible cards
+  const cardWidthPercentage = (100 - totalGap / cardsPerPage) / cardsPerPage; // Width of each card (adjusted for gaps)
+
+  const handleNext = () => {
+    const maxTranslateX = -(cards.length - cardsPerPage) * (cardWidthPercentage + gap / cardsPerPage);
+    if (translateX > maxTranslateX) {
+      setTranslateX((prev) => Math.max(prev - (cardWidthPercentage + gap / cardsPerPage), maxTranslateX));
+    }
   };
 
-  const prevSlide = () => {
-    setPage((prev) => (prev - 1 + totalPages) % totalPages);
+  const handlePrev = () => {
+    if (translateX < 0) {
+      setTranslateX((prev) => Math.min(prev + (cardWidthPercentage + gap / cardsPerPage), 0));
+    }
   };
-
-  // Calculate the total width for the sliding container
-  const containerWidth = (cards.length / cardsPerPage) * 100;
 
   return (
-    <div className="w-full max-w-7xl mx-12">
+    <div className=" ml-[50px]">
       {/* Carousel Cards Container */}
-      <div className="overflow-hidden">
+      <div className="overflow-hidden relative">
         <motion.div
-          className="flex flex-row gap-2  p-0" // Reduced gap between cards
           style={{
-            width: `${containerWidth}%`,
-            transform: `translateX(-${page * (100 / totalPages)}%)`,
+            display: "flex",
+            gap: `${gap}px`, 
+            // Add consistent gap between cards
+            // width: `${cards.length * (cardWidthPercentage + gap / cardsPerPage)}%`, // Total width of all cards
           }}
-          transition={{ type: "spring", stiffness: 100 }}
+          animate={{ x: `${translateX}%` }} // Use percentage for smooth transitions
+          transition={{ duration: 0.7 }}
         >
           {cards.map((card, i) => (
             <div
               key={i}
-              className=""
-              style={{ flex: `0 0 ${70 / cardsPerPage}%` }} // Dynamic card width
+              style={{
+                flex: `0 0 100px`, // Set fixed width for each cardpx`, // Set dynamic width for each card
+              }}
             >
-              <Cards2 key={i} {...card} />
+              <Cards2 {...card} />
             </div>
           ))}
         </motion.div>
       </div>
-      {/* Navigation Buttons (Aligned to the left) */}
+
+      {/* Navigation Buttons */}
       <div className="w-full flex items-center justify-start gap-4 mt-4">
         <button
-          onClick={prevSlide}
-          className="bg-white p-1 rounded-full border border-black-300 shadow hover:bg-gray-100"
+          onClick={handlePrev}
+          disabled={translateX === 0} // Disable if on the first slide
+          className={`bg-white p-1 rounded-full border border-black-300 shadow hover:bg-gray-100 ${
+            translateX === 0 ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
           <ArrowLeft className="w-6 h-6" />
         </button>
         <button
-          onClick={nextSlide}
-          className="bg-white p-1 rounded-full border border-black-300 shadow hover:bg-gray-100"
+          onClick={handleNext}
+          disabled={
+            translateX ===
+            -((cards.length - cardsPerPage) * (cardWidthPercentage + gap / cardsPerPage)) // Disable if on the last slide
+          }
+          className={`bg-white p-1 rounded-full border border-black-300 shadow hover:bg-gray-100 ${
+            translateX ===
+            -((cards.length - cardsPerPage) * (cardWidthPercentage + gap / cardsPerPage))
+              ? "opacity-50 cursor-not-allowed"
+              : ""
+          }`}
         >
           <ArrowRight className="w-6 h-6" />
         </button>

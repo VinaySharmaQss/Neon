@@ -43,16 +43,35 @@
     display: flex;
     flex-direction: column;
     margin: 20px 45px;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 20px;
+
+  }
+  .title_1{
+    display: flex;
+    flex-direction: column;
+    margin: 20px 45px;
   }
   .title h1{  
 color: var(--unnamed-color-222222);
 text-align: left;
 font: normal normal normal 30px/44px IvyMode;
 letter-spacing: 1.19px;
+font-family:"IvyMode";
 color: #222222;
 opacity: 1;
   }
-
+  .title_1 h1{  
+    color: var(--unnamed-color-222222);
+    text-align: left;
+    font: normal normal normal 30px/44px IvyMode;
+    letter-spacing: 1.19px;
+    font-family:"IvyMode";
+    color: #222222;
+    opacity: 1;
+      }
+    
   .title p{   
 color: var(--unnamed-color-222222);
 text-align: left;
@@ -61,6 +80,14 @@ letter-spacing: 0.79px;
 color: #222222;
 opacity: 1;
   }
+  .title_1 p{   
+    color: var(--unnamed-color-222222);
+    text-align: left;
+    font: normal normal normal 15px/28px IvyMode;
+    letter-spacing: 0.79px;
+    color: #222222;
+    opacity: 1;
+      }
 
   .RightButtons {
     display: flex;

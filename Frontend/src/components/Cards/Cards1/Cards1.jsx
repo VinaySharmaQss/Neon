@@ -1,7 +1,9 @@
 import React from "react";
 import styles from "./Card1.module.css";
 import { Link } from "react-router-dom";
-
+import { PiBagSimpleLight } from "react-icons/pi";
+import { CiLocationOn } from "react-icons/ci";
+import { BiCategory } from "react-icons/bi";
 const Cards1 = ({
   mainImage,
   weatherLogo,
@@ -25,7 +27,7 @@ const Cards1 = ({
         </div>
         <div className={styles.leftContent}>
           <div className={styles.mainWeather}>
-            <img src={weatherLogo} className="h-16 w-8 object-cover" alt="emoji" />
+            <img src={weatherLogo} className=" object-cover" alt="emoji" />
             <h4>
               {temperature} <span>°C</span>
             </h4>
@@ -63,19 +65,34 @@ const Cards1 = ({
         </div>
 
         <div className={styles.logo_section}>
-          {events.map((event, index) => (
-            <div className={styles.logo_content} key={index}>
-              <div className={styles.logo}>
-                {event.icon}
-              </div>
-              <div className={styles.logo_description}>
-                {event.description}
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className={styles.logo_content}>
+        <div className={styles.logo}>
+           <PiBagSimpleLight style={{ fontSize: "1rem", color: "red" }} />
 
-        {/* Footer-section */}
+        </div>
+        <div className={styles.logo_description}>
+          {events[0]?.description}
+        </div>
+      </div>
+      <div className={styles.logo_content}>
+        <div className={styles.logo}>
+          <CiLocationOn style={{ fontSize: "1rem", color: "red" }} />
+        </div>
+        <div className={styles.logo_description}>
+          {events[1]?.description}
+        </div>
+      </div>
+      <div className={styles.logo_content}>
+        <div className={styles.logo}>
+          <BiCategory  style={{ fontSize: "1rem", color: "red" }}/>
+        </div>
+        <div className={styles.logo_description}>
+          {events[2]?.description}
+        </div>
+      </div>
+    </div>
+        
+         {/* Footer-section */}
         <div className={styles.footer}>
           <div className={styles.footer_content}>
             <div className={styles.footer_logo}>

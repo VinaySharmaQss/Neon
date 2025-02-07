@@ -26,7 +26,7 @@ import user5 from "../../assets/img/user5.png"
 
 export const card1Data = [
   {
-    mainImage: CardImg1,
+    mainImage: cardImg3_4,
     weatherLogo: weatherLogo,
     temperature: "18",
     title: "Round of Golf",
@@ -129,6 +129,21 @@ export const card1Data = [
     footerDescription: "Overwhelmed vibes are coming here",
     footerLink: "Scheduled",
   },
+  // {
+  //   mainImage: "",
+  //   weatherLogo: "",
+  //   temperature: "",
+  //   title: "",
+  //   rating: "",
+  //   ratingNum: "",
+  //   reviews: "",
+  //   description: "",
+  //   readMore: "",
+  //   events: [],
+  //   footerLogo: "",
+  //   footerDescription: "",
+  //   footerLink: "",
+  // },
 ];
 export const card2Data = [
   {

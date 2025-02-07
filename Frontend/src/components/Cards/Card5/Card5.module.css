@@ -1,19 +1,21 @@
-/* Card5.module.css */
 .container {
   position: relative;
   width: 100%;
-  max-width: 600px; /* Decreased from 1200px to 800px */
+  max-width: 1000px; /* Increased for larger size */
   margin: 0 auto;
-  border-radius: 20px;
+  border-radius: 30px; /* Increased for smoother rounded corners */
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Enhanced shadow for a more elevated effect */
+  transition: transform 0.3s ease;
 }
+
+
 
 .container img {
   width: 100%;
-  height: 350px; /* Decreased from 650px to 450px */
-  opacity: 1;
+  height: 600px; /* Increased height for better visual impact */
   object-fit: cover;
+  opacity: 1;
 }
 
 .content {
@@ -22,57 +24,54 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) 36px/55px IvyMode;
-  color: var(--unnamed-color-ffffff);
-  text-align: left;
-  font: normal normal normal 36px/55px IvyMode;
-  letter-spacing: 1.19px;
-  color: #FFFFFF;
-  text-shadow: 0px 2px 2px #00000099;
-  opacity: 1;
+  align-items: flex-end;
+  padding: 32px; /* Increased padding for more room */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  color: #fff;
+  text-shadow: 0px 3px 5px rgba(0, 0, 0, 0.7);
 }
 
 .left h1 {
-  font-size: 18px;
-  font-weight: 700;
-  margin: 0;
-  line-height: 1.2;
+  font-family: "IvyMode";
+  font-size: 30px; /* Larger font size for the title */
+  font-weight: 800; /* Increased font weight for emphasis */
+  margin: 0 0 12px; /* Added more space below the title */
+  line-height: 1.4;
 }
 
 .left p {
-  font-size: 10px;
-  margin: 5px 0;
+  font-family: "BrownRegular";
+  font-size: 16px; /* Increased font size for better readability */
+  margin: 8px 0;
 }
 
 .right {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
 .heartIcon {
-  color: #888;
-  font-size: 25px;
+  color: #505050c9;
+  font-size: 40px; /* Larger heart icon */
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
   position: absolute;
-  bottom: 310px; /* Adjusted from 600px to 400px to match the new height */
+  bottom: 550px; /* Adjusted for larger image height */
 }
 
 .heartIcon:hover {
   color: #ff0000;
-}
-
-.right svg {
-  font-size: 24px; /* Heart icon color */
-  cursor: pointer;
+  transform: scale(1.2); /* Add scaling effect on hover */
 }
 
 .right img {
-  width: 30px;
   height: 30px;
   object-fit: contain;
+}
+
+.right svg {
+  font-size: 30px; /* Adjusted for larger heart icon */
+  cursor: pointer;
 }
