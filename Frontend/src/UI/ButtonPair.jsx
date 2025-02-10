@@ -4,10 +4,10 @@ const ButtonPair = () => {
   const [selected, setSelected] = useState(null);
   const options = ["10 mins drive", "20 mins drive", "30 mins drive"];
   return (
-    <div className="flex justify-between items-center rounded-full border-2 border-black p-1 w-full max-w-xs mx-auto">
+    <div className="flex justify-between items-center rounded-full border-2 border-black  w-full max-w-xs mx-auto">
       <button
         onClick={() => setSelected(0)}
-        className={`px-1 py-1 w-full text-center text-xs transition-all rounded-full ${
+        className={`px-1 py-1 w-full text-center text-xs transition-all rounded-l-full ${
           selected === 0 ? "bg-black text-gray-200" : "text-black hover:bg-black hover:text-white"
         }`}
         style={{fontFamily:"BrownRegular"}} 

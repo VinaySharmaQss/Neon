@@ -11,9 +11,11 @@ import {
   card3Data,
   card4Data,
 } from "../../constants/data";
-import Slider2 from "../../components/Slider/Slider2";
 import joy from "../../../assets/img/joy.svg";
 import Footer from "../../components/Footer/Footer";
+import Cards1 from "../../components/Cards/Cards1/Cards1";
+import Cards2 from "../../components/Cards/Cards2/Cards2";
+
 
 const Home = () => {
   return (
@@ -24,12 +26,12 @@ const Home = () => {
       </header>
 
       <main>
-        <Slider cards={card1Data} />
+      <Slider cardsData={card1Data} CardComponent={Cards1} />
         <div className="flex flex-col flex-wrap gap-4">
           <p className='text-3xl mb-4 mt-16 ml-[50px]' style={{ fontFamily: "IvyMode" }}>
             Charlie, hope we understand you better
           </p>
-          <Slider2 cards={card2Data} />
+          <Slider cardsData={card2Data}  CardComponent={Cards2}/>
         </div>
         {/* CARD-3 */}
         <div className="flex flex-col flex-wrap gap-4">

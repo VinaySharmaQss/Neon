@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 export default function ProfileMenu({ isOpen }) {
   return (
@@ -11,7 +12,9 @@ export default function ProfileMenu({ isOpen }) {
           <ul className="flex flex-col text-left m-2">
             <li className="py-2 hover:bg-gray-100 cursor-pointer">Edit profile</li>
             <li className="py-2 hover:bg-gray-100 cursor-pointer">Feedback</li>
-            <li className="py-2 hover:bg-gray-100 cursor-pointer">Settings</li>
+            <Link to="/settings" >
+            <li className="py-2 hover:bg-gray-100 cursor-pointer">Settings</li></Link>
+            
           </ul>
         </div>
       )}

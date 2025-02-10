@@ -31,7 +31,7 @@
 }
 
 .heartIcon {
-  color: #888;
+  color: #505050c9;
   font-size: 18px; /* 26 * 0.6958 */
 }
 
@@ -82,21 +82,23 @@
 
 .titleRight {
   font-weight: bold;
-  font-family: "BrownRegular"; /* 12 * 0.6958 */
+  font-family: "IvyMode"; /* 12 * 0.6958 */
   letter-spacing: 0px;
   font-size: 10px;
 }
 
-.description {
-  font-size: 15px;
+.description p {
+  font-size: 12px;
   font-family: "IvyMode"; /* 16 * 0.6958 */
-  color: #333;
-  margin: 6px 0; /* 8 * 0.6958 */
+  color: #333; /* 8 * 0.6958 */
+  margin-top: -10px;
+  margin-left: -6px;
 }
 
-.footer {
+.footer p {
   font-family: "BrownRegular"; /* 12 * 0.6958 */
-  letter-spacing: 0px;
   color: #222222;
-  font-size: 12px;
+  font-size:10px;
+  margin-top: -15px;
+  margin-left: -8px;
 }

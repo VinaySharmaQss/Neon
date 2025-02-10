@@ -1,10 +1,12 @@
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
-import Slider3 from "../../components/Slider/Slider3";
+import Slider from "../../components/Slider/Slider"
 import Cards3 from "../../components/Cards/Cards3/Cards3";
 import { card2_1Data, card3Data, card5Data } from "../../constants/data";
 import styles from "./Faviorates.module.css";
+import Card5 from "../../components/Cards/Card5/Card5";
+import Slider3 from "../../components/Slider/Slider3";
 const Faviorates = () => {
   return (
     <>
@@ -30,7 +32,7 @@ const Faviorates = () => {
             Today's recommendations for you, Charlie!
           </p>
           <div className="flex flex-wrap gap-4">
-            <Slider3 cards={card5Data} />
+            <Slider3 cardsData={card5Data} CardComponent={Card5} />
           </div>
         </div>
 

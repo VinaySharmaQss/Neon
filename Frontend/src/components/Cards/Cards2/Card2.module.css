@@ -56,8 +56,8 @@
   height: auto;
   font: normal normal normal 14px/20px BrownLight; /* Increased font size */
   letter-spacing: 0.35px; /* Increased letter spacing */
-  color: #222222;
-  margin-top: 10px; /* Increased margin */
+  margin-top: -10px;
+  color: #222222;/* Increased margin */
   margin-bottom: 15px; /* Increased margin */
 }
 

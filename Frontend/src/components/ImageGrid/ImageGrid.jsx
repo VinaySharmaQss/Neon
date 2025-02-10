@@ -26,7 +26,7 @@ import BlackWhiteButton from '../../UI/BlackWhiteButton'
         className="w-full h-[517px] object-cover shadow-md relative"
       />
         
-        <div className='absolute bottom-[-100px] left-[1140px]'>
+        <div className='absolute bottom-[-20px] left-[1350px]'>
         <BlackWhiteButton>Show all</BlackWhiteButton>
         </div>
       

@@ -2,6 +2,8 @@ import React, { lazy, Suspense } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; // Ensure correct import
 import Loader from './UI/Loader';
+import Test from './pages/Test/Test';
+
 
 
 const UpcomingEvents = lazy(() => import('./pages/UpcomingEvents/UpcomingEvents'));
@@ -9,7 +11,7 @@ const Faviorates = lazy(() => import('./pages/Faviorates/Faviorates'));
 const Home = lazy(() => import('./pages/Home/Home'));
 const EventDetails = lazy(() => import('./pages/EventDetails/EventDetails'));
 const Recommendations = lazy(() => import('./pages/Recommendations/Recommendations'));
-
+const Settings = lazy(() => import('./pages/Settings/Settings'));
 const App = () => {
   return (
     <BrowserRouter>
@@ -20,6 +22,8 @@ const App = () => {
           <Route path="/event-details" element={<EventDetails/>} /> 
           <Route path="/faviorates" element={<Faviorates />} />
           <Route path="/recommendations" element={<Recommendations />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/test" element={<Test />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
