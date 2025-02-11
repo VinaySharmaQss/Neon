@@ -49,7 +49,7 @@ export default function Slider4({ cards }) {
   const containerWidth = (cards.length / cardsPerPage) * 100;
 
   return (
-    <div className="w-full max-w-7xl mx-12">
+    <div className="w-full ml-12">
       {/* Carousel Cards Container */}
       <div className="overflow-hidden">
         <motion.div

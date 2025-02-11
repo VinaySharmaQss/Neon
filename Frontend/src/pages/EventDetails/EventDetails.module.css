@@ -86,11 +86,11 @@ margin-bottom: 20px;
 margin-top: 3px;
 
 text-align: left;
-font: normal normal normal 18px/21px BrownMedium;
 letter-spacing: 0.4px;
 font-family: "BrownRegular";
 color: #222222;
 opacity: 1;
+font: 900;
 }
 .eventContent{
   display: flex;
@@ -105,7 +105,7 @@ opacity: 1;
   font-weight: 400;
 }
 .eventDescription{
-  margin-top: 5px;
+  margin-top: -7px;
   margin-left: 35px;
   margin-bottom: 10px;
   width: 650px;
@@ -121,6 +121,10 @@ font-family: "BrownRegular";
 .para{
   margin-top: 40px;
   margin-bottom:20px;
+}
+
+.box{
+
 }
 
 .reviewText{

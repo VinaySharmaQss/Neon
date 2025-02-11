@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  width: 220px; /* 280 * 0.6958 */
+  width: 260px; /* 280 * 0.6958 */
   border-radius: 8px; /* 12 * 0.6958 */
   overflow: hidden;
   position: relative;
@@ -13,8 +13,8 @@
 }
 
 .cardImage {
-  width: 220px; /* 284 * 0.6958 */
-  height: 300px; /* 360 * 0.6958 */
+  width: 260px; /* 284 * 0.6958 */
+  height: 350px; /* 360 * 0.6958 */
   object-fit: cover;
   border-radius: 8px; /* 12 * 0.6958 */
 }
@@ -31,32 +31,34 @@
 }
 
 .heartIcon {
-  color: #505050c9;
-  font-size: 18px; /* 26 * 0.6958 */
+  color: #f5f3f3e5;
+  font-size: 26px; /* 26 * 0.6958 */
+  border-radius: 2px soild white;
 }
 
 .cardNumber {
   position: absolute;
-  top: 180px; /* 200 * 0.6958 */
+  top: 220px; /* 200 * 0.6958 */
   left: 20px; /* 8 * 0.6958 */
   font-size: 90px; /* 130 * 0.6958 */
   font-weight: 1000;
   font-family: 'Open Sans', sans-serif;
   color: rgba(255, 255, 255, 0.3);
-  -webkit-text-stroke: 1px rgb(253, 251, 251); /* 2 * 0.6958 */
+  -webkit-text-stroke: 2px rgb(253, 251, 251); /* 2 * 0.6958 */
   line-height: 1;
   z-index: 0;
 }
 
 .content {
-  padding: 8px; /* 12 * 0.6958 */
+  padding: 0 8px; /* 12 * 0.6958 */
+  margin-top: -10px;
 }
 
 .title {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 8px; /* 12 * 0.6958 */
+  font-size: 12px; /* 12 * 0.6958 */
   color: #666;
   margin-left: -8px;
 }
@@ -88,7 +90,7 @@
 }
 
 .description p {
-  font-size: 12px;
+  font-size: 15px;
   font-family: "IvyMode"; /* 16 * 0.6958 */
   color: #333; /* 8 * 0.6958 */
   margin-top: -10px;
@@ -98,7 +100,7 @@
 .footer p {
   font-family: "BrownRegular"; /* 12 * 0.6958 */
   color: #222222;
-  font-size:10px;
+  font-size:12px;
   margin-top: -15px;
   margin-left: -8px;
 }

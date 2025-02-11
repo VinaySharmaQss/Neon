@@ -43,7 +43,7 @@ const Home = () => {
             <p className='text-3xl mb-4 mt-8 ml-[50px]' style={{ fontFamily: "IvyMode" }}>
               Today's recommendations for you, Charlie!
             </p>
-            <div className="flex flex-wrap gap-4  mx-16">
+            <div className="flex flex-wrap gap-4  ml-16">
               {card3Data.map((card, index) => (
                 <Cards3 key={index} {...card} />
               ))}
@@ -57,7 +57,7 @@ const Home = () => {
             <p className={`text-3xl ${styles.card2_text}`}>
               Charlie, here is your master journey with us so far!
             </p>
-            <div className="flex flex-wrap gap-4  mx-16">
+            <div className="flex flex-wrap gap-4  ml-16">
               {card4Data.map((card, index) => (
                 <Card4 key={index} {...card} />
               ))}

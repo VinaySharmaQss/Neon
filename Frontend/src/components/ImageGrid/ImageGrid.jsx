@@ -3,10 +3,10 @@ import BlackWhiteButton from '../../UI/BlackWhiteButton'
 
  export const ImageGrid = ({Image}) => {
   return (
-    <div className="grid grid-cols-4 grid-rows-2  gap-1 rounded-2xl overflow-hidden mx-[3vw]">
+    <div className="grid grid-cols-4 grid-rows-2  gap-1 rounded-xl overflow-hidden mx-[3vw]">
 
     {/* Top-right smaller images */}
-    <div className="grid grid-rows-1 grid-cols-2 gap-1 col-span-2">
+    <div className="grid grid-rows-1 grid-cols-2 gap-3 col-span-2">
       <img
         src={Image}
         alt="Wave Architecture 2"
@@ -19,7 +19,7 @@ import BlackWhiteButton from '../../UI/BlackWhiteButton'
       />
     </div>
        {/* Large image on the right */}
-       <div className="col-span-2 row-span-2">
+       <div className="col-span-2 row-span-2 ml-1.5">
       <img
         src={Image}
         alt="Wave Architecture 6"
@@ -34,7 +34,7 @@ import BlackWhiteButton from '../../UI/BlackWhiteButton'
     </div>
 
     {/* Bottom-left smaller images */}
-    <div className="grid grid-rows-1 grid-cols-2 gap-1 col-span-2 ">
+    <div className="grid grid-rows-1 grid-cols-2 gap-3 col-span-2 ">
       <img
         src={Image}
         alt="Wave Architecture 4"

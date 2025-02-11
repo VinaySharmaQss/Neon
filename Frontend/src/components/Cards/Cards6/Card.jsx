@@ -1,4 +1,3 @@
-// Import React and CSS module
 import React, { useState } from 'react';
 import styles from './Card6.module.css';
 
@@ -21,12 +20,12 @@ const Card6 = () => {
       <div className={styles.timeRange}>10:30 AM - 7:30 PM</div>
       <div className={styles.dateContainer}>
         <div className={styles.dateField}>
+          <input type="text" value={dates.from} readOnly placeholder=" " />
           <label>From</label>
-          <input type="text" value={dates.from} readOnly />
         </div>
         <div className={styles.dateField}>
+          <input type="text" value={dates.to} readOnly placeholder=" " />
           <label>To</label>
-          <input type="text" value={dates.to} readOnly />
         </div>
       </div>
       <div className={styles.dropdownContainer}>

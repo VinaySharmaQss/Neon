@@ -87,7 +87,7 @@ const EventDetails = () => {
         </div>
 
 
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center" style={{  marginRight: "120px",}}>
         <div className={styles.box}>
            <Card6/>
         </div>

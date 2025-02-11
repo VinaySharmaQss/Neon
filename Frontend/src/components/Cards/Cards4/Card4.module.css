@@ -1,15 +1,15 @@
 .card {
     display: flex;
     flex-direction: column;
-    width: 220px; /* 280 * 0.6958 */
+    width: 260px; /* 280 * 0.6958 */
     border-radius: 12px; /* 12 * 0.6958 */
     overflow: hidden;
     position: relative;
   }
   
   .card__image img {
-    width: 220px; /* 304 * 0.6958 */
-    height: 300px; /* 400 * 0.6958 */
+    width: 260px; /* 304 * 0.6958 */
+    height: 350px; /* 400 * 0.6958 */
     opacity: 1;
     object-fit: cover;
     border-radius: 12px;

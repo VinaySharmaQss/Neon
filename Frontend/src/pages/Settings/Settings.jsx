@@ -155,7 +155,7 @@ const Settings = () => {
           <div key={key} className="flex items-center space-x-2">
             <button
               onClick={() => toggleSwitch(key)}
-              className={`relative w-11 h-6 flex items-center rounded-full transition duration-300 ease-in-out ${value ? 'bg-red-500' : 'bg-gray-300'}`}
+              className={`relative w-11 h-6 flex items-center rounded-full transition duration-300 ease-in-out ${value ? 'bg-[#FF385C]' : 'bg-gray-300'}`}
             >
               <span
                 className={`absolute left-1 w-4 h-4 bg-white rounded-full transform transition ${value ? 'translate-x-2.5' : 'translate-x-0'}`}

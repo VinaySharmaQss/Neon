@@ -3,14 +3,14 @@ import React from 'react';
 const RemoveBtn = () => {
   return (
     <button
-      className='bg-white text-red-500 hover:bg-red-500 hover:text-white font-bold py-1 px-2  rounded-full'
+      className='bg-white text-red-500 hover:bg-red-500 hover:text-white font-bold py-2 px-4  rounded-full'
       style={{
         fontFamily: 'BrownRegular, sans-serif',
-        fontSize: '10px',
+        fontSize: '12px',
         lineHeight: '1.2',
       }}
     >
-      remove
+      Remove
     </button>
   );
 };

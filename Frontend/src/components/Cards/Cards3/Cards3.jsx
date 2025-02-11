@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Cards3.module.css';
-import { FaHeart } from "react-icons/fa";
+import { FiHeart } from "react-icons/fi";
 import RemoveBtn from '../../../UI/RemoveBtn';
 
 const Cards3 = ({ mainImage, icon, title, date, description, time, cardNumber, cardIcon }) => {
@@ -13,7 +13,7 @@ const Cards3 = ({ mainImage, icon, title, date, description, time, cardNumber, c
           className={styles.cardImage}
         />
         <div className={styles.icons}>
-          {cardIcon ? <RemoveBtn /> : <FaHeart className={styles.heartIcon} />} 
+          {cardIcon ? <RemoveBtn /> : <FiHeart className={styles.heartIcon} fill='#00000080' />} 
           <div className="relative flex items-center justify-center w-20 h-28 shadow-lg">
             <div className={styles.cardNumber}>{cardNumber}</div>
           </div>

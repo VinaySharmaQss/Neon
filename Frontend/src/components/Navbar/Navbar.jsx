@@ -45,7 +45,7 @@ const Navbar = () => {
             to="/faviorates"
             className={({ isActive }) => (isActive ? styles.active : "")}
           >
-            <div className={styles.navItem}>Faviorates</div>
+            <div className={styles.navItem}>My Faviorates</div>
           </NavLink>
 
           <NavLink

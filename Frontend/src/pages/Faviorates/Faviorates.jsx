@@ -1,7 +1,6 @@
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
-import Slider from "../../components/Slider/Slider"
 import Cards3 from "../../components/Cards/Cards3/Cards3";
 import { card2_1Data, card3Data, card5Data } from "../../constants/data";
 import styles from "./Faviorates.module.css";
@@ -40,7 +39,7 @@ const Faviorates = () => {
           <p className={`text-4xl ${styles.card2_text}`}>
             Charlie, we have find some recommendation for you
           </p>
-          <div className="flex flex-wrap gap-4  mx-16">
+          <div className="flex flex-wrap gap-4  ml-16">
             {card3Data.map((card, index) => (
               <Cards3 key={index} {...card} cardIcon={false} />
             ))}

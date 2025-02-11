@@ -60,7 +60,7 @@ nav{
   text-align: left;
   letter-spacing: 0.4px;
   transition: color 0.3s;
-  font-size: 12px;
+  font-size: 13px;
   font: 400;
   text-underline-offset: 12px; /* Add spacing between text and underline */
 }

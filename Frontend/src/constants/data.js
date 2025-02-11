@@ -624,7 +624,8 @@ export const events = [
       userName: "Anastasia",
       reviewDate: "Nov 2022",
       reviewText:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+     
       rating: 4.8,
     },
     {
@@ -632,7 +633,7 @@ export const events = [
       userName: "John Doe",
       reviewDate: "Oct 2022",
       reviewText:
-        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
       rating: 4.5,
     },
     {
@@ -640,7 +641,7 @@ export const events = [
       userName: "Sophia Lee",
       reviewDate: "Sep 2022",
       reviewText:
-        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
       rating: 4.9,
     },
     {
@@ -648,7 +649,7 @@ export const events = [
       userName: "Michael Smith",
       reviewDate: "Aug 2022",
       reviewText:
-        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
       rating: 4.7,
     },
     {
@@ -656,7 +657,7 @@ export const events = [
       userName: "Emily Davis",
       reviewDate: "Jul 2022",
       reviewText:
-        "Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
       rating: 4.6,
     },
     {
@@ -664,7 +665,7 @@ export const events = [
       userName: "Chris Taylor",
       reviewDate: "Jun 2022",
       reviewText:
-        "Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
       rating: 4.4,
     },
     {
@@ -672,7 +673,7 @@ export const events = [
       userName: "Chris Taylor",
       reviewDate: "Jun 2022",
       reviewText:
-        "Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
       rating: 4.4,
     },
   ];
