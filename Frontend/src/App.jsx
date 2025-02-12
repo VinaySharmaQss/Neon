@@ -12,6 +12,7 @@ const Home = lazy(() => import('./pages/Home/Home'));
 const EventDetails = lazy(() => import('./pages/EventDetails/EventDetails'));
 const Recommendations = lazy(() => import('./pages/Recommendations/Recommendations'));
 const Settings = lazy(() => import('./pages/Settings/Settings'));
+const EditProfile = lazy(() => import('./pages/EditProfile/EditProfile'));
 const App = () => {
   return (
     <BrowserRouter>
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/faviorates" element={<Faviorates />} />
           <Route path="/recommendations" element={<Recommendations />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
           <Route path="/test" element={<Test />} />
         </Routes>
       </Suspense>

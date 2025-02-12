@@ -10,7 +10,9 @@ export default function ProfileMenu({ isOpen }) {
           style={{ fontFamily: "BrownRegular" }}
         >
           <ul className="flex flex-col text-left m-2">
-            <li className="py-2 hover:bg-gray-100 cursor-pointer">Edit profile</li>
+           <Link to={"/edit-profile"}>
+           <li className="py-2 hover:bg-gray-100 cursor-pointer">Edit profile</li>
+           </Link>
             <li className="py-2 hover:bg-gray-100 cursor-pointer">Feedback</li>
             <Link to="/settings" >
             <li className="py-2 hover:bg-gray-100 cursor-pointer">Settings</li></Link>
