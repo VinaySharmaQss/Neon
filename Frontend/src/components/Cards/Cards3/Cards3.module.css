@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  width: 260px; /* 280 * 0.6958 */
+  width: 210px; /* 280 * 0.6958 */
   border-radius: 8px; /* 12 * 0.6958 */
   overflow: hidden;
   position: relative;
@@ -13,8 +13,8 @@
 }
 
 .cardImage {
-  width: 260px; /* 284 * 0.6958 */
-  height: 350px; /* 360 * 0.6958 */
+  width: 210px; /* 284 * 0.6958 */
+  height: 280px; /* 360 * 0.6958 */
   object-fit: cover;
   border-radius: 8px; /* 12 * 0.6958 */
 }
@@ -38,7 +38,7 @@
 
 .cardNumber {
   position: absolute;
-  top: 220px; /* 200 * 0.6958 */
+  top: 150px; /* 200 * 0.6958 */
   left: 20px; /* 8 * 0.6958 */
   font-size: 90px; /* 130 * 0.6958 */
   font-weight: 1000;
@@ -79,18 +79,17 @@
   font-family: "BrownRegular"; /* 12 * 0.6958 */
   letter-spacing: 0px;
   color: #222222;
-  font-size: 13px;
+  font-size: 11px;
 }
 
-.titleRight {
-  font-weight: bold;
-  font-family: "IvyMode"; /* 12 * 0.6958 */
+.titleRight>p {
+  font-family: "sans-serif"; /* 12 * 0.6958 */
   letter-spacing: 0px;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .description p {
-  font-size: 15px;
+  font-size: 13px;
   font-family: "IvyMode"; /* 16 * 0.6958 */
   color: #333; /* 8 * 0.6958 */
   margin-top: -10px;
@@ -100,7 +99,7 @@
 .footer p {
   font-family: "BrownRegular"; /* 12 * 0.6958 */
   color: #222222;
-  font-size:12px;
+  font-size:10px;
   margin-top: -15px;
   margin-left: -8px;
 }

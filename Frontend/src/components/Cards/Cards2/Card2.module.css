@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  width: 500px; 
+  width: 510px; 
 }
 
 .left_top {
@@ -12,12 +12,12 @@
 .img {
   position: relative;
   opacity: 1;
-  width: 600px; /* Increased width */
-  height: 350px; /* Increased height */
+  width: 510px; /* Increased width */
+  height: 303px; /* Increased height */
   object-fit: cover;
   background: #f9f7f2;
   border: 1px solid #222222;
-  border-radius: 12px; /* Increased border radius */
+  border-radius: 10px; /* Increased border radius */
 }
 
 .img_overlay {
@@ -34,19 +34,22 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 0;
+ 
 }
 
 .right h2 {
-  margin-top: 10px; /* Increased margin */
-  font: normal normal 600 16px/20px IvyMode; /* Increased font size */
+  margin-top: 10px; /* Increased margin *//* Increased font size */
   letter-spacing: 0.5px; /* Increased letter spacing */
   color: #222222;
+  font-size: 13px;
+  font-family: "IvyMode";
+  font-weight: bold;
 }
 
 .para1 {
   margin-top: 0;
   padding: 0;
-  font-size: 12px; /* Increased font size */
+  font-size: 0.7rem; /* Increased font size */ /* Increased font size */
   color: #222222;
   opacity: 0.7;
 }
@@ -54,9 +57,10 @@
 .para {
   width: 500px; /* Increased width */
   height: auto;
-  font: normal normal normal 14px/20px BrownLight; /* Increased font size */
+  font-family: "BrownRegular";
   letter-spacing: 0.35px; /* Increased letter spacing */
   margin-top: -10px;
+  font-size: 0.8rem;
   color: #222222;/* Increased margin */
   margin-bottom: 15px; /* Increased margin */
 }
@@ -71,8 +75,8 @@
 .btn_black {
   background: #222222;
   border-radius: 8px; /* Increased border radius */
-  width: 150px; /* Increased width */
-  height: 40px; /* Increased height */
+  width: 140px; /* Increased width */
+  height: 33px; /* Increased height */
   font: normal normal normal 14px/14px Poppins; /* Increased font size */
   color: #FFFFFF;
   cursor: pointer;

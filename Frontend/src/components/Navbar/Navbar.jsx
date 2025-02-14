@@ -13,7 +13,7 @@ import { TbBellRinging2Filled } from "react-icons/tb";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isOpens, setIsOpens] = useState(false);
+  const [isOpens, setIsOpens] = useState(true);
 
   const toggleNotification = () => {
     setIsOpens(!isOpens);
@@ -29,7 +29,7 @@ const Navbar = () => {
   return (
     <nav className={styles.nav}>
       <div className={styles.logo}>
-        <img className="w-auto h-16 object-cover" src={Logo} alt="Logo" />
+        <img src={Logo} alt="Logo" />
       </div>
 
       <div className={styles.right_section}>
@@ -92,7 +92,7 @@ const Navbar = () => {
             </div>
           </div>
           <div className={styles.global}>
-            <RiGlobalLine onClick={toggleLang} />
+            <RiGlobalLine onClick={toggleLang} className="text-sm cursor-pointer" />
             <LanguagueMenu isOpen={menuOpen} />
           </div>
         </div>

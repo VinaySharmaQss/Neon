@@ -70,14 +70,14 @@ const Slider = ({cardsData, CardComponent}) => {
                 <button
                     onClick={scrollPrev}
                     disabled={isPrevDisabled}
-                    className={`border border-black rounded-full w-10 h-10 flex items-center justify-center shadow-md ${isPrevDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    className={`border border-black rounded-full w-8 h-8 flex items-center justify-center shadow-md ${isPrevDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                     <ArrowLeft className="w-6 h-6 text-black" />
                 </button>
                 <button
                     onClick={scrollNext}
                     disabled={isNextDisabled}
-                    className={`border border-black rounded-full w-10 h-10 flex items-center justify-center shadow-md ${isNextDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    className={`border border-black rounded-full w-8 h-8 flex items-center justify-center shadow-md ${isNextDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                     <ArrowRight className="w-6 h-6 text-black" />
                 </button>

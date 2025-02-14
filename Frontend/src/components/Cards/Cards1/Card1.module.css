@@ -1,8 +1,8 @@
 .card {
   display: flex;
   flex-direction: row;
-  height: 270px; /* Increased height */
-  width: 550px; /* Increased width */
+  height: 240px; /* Increased height */
+  width: 510px; /* Increased width */
   border: 1px solid #222222;
   border-radius: 12px; /* Increased border-radius */
   overflow: hidden;
@@ -29,8 +29,8 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  bottom: 8px; /* Increased bottom spacing */
-  left: 130px; /* Increased left spacing */
+  bottom: 2px; /* Increased bottom spacing */
+  left: 110px;
   color: white;
   padding: 4px 8px; /* Increased padding */
   border-radius: 5px; /* Increased border-radius */
@@ -46,8 +46,9 @@
 }
 
 .mainWeather img {
-  width: 20px; /* Increased size */
-  height: 20px; /* Increased size */
+ 
+  height: 35px; /* Increased size */
+  object-fit: cover;
 }
 
 .temperture {
@@ -60,15 +61,17 @@
 
 .right {
   width: 60%;
-  padding: 8px; /* Increased padding */
   display: flex;
-
+  padding: 10px 0px 10px 8px;
   flex-direction: column;
   justify-content: space-between;
 }
-
+.header{
+  margin-top: 0.5rem;
+}
 .header h1 {
-  font: normal normal normal 20px/30px IvyMode; /* Increased font size */
+  font-family: "IvyMode";
+  font: 1rem;/* Increased font size */
   letter-spacing: 0.6px; /* Increased letter-spacing */
   color: #222222;
 }
@@ -78,15 +81,15 @@
   flex-direction: row;
   align-items: center;
   gap: 6px; /* Increased gap */
-  font-size: 12px; /* Increased font size */
+  font-size: 0.8rem; /* Increased font size */
   color: #666;
   font-family: "BrownRegular";
-  margin-top: -15px;
+  margin-top: -0.4rem;
 }
 
 .starRating {
   color: red;
-  font-size: 18px;
+  font-size: 15px;
 }
 
 .ratingNum {
@@ -95,22 +98,23 @@
   color: #222222;
 }
 
-.body {
-  font: normal normal normal 14px/16px BrownLight; /* Increased font size */
+.body p {
+  font-size: 0.7rem;/* Increased font size */
   letter-spacing: 0.3px; /* Increased letter-spacing */
   opacity: 1;
   font-family: "BrownRegular";
+  margin-top: -0.2rem;
 }
 
 .readMore {
-  font: normal normal normal 14px/16px BrownLight; /* Increased font size */
+  /* Increased font size */
   color: #ff385c;
   text-decoration: underline;
-  font-family: "BrownRegular";
 }
 
 .logo_section {
   display: flex;
+  margin-top: -0.3rem;
   flex-direction: column;
   gap: 8px; /* Increased gap */
 }
@@ -134,7 +138,6 @@
   justify-content: space-between;
   align-items: center;
   font-size: 12px; /* Increased font size */
-  font-weight: bold;
   margin-left: -8px;
   font-family: "BrownRegular";
 }
@@ -149,13 +152,13 @@
 .footer_content {
   display: flex;
   flex-direction: row;
-
 }
 
 .footer_description {
-  font: normal normal normal 12px/38px Brown; /* Increased font size */
+   font-size: 0.7rem;/* Increased font size */
   letter-spacing: 0px;
-  color: #222222;
+  margin-top: 8px;
+  font: 200;
   font-family: "BrownRegular";
 }
 
@@ -164,6 +167,6 @@
   letter-spacing: 0.25px; /* Increased letter-spacing */
   color: #222222;
   font-family: "BrownRegular";
-  font: bold;
-  font-weight: bold;
+  font: 800;
+  margin-right: 1rem;
 }

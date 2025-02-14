@@ -158,7 +158,7 @@ const Settings = () => {
               className={`relative w-11 h-6 flex items-center rounded-full transition duration-300 ease-in-out ${value ? 'bg-[#FF385C]' : 'bg-gray-300'}`}
             >
               <span
-                className={`absolute left-1 w-4 h-4 bg-white rounded-full transform transition ${value ? 'translate-x-2.5' : 'translate-x-0'}`}
+                className={`absolute left-1 w-4 h-4 bg-white rounded-full transform transition ${value ? 'translate-x-5      ' : 'translate-x-0'}`}
               />
             </button>
             <span className="text-gray-800 capitalize">{key.replace("personalized", "Personalized notifications")}</span>

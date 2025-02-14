@@ -28,7 +28,7 @@ const Cards1 = ({
         <div className={styles.leftContent}>
           <div className={styles.mainWeather}>
             <img src={weatherLogo} className=" object-cover" alt="emoji" />
-            <h4>
+            {/* <h4>
               {temperature} <span>°C</span>
             </h4>
           </div>
@@ -38,7 +38,7 @@ const Cards1 = ({
             </div>
             <div className={styles.temp}>
               {temperature} <span>°C</span>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -67,7 +67,7 @@ const Cards1 = ({
         <div className={styles.logo_section}>
       <div className={styles.logo_content}>
         <div className={styles.logo}>
-           <PiBagSimpleLight style={{ fontSize: "1rem", color: "red" }} />
+           <PiBagSimpleLight style={{ fontSize: "0.8rem", color: "red" }} />
 
         </div>
         <div className={styles.logo_description}>
@@ -76,7 +76,7 @@ const Cards1 = ({
       </div>
       <div className={styles.logo_content}>
         <div className={styles.logo}>
-          <CiLocationOn style={{ fontSize: "1rem", color: "red" }} />
+          <CiLocationOn style={{ fontSize: "0.8rem", color: "red" }} />
         </div>
         <div className={styles.logo_description}>
           {events[1]?.description}
@@ -84,7 +84,7 @@ const Cards1 = ({
       </div>
       <div className={styles.logo_content}>
         <div className={styles.logo}>
-          <BiCategory  style={{ fontSize: "1rem", color: "red" }}/>
+          <BiCategory  style={{ fontSize: "0.8rem", color: "red" }}/>
         </div>
         <div className={styles.logo_description}>
           {events[2]?.description}
@@ -96,7 +96,7 @@ const Cards1 = ({
         <div className={styles.footer}>
           <div className={styles.footer_content}>
             <div className={styles.footer_logo}>
-              <img src={footerLogo} className="h-4 w-full object-cover mt-[-2px]" alt="footer logo" />
+              <img src={footerLogo} className="h-3 w-full object-cover " alt="footer logo" />
             </div>
             <div className={styles.footer_description}>{footerDescription}</div>
           </div>

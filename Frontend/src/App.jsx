@@ -13,6 +13,7 @@ const EventDetails = lazy(() => import('./pages/EventDetails/EventDetails'));
 const Recommendations = lazy(() => import('./pages/Recommendations/Recommendations'));
 const Settings = lazy(() => import('./pages/Settings/Settings'));
 const EditProfile = lazy(() => import('./pages/EditProfile/EditProfile'));
+const Feedback =  lazy(() => import('./pages/Feedback/Feedback'));
 const App = () => {
   return (
     <BrowserRouter>
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/settings" element={<Settings />} />
           <Route path="/edit-profile" element={<EditProfile />} />
           <Route path="/test" element={<Test />} />
+          <Route path="/feedback" element={<Feedback />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
