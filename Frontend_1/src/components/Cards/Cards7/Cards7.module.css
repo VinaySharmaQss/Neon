@@ -1,0 +1,114 @@
+.card {
+  position: relative;
+  width: 1130px; /* Full screen width */
+  height: 420px; /* Full viewport height */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  overflow: hidden;
+color: var(--unnamed-color-ffffff);
+text-align: center;
+font: normal normal 600 48px/59px IvyMode;
+letter-spacing: 1.58px;
+color: #FFFFFF;
+text-shadow: 0px 2px 2px #000000C2;
+opacity: 1;
+margin-right: 90px;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 40px;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-size: 34px;
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.location,
+.date {
+  font-size: 17px;
+  color: #f1f1f1;
+  margin: 5px 0;
+}
+.location{
+  margin-top: -20px;
+  font-weight: 400;
+}
+.date{
+  margin-top: -25px;
+  font-weight: 400;
+}
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.timerBox {
+  border: 1px solid #fff;
+  padding: 10px 15px;
+  border-radius: 50px;
+  text-align: center;
+  height: 80px;
+  width: 80px;
+  border-right-color: rgba(206, 50, 50, 0.863);
+  transition: transform 0.3s ease;
+}
+
+.timerBox:hover {
+  transform: scale(1.1);
+}
+
+.timerBox span {
+  margin-top: -45px;
+  font-size: 17px;
+  font-weight: bold;
+  display: block;
+  color: #fff;
+}
+
+.timerBox p {
+  margin-top: -13px;
+  font-size: 10px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.button {
+  border: none;
+  font-family: BrownRegular;
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--unnamed-color-222222);
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0px;
+  color: #222222;
+  opacity: 1;
+  padding-bottom: 30px;
+  height: 50px;
+  width: 120px;
+  color: white;
+  background-color: white;
+  border-radius: 8px;
+  opacity: 1;
+  cursor: pointer;
+  color: #222222;
+  margin-top: 20px;
+}

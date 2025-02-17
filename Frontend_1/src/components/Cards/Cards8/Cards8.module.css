@@ -1,0 +1,100 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.left{
+    height: 280px;
+    width: 270px;
+    position: relative;
+}
+
+.img{
+    position: relative;
+    width: 212px;
+    height: 230px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.leftContent{
+    position: absolute;
+    top: 9rem;
+    left: -0.8rem;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    font-family: "BrownRegular";
+    color: white;
+}
+
+.leftTitle{
+    font-size: 13px;
+    font: bold;
+}
+.date{
+   font-size: 13px;
+}
+.rating{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 5rem;
+}
+.ratingNum{
+    font-size: 0.8rem;
+    text-decoration: underline;
+}
+.stars{
+    display: flex;
+    flex-direction: row;
+    gap: 0.3rem;
+    font-size: 13px;
+    align-items: center;
+
+}
+
+.right{
+    display: flex;
+    flex-direction: column;
+    margin-left: -2rem;
+}
+
+.rightTitle{
+    font-size: 17px;
+}
+.description{
+    width: 500px;
+    height:70px;
+    font-size: 12px;
+    font-family: 'BrownRegular';
+    margin: 10px 0;
+
+}
+.rightDate{
+    font-size: 13px;
+    font-family: "BrownRegular";
+    margin: 10px 0;
+    color: gray;
+}
+.icons{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.icon_image{
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    filter: grayscale(100%);
+}
+
+.active {
+    filter: none;
+}
