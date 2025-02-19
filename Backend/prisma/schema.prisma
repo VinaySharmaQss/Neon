@@ -17,8 +17,10 @@ model User {
   name      String
   email     String   @unique
   password  String
-  MobileNumber  Int   @unique
+  Image       String?
+  phoneNumber  String   @unique
   DOB         DateTime
+  refreshToken String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

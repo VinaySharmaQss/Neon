@@ -1,95 +1,107 @@
-import { z } from 'zod';
-import prisma from "../utils/db";
+import { z } from "zod";
+import prisma from "../utils/db.js";
+import bcrypt from "bcryptjs";
+import { generateAccessToken, generateRefreshToken } from "../helpers/User.js";
+import { uploadImage } from "../utils/cloudinary.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
-// Define the schema for the SignUp input using Zod
-const signUpSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
-  phoneNumber: z.string().min(10, "Phone number must be at least 10 digits"),
-  DOB: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Invalid date of birth",
-  }),
-});
 
-// Define the schema for the Login input using Zod
-const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
-});
+const generateRefreshAndAccessToken = async (userId) => {
+  const refreshToken = generateRefreshToken(userId);
+  const accessToken = generateAccessToken(userId);
 
-const SignUp = async (req, res) => {
-  try {
-    // Validate request body using Zod
-    const parsedBody = signUpSchema.safeParse(req.body);
+  await prisma.user.update({
+    where: { id: userId },
+    data: { refreshToken },
+  });
 
-    if (!parsedBody.success) {
-      // Return validation errors if any field is invalid
-      return res.status(400).json({ message: parsedBody.error.errors[0].message });
-    }
-
-    const { name, email, password, phoneNumber, DOB } = req.body;
-
-    // Check if the user already exists in the database
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
-    if (user) {
-      return res.status(400).json({ message: "User already exists" });
-    }
-
-    // Create new user in the database
-    const newUser = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password,
-        phoneNumber,
-        DOB,
-      },
-    });
-
-    // Respond with success message
-    res.status(200).json({ message: "User created successfully", newUser });
-  } catch (err) {
-    res.status(500).json({ message: "Internal server error" });
-  }
+  return { refreshToken, accessToken };
 };
 
-const Login = async (req, res) => {
+const SignUp = asyncHandler(async (req, res, next) => {
+  console.log(req.body);
+
+  const { name, email, password, phoneNumber, DOB } = req.body;
+  const existingUser = await prisma.user.findUnique({ where: { email } });
+  if (existingUser) {
+    return next(new ApiError(400, "User already exists"));
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const ProfileImgPath = req.file?.path;
+  if (!ProfileImgPath) {
+    return next(new ApiError(400, "Image is required"));
+  }
+
+  const ProfileImg = await uploadImage(ProfileImgPath);
+  if (!ProfileImg) {
+    return next(new ApiError(400, "Image upload failed"));
+  }
+  const newUser = await prisma.user.create({
+    data: {
+      name,
+      email,
+      Image: ProfileImg.url,
+      password: hashedPassword,
+      phoneNumber,
+      DOB,
+    },
+  });
+  // Add the jwtSignin and set cookies
+  res.status(201).json(new ApiResponse(201, newUser, "User created successfully"));
+});
+
+const Login = asyncHandler(async (req, res, next) => {
   try {
-    // Validate request body using Zod
-    const parsedBody = loginSchema.safeParse(req.body);
-
-    if (!parsedBody.success) {
-      return res.status(400).json({ message: parsedBody.error.errors[0].message });
-    }
-
     const { email, password } = req.body;
-
-    // Find the user in the database by email
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
-
+    const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      return res.status(400).json({ message: "User not found" });
+      return next(new ApiError(401, "Invalid email or password"));
     }
 
-    // Check if the password matches
-    if (user.password !== password) {
-      return res.status(400).json({ message: "Invalid password" });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return next(new ApiError(401, "Invalid email or password"));
     }
 
-    // Respond with success message
-    res.status(200).json({ message: "Login successful", user });
-  } catch (err) {
-    res.status(500).json({ message: "Internal server error" });
+    const { refreshToken, accessToken } = await generateRefreshAndAccessToken(user.id);
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+    });
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: true,
+    })
+    res
+      .status(200)
+      .json(new ApiResponse(200, { accessToken }, "User logged in successfully"));
+  } catch (error) {
+    // This will catch any error that occurs in the try block
+    return next(error);
   }
-};
+});
 
-export { SignUp, Login };
+const Logout = asyncHandler(async(req,res,next)=>{
+  if (!req.user || !req.user.id) {
+    return next(new ApiError(401, "Unauthorized"));
+  }
+    const userId = req.user.id;
+    await prisma.user.update({
+        where: { id: userId },
+        data: { refreshToken: null },
+    });
+    const options={
+        httpOnly: true,
+        secure: true,
+    }
+    res.clearCookie("refreshToken",options);
+    res.clearCookie("accessToken",options);
+    res.status(200).json(new ApiResponse(200, {}, "User logged out successfully"));
+})
+
+export { SignUp, Login, Logout };
