@@ -21,6 +21,48 @@ model User {
   phoneNumber  String   @unique
   DOB         DateTime
   refreshToken String?
+  accessToken String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Place {
+  id                Int      @id @default(autoincrement())
+  title             String   // e.g. "Round of Golf"
+  mainImage         String   // e.g. cardImg3_4
+  weatherLogo       String?   // e.g. weatherLogo // uda do aur hardcode kr do
+  temperature       String   // e.g. "18"
+  rating            Float   // e.g. "★★★★★"   // e.g. "4.5" we can drive the rating stars by this in the frontend 
+  description       String
+  eventTime        DateTime
+  location          String
+  eventType         String   // e.g. "Golf"
+  footerLogo        String
+  footerDescription String
+  reviews           Review[] // One-to-many relationship with Review
+  // You may also add an events field here as a relation or JSON field if needed
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id         Int      @id @default(autoincrement())
+  userImage  String?  // URL or reference to user's image (optional)
+  userName   String   // e.g. "Anastasia"
+  reviewDate DateTime // Store the review date (convert "Nov 2022" to a Date)
+  reviewText String
+  rating     Float    // e.g. 4.8
+  place      Place    @relation(fields: [placeId], references: [id])
+  placeId    Int
+}
+
+model Cusines{
+  id        Int      @id @default(autoincrement())
+  logo      String
+  title     String
+  date      DateTime
+  description String
+  accepted  Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

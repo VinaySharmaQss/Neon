@@ -14,7 +14,9 @@ const generateRefreshAndAccessToken = async (userId) => {
 
   await prisma.user.update({
     where: { id: userId },
-    data: { refreshToken },
+    data: { refreshToken,
+      accessToken
+     },
   });
 
   return { refreshToken, accessToken };
@@ -37,6 +39,7 @@ const SignUp = asyncHandler(async (req, res, next) => {
   }
 
   const ProfileImg = await uploadImage(ProfileImgPath);
+  console.log(ProfileImg);
   if (!ProfileImg) {
     return next(new ApiError(400, "Image upload failed"));
   }
@@ -104,4 +107,36 @@ const Logout = asyncHandler(async(req,res,next)=>{
     res.status(200).json(new ApiResponse(200, {}, "User logged out successfully"));
 })
 
-export { SignUp, Login, Logout };
+
+// Get the user by Id
+const getUserById = asyncHandler(async (req, res, next) => {
+  let { id } = req.params;
+  id=parseInt(id);
+  const user = await prisma.user.findUnique({ where: { id } });
+  if (!user) {
+    return next(new ApiError(404, "User not found"));
+  }
+  res.status(200).json(new ApiResponse(200, user, "User fetched successfully"));
+})
+
+// Update the user
+const updateUser = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const { name, email, phoneNumber, DOB } = req.body;
+  const user = await prisma.user.update({
+    where: { id: parseInt(id, 10)},
+    data: {
+      name,
+      email,
+      phoneNumber,
+      DOB,
+    },
+  });
+  res.status(200).json(new ApiResponse(200, user, "User updated successfully"));
+
+  })
+
+
+
+export { SignUp, Login, Logout, getUserById, updateUser };
+

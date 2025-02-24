@@ -11,7 +11,7 @@ const auth = asyncHandler(async (req, res, next) => {
       req.headers.authorization?.replace("Bearer ", "");
     console.log("Token:", token);
 
-    // If no token is found, throw an error
+   
     if (!token) {
       throw new ApiError(401, "Invalid token");
     }
@@ -19,8 +19,6 @@ const auth = asyncHandler(async (req, res, next) => {
     // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Fetch the user from the database excluding sensitive fields
-    // List only the fields you want to include.
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
       select: {
