@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { backendUrl } from "../../utils/utils";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -18,31 +23,27 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create request payload
-    // const payload = {
-    //   email: formData.email,
-    //   password: formData.password,
-    // };
-
-    // try {
-    //   // Replace with your login API endpoint
-    //   const response = await fetch("/api/login", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(payload),
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error("Login failed");
-    //   }
-
-    //   const data = await response.json();
-    //   console.log("Logged in successfully:", data);
-    //   // TODO: Handle success (e.g., save tokens, redirect user, etc.)
-    // } catch (error) {
-    //   console.error("Error logging in:", error);
-    //   // TODO: Display an error message to the user
-    // }
+    try {
+      const response = await axios.post(
+        `${backendUrl}user/login`,
+        formData, // No need to use FormData for simple JSON data
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+      const userId = response.data.data.userId; 
+      console.log(userId);
+      if (response.data.success) {
+        toast.success("Login successful!");
+        setFormData({ email: "", password: "" }); // Clear fields
+        navigate(`/user/${userId}`); // Redirect user after login
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error(error.response?.data?.message || "An error occurred. Please try again.");
+    }
   };
 
   return (
@@ -51,7 +52,7 @@ const Login = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
-      style={{fontFamily:"BrownRegular"}}
+      style={{ fontFamily: "BrownRegular" }}
     >
       <motion.div
         className="bg-white p-8 rounded shadow-md w-full max-w-md"
@@ -60,12 +61,7 @@ const Login = () => {
         <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
         <form onSubmit={handleSubmit} noValidate>
           {/* Email Field */}
-          <motion.div
-            className="mb-4 relative"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.1, duration: 0.5 }}
-          >
+          <motion.div className="mb-4 relative">
             <FaEnvelope className="absolute left-3 top-3 text-gray-400" />
             <input
               type="email"
@@ -77,13 +73,9 @@ const Login = () => {
               className="pl-10 w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-black"
             />
           </motion.div>
+
           {/* Password Field */}
-          <motion.div
-            className="mb-6 relative"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-          >
+          <motion.div className="mb-6 relative">
             <FaLock className="absolute left-3 top-3 text-gray-400" />
             <input
               type="password"
@@ -93,9 +85,10 @@ const Login = () => {
               placeholder="Password"
               required
               minLength="6"
-              className="pl-10 w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-black   "
+              className="pl-10 w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-black"
             />
           </motion.div>
+
           {/* Submit Button */}
           <motion.button
             type="submit"

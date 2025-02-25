@@ -1,4 +1,3 @@
-import { z } from "zod";
 import prisma from "../utils/db.js";
 import bcrypt from "bcryptjs";
 import { generateAccessToken, generateRefreshToken } from "../helpers/User.js";
@@ -14,8 +13,7 @@ const generateRefreshAndAccessToken = async (userId) => {
 
   await prisma.user.update({
     where: { id: userId },
-    data: { refreshToken,
-      accessToken
+    data: { refreshToken
      },
   });
 
@@ -26,23 +24,36 @@ const SignUp = asyncHandler(async (req, res, next) => {
   console.log(req.body);
 
   const { name, email, password, phoneNumber, DOB } = req.body;
+  
+  // Check if the user already exists by email
   const existingUser = await prisma.user.findUnique({ where: { email } });
   if (existingUser) {
     return next(new ApiError(400, "User already exists"));
   }
+  
+  // Check if the phone number already exists
+  const existingPhoneNumber = await prisma.user.findUnique({
+    where: { phoneNumber },
+  });
+  if (existingPhoneNumber) {
+    return next(new ApiError(401, "Phone Number already exists"));
+  }
 
+  // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
 
+  // Handle the image upload (Profile image is required)
   const ProfileImgPath = req.file?.path;
   if (!ProfileImgPath) {
     return next(new ApiError(400, "Image is required"));
   }
 
   const ProfileImg = await uploadImage(ProfileImgPath);
-  console.log(ProfileImg);
   if (!ProfileImg) {
     return next(new ApiError(400, "Image upload failed"));
   }
+
+  // Create the user in the database
   const newUser = await prisma.user.create({
     data: {
       name,
@@ -53,9 +64,11 @@ const SignUp = asyncHandler(async (req, res, next) => {
       DOB,
     },
   });
-  // Add the jwtSignin and set cookies
+
+  // Send a response with the newly created user
   res.status(201).json(new ApiResponse(201, newUser, "User created successfully"));
 });
+
 
 const Login = asyncHandler(async (req, res, next) => {
   try {
@@ -82,7 +95,7 @@ const Login = asyncHandler(async (req, res, next) => {
     })
     res
       .status(200)
-      .json(new ApiResponse(200, { accessToken }, "User logged in successfully"));
+      .json(new ApiResponse(200, { userId:user.id, accessToken }, "User logged in successfully"));
   } catch (error) {
     // This will catch any error that occurs in the try block
     return next(error);
@@ -136,7 +149,17 @@ const updateUser = asyncHandler(async (req, res, next) => {
 
   })
 
-
+// Get the user name
+const getUserName = asyncHandler(async( req, res, next)=>{
+  const { id} = req.params;
+  const user = await prisma.user.findUnique({
+    where: { id: parseInt(id, 10)},
+  })
+  if(!user){
+    return next(new ApiError(404, "User not found"));
+  }
+  res.status(200).json(new ApiResponse(200, user.name, "User name fetched successfully"));
+})
 
 export { SignUp, Login, Logout, getUserById, updateUser };
 
