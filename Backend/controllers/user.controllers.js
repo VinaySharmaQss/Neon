@@ -6,23 +6,22 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-
+// Generate tokens and update refreshToken in DB
 const generateRefreshAndAccessToken = async (userId) => {
   const refreshToken = generateRefreshToken(userId);
   const accessToken = generateAccessToken(userId);
 
   await prisma.user.update({
     where: { id: userId },
-    data: { refreshToken
-     },
+    data: { refreshToken },
   });
 
   return { refreshToken, accessToken };
 };
 
+// SIGNUP
 const SignUp = asyncHandler(async (req, res, next) => {
   console.log(req.body);
-
   const { name, email, password, phoneNumber, DOB } = req.body;
   
   // Check if the user already exists by email
@@ -42,12 +41,11 @@ const SignUp = asyncHandler(async (req, res, next) => {
   // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Handle the image upload (Profile image is required)
+  // Handle image upload (Profile image is required)
   const ProfileImgPath = req.file?.path;
   if (!ProfileImgPath) {
     return next(new ApiError(400, "Image is required"));
   }
-
   const ProfileImg = await uploadImage(ProfileImgPath);
   if (!ProfileImg) {
     return next(new ApiError(400, "Image upload failed"));
@@ -65,11 +63,11 @@ const SignUp = asyncHandler(async (req, res, next) => {
     },
   });
 
-  // Send a response with the newly created user
+  // Send response with the newly created user
   res.status(201).json(new ApiResponse(201, newUser, "User created successfully"));
 });
 
-
+// LOGIN
 const Login = asyncHandler(async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -85,81 +83,96 @@ const Login = asyncHandler(async (req, res, next) => {
 
     const { refreshToken, accessToken } = await generateRefreshAndAccessToken(user.id);
 
-    res.cookie("refreshToken", refreshToken, {
+    // Set cookie options; secure flag is enabled only in production
+    const cookieOptions = {
       httpOnly: true,
-      secure: true,
-    });
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      secure: true,
-    })
-    res
-      .status(200)
-      .json(new ApiResponse(200, { userId:user.id, accessToken }, "User logged in successfully"));
+      secure: process.env.NODE_ENV === "production", // false in development
+      sameSite: "lax", // Adjust as needed; "lax" works for most cases.
+    };
+
+    res.cookie("refreshToken", refreshToken, cookieOptions);
+    res.cookie("accessToken", accessToken, cookieOptions);
+    
+    res.status(200).json(
+      new ApiResponse(200, { userId: user.id, accessToken }, "User logged in successfully")
+    );
   } catch (error) {
-    // This will catch any error that occurs in the try block
     return next(error);
   }
 });
 
-const Logout = asyncHandler(async(req,res,next)=>{
+// LOGOUT
+const Logout = asyncHandler(async (req, res, next) => {
   if (!req.user || !req.user.id) {
     return next(new ApiError(401, "Unauthorized"));
   }
-    const userId = req.user.id;
-    await prisma.user.update({
-        where: { id: userId },
-        data: { refreshToken: null },
-    });
-    const options={
-        httpOnly: true,
-        secure: true,
-    }
-    res.clearCookie("refreshToken",options);
-    res.clearCookie("accessToken",options);
-    res.status(200).json(new ApiResponse(200, {}, "User logged out successfully"));
-})
+  const userId = req.user.id;
+  await prisma.user.update({
+    where: { id: userId },
+    data: { refreshToken: null },
+  });
+  const options = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+  };
+  res.clearCookie("refreshToken", options);
+  res.clearCookie("accessToken", options);
+  res.status(200).json(new ApiResponse(200, {}, "User logged out successfully"));
+});
 
-
-// Get the user by Id
+// GET USER BY ID
 const getUserById = asyncHandler(async (req, res, next) => {
   let { id } = req.params;
-  id=parseInt(id);
+  id = parseInt(id, 10);
   const user = await prisma.user.findUnique({ where: { id } });
   if (!user) {
     return next(new ApiError(404, "User not found"));
   }
   res.status(200).json(new ApiResponse(200, user, "User fetched successfully"));
-})
+});
 
-// Update the user
+// UPDATE USER (with optional image update)
 const updateUser = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const { name, email, phoneNumber, DOB } = req.body;
-  const user = await prisma.user.update({
-    where: { id: parseInt(id, 10)},
-    data: {
-      name,
-      email,
-      phoneNumber,
-      DOB,
-    },
-  });
-  res.status(200).json(new ApiResponse(200, user, "User updated successfully"));
-
-  })
-
-// Get the user name
-const getUserName = asyncHandler(async( req, res, next)=>{
-  const { id} = req.params;
+  const { name, phoneNumber, DOB } = req.body;
+  
   const user = await prisma.user.findUnique({
-    where: { id: parseInt(id, 10)},
-  })
-  if(!user){
+    where: { id: parseInt(id, 10) },
+  });
+
+  if (!user) {
+    return next(new ApiError(404, "User not found"));
+  }
+
+  let updatedData = { name, phoneNumber, DOB };
+
+  // If a new image file is provided, upload it
+  if (req.file?.path) {
+    const profileImg = await uploadImage(req.file.path);
+    if (!profileImg) {
+      return next(new ApiError(400, "Image upload failed"));
+    }
+    updatedData.Image = profileImg.url;
+  }
+
+  const updatedUser = await prisma.user.update({
+    where: { id: parseInt(id, 10) },
+    data: updatedData,
+  });
+
+  res.status(200).json(new ApiResponse(200, updatedUser, "User updated successfully"));
+});
+
+// GET USER NAME
+const getUserName = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const user = await prisma.user.findUnique({
+    where: { id: parseInt(id, 10) },
+  });
+  if (!user) {
     return next(new ApiError(404, "User not found"));
   }
   res.status(200).json(new ApiResponse(200, user.name, "User name fetched successfully"));
-})
+});
 
 export { SignUp, Login, Logout, getUserById, updateUser };
-

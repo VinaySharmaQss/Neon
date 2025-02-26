@@ -16,9 +16,13 @@ import Footer from "../../components/Footer/Footer";
 import Cards1 from "../../components/Cards/Cards1/Cards1";
 import Cards2 from "../../components/Cards/Cards2/Cards2";
 import MapComponent from "../../components/MapComponent/MapComponent";
+import { useSelector } from "react-redux";
 
 
 const Home = () => {
+   const userName = useSelector((state) => state.user?.user?.name) 
+                ?? JSON.parse(localStorage.getItem("user"))?.name 
+                ?? "Guest";
   return (
     <>
       <header>
@@ -33,7 +37,7 @@ const Home = () => {
             className="text-[26px] mb-4 mt-16 ml-[50px]"
             style={{ fontFamily: "IvyMode" }}
           >
-            Charlie, hope we understand you better
+            {userName}, hope we understand you better
           </p>
           <Slider cardsData={card2Data} CardComponent={Cards2} />
         </div>
@@ -53,7 +57,7 @@ const Home = () => {
               className="text-[26px] mb-4 mt-8 ml-[50px]"
               style={{ fontFamily: "IvyMode" }}
             >
-              Today&apos;s recommendations for you, Charlie!
+              Today&apos;s recommendations for you, {userName}!
             </p>
             <div className="flex flex-wrap gap-4  ml-16">
               {card3Data.map((card, index) => (
@@ -67,7 +71,7 @@ const Home = () => {
         <div className="flex flex-col flex-wrap gap-4">
           <div className="flex flex-col flex-wrap gap-4">
             <p className={`text-[26px] ${styles.card2_text}`}>
-              Charlie, here is your master journey with us so far!
+              {userName}, here is your master journey with us so far!
             </p>
             <div className="flex flex-wrap gap-4  ml-16">
               {card4Data.map((card, index) => (

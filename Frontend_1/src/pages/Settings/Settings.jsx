@@ -3,9 +3,12 @@ import { useState } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
 import styles from './Settings.module.css'
+import { useSelector } from 'react-redux'
 
 const Settings = () => {
-
+  const userName = useSelector((state) => state.user?.user?.name) 
+                ?? JSON.parse(localStorage.getItem("user"))?.name 
+                ?? "Guest";
      const [settings, setSettings] = useState({
     accountInfo: false,
     shareWithOperators: false,
@@ -55,7 +58,7 @@ const Settings = () => {
       <Navbar />
       <div>
         <div className={styles.container}>
-          <h1 className={styles.title}>Good morning Charlie!</h1>
+          <h1 className={styles.title}>Good morning {userName}!</h1>
           <p className={styles.subtitle}>
             You can change the settings for your personal data and other
             information.

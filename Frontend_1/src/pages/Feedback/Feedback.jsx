@@ -5,7 +5,11 @@ import styles from "./Feedback.module.css";
 import logo from "../../../assets/img/overwhelmed.svg";
 import Image from "../../../assets/img/vibe-o-meter.svg";
 import Cards8 from "../../components/Cards/Cards8/Cards8";
+import { useSelector } from "react-redux";
 const Feedback = () => {
+    const userName = useSelector((state) => state.user?.user?.name) 
+                  ?? JSON.parse(localStorage.getItem("user"))?.name 
+                  ?? "Guest";
   return (
     <>
       <Navbar />
@@ -35,7 +39,7 @@ const Feedback = () => {
 
         <div className={styles.content}>
         <div className={styles.text}>
-        Hi Charlie,
+        Hi {userName},
         <br /> here are the glimpse of your feedback shared with us.
         </div>
 

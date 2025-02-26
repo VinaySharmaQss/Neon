@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import { FaUser, FaEnvelope, FaLock, FaCalendarAlt, FaPhone, FaImage } from "react-icons/fa";
 import { motion } from "framer-motion";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { backendUrl } from "../../utils/utils";
 import toast from "react-hot-toast";
+import { signupReducer } from "../../redux/features/user";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,16 +20,14 @@ const Signup = () => {
     phoneNumber: "",
     Image: null,
   });
+  const [preview, setPreview] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-     
     if (name === "Image") {
-      console.log("Image selected:", files); // Debugging
-
-      if (files.length > 0) {
-        console.log("Image selected:", files[0]); // Debugging
+      if (files && files.length > 0) {
         setFormData({ ...formData, Image: files[0] });
+        setPreview(URL.createObjectURL(files[0]));
       }
     } else {
       setFormData({ ...formData, [name]: value });
@@ -35,31 +37,22 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Prepare the form data for submission
     const data = new FormData();
     data.append("name", formData.name);
     data.append("email", formData.email);
     data.append("password", formData.password);
-    data.append("DOB", new Date(formData.DOB).toISOString()); // Convert to ISO DateTime
+    data.append("DOB", new Date(formData.DOB).toISOString());
     data.append("phoneNumber", formData.phoneNumber);
-    
     if (formData.Image) {
       data.append("Image", formData.Image);
     }
 
-    // Debug: Log FormData values
-    for (let pair of data.entries()) {
-      console.log(pair[0], pair[1]);
-    }
-
     try {
-      const response = await axios.post(
-        `${backendUrl}user/signup`, 
-        data, 
-        { 
-          headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true 
-        }
-      );   
+      const response = await axios.post(`${backendUrl}user/signup`, data, {
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
+      });
 
       if (response.status === 201) {
         toast.success("User created successfully!");
@@ -71,20 +64,29 @@ const Signup = () => {
           phoneNumber: "",
           Image: null,
         });
+        setPreview(null);
+        dispatch(
+          signupReducer({
+            id: response.data.data.id,
+            name: response.data.data.name,
+            email: response.data.data.email,
+            password: response.data.data.password,
+            DOB: response.data.data.DOB,
+            phoneNumber: response.data.data.phoneNumber,
+            Image: response.data.data.Image,
+          })
+        );
         navigate("/auth/login");
-      }
-     else {
+      } else {
         toast.error("Error creating user!");
       }
     } catch (error) {
-      if(error.response.status === 409){
+      if (error.response && error.response.status === 409) {
         toast.error("User already exists!");
-      }
-      else if(error.response.status === 401){
+      } else if (error.response && error.response.status === 401) {
         toast.error("Phone number already exists!");
-      }
-      else {
-        console.log("Error submitting form:", error);
+      } else {
+        console.error("Error submitting form:", error);
         toast.error(error.response?.data?.message || "Error submitting form!");
       }
     }
@@ -101,7 +103,6 @@ const Signup = () => {
       <motion.div className="bg-white p-8 rounded shadow-md w-full max-w-md" whileHover={{ scale: 1.02 }}>
         <h1 className="text-2xl font-bold mb-6 text-center">Signup</h1>
         <form onSubmit={handleSubmit} encType="multipart/form-data" noValidate>
-          
           {/* Name Field */}
           <motion.div className="mb-4 relative">
             <FaUser className="absolute left-3 top-3 text-gray-400" />
@@ -185,6 +186,11 @@ const Signup = () => {
               onChange={handleChange}
               className="pl-10 w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-black"
             />
+            {preview && (
+              <div className="mt-2 flex justify-center">
+                <img src={preview} alt="Preview" className="w-24 h-24 object-cover rounded-full" />
+              </div>
+            )}
           </motion.div>
 
           {/* Submit Button */}

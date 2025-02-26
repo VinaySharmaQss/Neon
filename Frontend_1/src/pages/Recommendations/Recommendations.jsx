@@ -8,8 +8,12 @@ import Footer from "../../components/Footer/Footer";
 import ButtonPair from "../../UI/ButtonPair";
 import ButtonRounded from "../../UI/ButtonRounded";
 import Cards3 from "../../components/Cards/Cards3/Cards3";
+import { useSelector } from "react-redux";
 
 const Recommendations = () => {
+    const userName = useSelector((state) => state.user?.user?.name) 
+                  ?? JSON.parse(localStorage.getItem("user"))?.name 
+                  ?? "Guest";
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextCard = () => {
@@ -26,7 +30,7 @@ const Recommendations = () => {
     <>
       <Navbar />
       <div className={styles.title}>
-        <h1 style={{ fontFamily: "IvyMode" }}>Hey Charlie,</h1>
+        <h1 style={{ fontFamily: "IvyMode" }}>Hey {userName},</h1>
         <p>
           We have a few similar event for you against your today's cancelled
           event "Round of Golf" because of unfavorable conditions. And one of
@@ -52,7 +56,7 @@ const Recommendations = () => {
         </button>
       </div>
       <div className={styles.title_1}>
-        <h1>Some similar recommendation for you, Charlie.</h1>
+        <h1>Some similar recommendation for you, {userName}.</h1>
         <div className={styles.RightButtons}>
           <ButtonPair />
           <ButtonPair />

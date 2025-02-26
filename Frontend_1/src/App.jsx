@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; // Ensure correct import
 import Loader from './UI/Loader';
 import Test from './pages/Test/Test';
-import { store } from './redux/store';
+import  store from './redux/store';
 import { Provider } from 'react-redux';
 import  { Toaster } from 'react-hot-toast';
 
@@ -35,7 +35,7 @@ const App = () => {
   <Route path="/faviorates" element={<Faviorates />} />
   <Route path="/recommendations" element={<Recommendations />} />
   <Route path="/settings" element={<Settings />} />
-  <Route path="/edit-profile" element={<EditProfile />} />
+  <Route path="/edit-profile/:id" element={<EditProfile />} />
   <Route path="/user/:id" element={<Test />} /> {/* ✅ User Route */}
   <Route path="/feedback" element={<Feedback />} />
   <Route path="/auth/signup" element={<Signup />} />

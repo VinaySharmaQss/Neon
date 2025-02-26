@@ -5,14 +5,20 @@ import { card2_1Data, card3Data, card5Data } from "../../constants/data";
 import styles from "./Faviorates.module.css";
 import Card5 from "../../components/Cards/Card5/Card5";
 import Slider3 from "../../components/Slider/Slider3";
+import { useSelector } from "react-redux";
+
 const Faviorates = () => {
+    const userName = useSelector((state) => state.user?.user?.name) 
+                ?? JSON.parse(localStorage.getItem("user"))?.name 
+                ?? "Guest";
   return (
+    
     <>
       <header>
         <Navbar />
         <div className="mx-[50px] my-8">
           <h1 className="text-[26px] mt-2.5" style={{ fontFamily: "IvyMode" }}>
-            Good Morning Charlie!
+            Good Morning {userName}!
           </h1>
           <p
             className="font-brown text-[17px]  "
@@ -35,7 +41,7 @@ const Faviorates = () => {
             className={`text-[26px] ${styles.card2_text}`}
             style={{ fontFamily: "IvyMode" }}
           >
-            Today&apos;s recommendations for you, Charlie!
+            Today&apos;s recommendations for you, {userName}!
           </p>
           <div className="flex flex-wrap gap-4">
             <Slider3 cardsData={card5Data} CardComponent={Card5} />
@@ -44,7 +50,7 @@ const Faviorates = () => {
 
         <div className="flex flex-col flex-wrap gap-4">
           <p className={`text-[26px] ${styles.card2_text}`}>
-            Charlie, we have find some recommendation for you
+            {userName}, we have find some recommendation for you
           </p>
           <div className="flex flex-wrap gap-4  ml-16">
             {card3Data.map((card, index) => (

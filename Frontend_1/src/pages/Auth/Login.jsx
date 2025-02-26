@@ -5,9 +5,13 @@ import axios from "axios";
 import { backendUrl } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { loginReducer } from "../../redux/features/user";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -19,6 +23,18 @@ const Login = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  // Fetch user data by ID
+  const getUserDataById = async (userId) => {
+    try {
+      const response = await axios.get(`${backendUrl}user/${userId}`);
+      return response.data.data;
+    } catch (error) {
+      console.error("Get user data error:", error);
+      toast.error(error.response?.data?.message || "An error occurred while fetching user data.");
+      return null;
+    }
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,19 +42,30 @@ const Login = () => {
     try {
       const response = await axios.post(
         `${backendUrl}user/login`,
-        formData, // No need to use FormData for simple JSON data
+        formData,
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
-      console.log(response.data);
-      const userId = response.data.data.userId; 
-      console.log(userId);
+
       if (response.data.success) {
         toast.success("Login successful!");
-        setFormData({ email: "", password: "" }); // Clear fields
-        navigate(`/user/${userId}`); // Redirect user after login
+        const userId = response.data.data.userId;
+
+        // ✅ Fetch and store user data
+        const userData = await getUserDataById(userId);
+        if (userData) {
+          localStorage.setItem("user", JSON.stringify(userData));
+          localStorage.setItem("isLogin", "true");
+          localStorage.setItem("isSignup", "true");
+
+          // ✅ Update Redux store
+          dispatch(loginReducer(userData));
+
+          setFormData({ email: "", password: "" });
+          navigate(`/`);
+        }
       }
     } catch (error) {
       console.error("Login error:", error);

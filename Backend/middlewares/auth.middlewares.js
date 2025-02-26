@@ -5,48 +5,43 @@ import prisma from "../utils/db.js";
 
 const auth = asyncHandler(async (req, res, next) => {
   try {
-    // Extract token from cookies or Authorization header
-    const token =
-      req.cookies?.accessToken ||
-      req.headers.authorization?.replace("Bearer ", "");
-    console.log("Token:", token);
+    // Log headers and cookies for debugging
+    console.log("Request Headers:", req.headers);
+    console.log("Cookies:", req.cookies);
 
-   
+    // Extract token from cookies
+    const token = req.cookies && req.cookies.accessToken;
+    console.log("Extracted Token:", token);
+
     if (!token) {
-      throw new ApiError(401, "Invalid token");
+      return next(new ApiError(401, "Invalid token: No token provided"));
     }
 
-    // Verify the token
+    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Decoded token:", decoded);
 
+    // Find user by decoded token id
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        // Add any other fields you need, but leave out password & refreshToken
-      },
+      select: { id: true, name: true, email: true },
     });
 
-    // If no user is found, throw an error
     if (!user) {
-      throw new ApiError(401, "Invalid token");
+      return next(new ApiError(401, "Invalid token: User not found"));
     }
 
-    // Attach the user to the request object for further use
+    // Attach user to request object for later use
     req.user = user;
-
-    // Pass control to the next middleware/route handler
     next();
   } catch (error) {
-    // Handle errors accordingly
+    console.error("Auth error:", error);
     if (error.name === "TokenExpiredError") {
-      throw new ApiError(401, "Token expired");
+      return next(new ApiError(401, "Token expired"));
     } else if (error.name === "JsonWebTokenError") {
-      throw new ApiError(401, "Invalid token");
+      return next(new ApiError(401, "Invalid token"));
     } else {
-      throw new ApiError(500, "Internal server error");
+      return next(new ApiError(500, "Internal server error"));
     }
   }
 });
