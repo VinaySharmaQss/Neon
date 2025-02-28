@@ -1,12 +1,15 @@
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { backendUrl } from "../../utils/utils";
 import styles from "./Home.module.css";
 import Navbar from "../../components/Navbar/Navbar";
 import GoodMorning from "../../components/MorningText/GoodMorning";
 import Slider from "../../components/Slider/Slider";
 import Cards3 from "../../components/Cards/Cards3/Cards3";
 import Card4 from "../../components/Cards/Cards4/Card4";
+import weather from "../../../assets/img/weather.svg"
 import {
-  card1Data,
   card2Data,
   card3Data,
   card4Data,
@@ -18,11 +21,77 @@ import Cards2 from "../../components/Cards/Cards2/Cards2";
 import MapComponent from "../../components/MapComponent/MapComponent";
 import { useSelector } from "react-redux";
 
-
 const Home = () => {
-   const userName = useSelector((state) => state.user?.user?.name) 
+  const userName = useSelector((state) => state.user?.user?.name) 
                 ?? JSON.parse(localStorage.getItem("user"))?.name 
                 ?? "Guest";
+
+  const [places, setPlaces] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}places/all`, { withCredentials: true });
+        if (response.data.success) {
+          setPlaces(response.data.message);
+          toast.success(response.data.data || "Places fetched successfully");
+        } else {
+          setError("Failed to load places");
+          toast.error("Failed to load places");
+        }
+      } catch (err) {
+        console.error("Error fetching places:", err);
+        setError("Error fetching places");
+        toast.error("Error fetching places");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlaces();
+  }, []);
+
+  if (loading)
+    return (
+      <div className="text-center text-lg font-medium mt-10">
+        Loading...
+      </div>
+    );
+  if (error)
+    return (
+      <div className="text-center text-red-500 text-lg mt-10">
+        {error}
+      </div>
+    );
+  if (places.length === 0)
+    return (
+      <div className="text-center text-gray-500 text-lg mt-10">
+        No places available.
+      </div>
+    );
+
+  const card1Data = places.map((place) => ({
+    mainImage: place.mainImage,
+    weatherLogo: weather,  // Provide a default weather logo
+    temperature: place.temperature,
+    title: place.title,
+    rating: place.rating,
+    ratingNum: place.rating.toFixed(1),
+    reviews: `(${place.reviews?.length || 0})`,
+    description: place.description,
+    readMore: " read more",
+    events: [
+      { description: place.location },
+      { description: place.eventType },
+      { description: place.eventType },
+    ],
+    footerLogo: place.footerLogo,
+    footerDescription: place.footerDescription,
+    footerLink: "Schedule",
+  }));
+
   return (
     <>
       <header>

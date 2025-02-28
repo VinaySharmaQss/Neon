@@ -1,17 +1,16 @@
 .card {
   display: flex;
   flex-direction: row;
-  height: 240px; /* Increased height */
-  width: 510px; /* Increased width */
+  height: 240px;
+  width: 510px;
   border: 1px solid #222222;
-  border-radius: 12px; /* Increased border-radius */
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Increased shadow */
-  font-family: Arial, sans-serif;
-  background: #f9f7f2 0% 0% no-repeat padding-box;
-  opacity: 1;
-  justify-content:start;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #f9f7f2;
+  justify-content: start;
   gap: 10px;
+  font-family: Arial, sans-serif;
 }
 
 .left {
@@ -27,52 +26,42 @@
 
 .leftContent {
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  bottom: 2px; /* Increased bottom spacing */
+  bottom: 2px;
   left: 110px;
   color: white;
-  padding: 4px 8px; /* Increased padding */
-  border-radius: 5px; /* Increased border-radius */
+  padding: 4px 8px;
+  border-radius: 5px;
   align-items: center;
 }
 
 .mainWeather {
   display: flex;
   align-items: center;
-  gap: 4px; /* Increased gap */
-  font-size: 15px; /* Increased font size */
-
+  gap: 4px;
+  font-size: 15px;
 }
 
 .mainWeather img {
- 
-  height: 35px; /* Increased size */
+  height: 35px;
   object-fit: cover;
-}
-
-.temperture {
-  display: flex;
-  flex-direction: row;
-  gap: 4px; /* Increased gap */
-  font-size: 9px; /* Increased font size */
-  margin-top: 6px; /* Increased margin */
 }
 
 .right {
   width: 60%;
   display: flex;
-  padding: 10px 0px 10px 8px;
   flex-direction: column;
+  padding: 10px 0 10px 8px;
   justify-content: space-between;
 }
-.header{
+
+.header {
   margin-top: 0.5rem;
 }
+
 .header h1 {
   font-family: "IvyMode";
-  font: 1rem;/* Increased font size */
-  letter-spacing: 0.6px; /* Increased letter-spacing */
+  font-size: 1rem;
+  letter-spacing: 0.6px;
   color: #222222;
 }
 
@@ -80,73 +69,81 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 6px; /* Increased gap */
-  font-size: 0.8rem; /* Increased font size */
+  gap: 6px;
+  font-size: 0.8rem;
+
   color: #666;
   font-family: "BrownRegular";
-  margin-top: -0.4rem;
+  margin-bottom: 0.5em;
 }
 
 .starRating {
-  color: red;
-  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ratingValue {
+  font-weight: bold;
+  margin-left: 0.5rem;
+  color: #333;
 }
 
 .ratingNum {
-  font: normal normal normal 12px/38px BrownLight; /* Increased font size */
-  letter-spacing: 0.25px; /* Increased letter-spacing */
+  font-size: 12px;
+  font-family: BrownLight, sans-serif;
+  letter-spacing: 0.25px;
   color: #222222;
 }
 
+.reviews {
+  font-size: 0.9rem;
+  color: #888;
+}
+
 .body p {
-  font-size: 0.7rem;/* Increased font size */
-  letter-spacing: 0.3px; /* Increased letter-spacing */
+  font-size: 0.7rem;
+  letter-spacing: 0.3px;
   opacity: 1;
   font-family: "BrownRegular";
   margin-top: -0.2rem;
 }
 
 .readMore {
-  /* Increased font size */
   color: #ff385c;
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .logo_section {
   display: flex;
-  margin-top: -0.3rem;
   flex-direction: column;
-  gap: 8px; /* Increased gap */
-}
-
-.logo {
-  color: #ff385c 0% 0% no-repeat padding-box;
-  opacity: 1;
+  gap: 8px;
+  margin-top: -0.3rem;
 }
 
 .logo_content {
   display: flex;
   align-items: center;
-  gap: 4px; /* Increased gap */
-  font-size: 10px; /* Increased font size */
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
   color: #111111;
-  font: 700;
 }
 
 .footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 12px; /* Increased font size */
+  font-size: 12px;
   margin-left: -8px;
   font-family: "BrownRegular";
 }
 
 .footer_logo {
-  border-radius: 0px 0px 9px 9px; /* Increased border-radius */
-  opacity: 1;
-  margin-top: 4px; /* Increased margin */
-  padding: 8px; /* Increased padding */
+  border-radius: 0 0 9px 9px;
+  margin-top: 4px;
+  padding: 8px;
 }
 
 .footer_content {
@@ -155,18 +152,17 @@
 }
 
 .footer_description {
-   font-size: 0.7rem;/* Increased font size */
-  letter-spacing: 0px;
+  font-size: 0.7rem;
   margin-top: 8px;
-  font: 200;
   font-family: "BrownRegular";
+  font-weight: 200;
 }
 
 .footer_link {
-  font: normal normal normal 12px/15px BrownMedium; /* Increased font size */
-  letter-spacing: 0.25px; /* Increased letter-spacing */
+  font-size: 12px;
+  letter-spacing: 0.25px;
   color: #222222;
   font-family: "BrownRegular";
-  font: 800;
+  font-weight: 800;
   margin-right: 1rem;
 }

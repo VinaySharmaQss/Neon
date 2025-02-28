@@ -8,6 +8,6 @@ router.route("/signup").post(upload.single("Image"),SignUp); //signup route
 router.route("/login").post(Login); //login route
 router.route("/logout").post(auth,Logout)
 router.route("/:id").get(getUserById);
-router.route("/update/:id").put(auth,upload.single("Image"),updateUser);
+router.route("/update/:id").put(upload.single("Image"),updateUser);
 
 export default router;

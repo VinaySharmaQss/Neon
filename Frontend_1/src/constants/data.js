@@ -30,7 +30,7 @@ export const card1Data = [
     weatherLogo: weatherLogo,
     temperature: "18",
     title: "Round of Golf",
-    rating: "★★★★★",
+    rating: "4.5",
     ratingNum: "4.5",
     reviews: "(23 reviews)",
     description:
@@ -56,7 +56,7 @@ export const card1Data = [
     weatherLogo: weatherLogo,
     temperature: "22",
     title: "Beach Volleyball",
-    rating: "★★★★☆",
+    rating: "4.0",
     ratingNum: "4.0",
     reviews: "(15 reviews)",
     description:
@@ -82,7 +82,7 @@ export const card1Data = [
     weatherLogo: weatherLogo,
     temperature: "25",
     title: "Mountain Hiking",
-    rating: "★★★★★",
+    rating: "4.0",
     ratingNum: "4.8",
     reviews: "(30 reviews)",
     description:
@@ -108,7 +108,7 @@ export const card1Data = [
     weatherLogo: weatherLogo,
     temperature: "18",
     title: "Round of Golf",
-    rating: "★★★★★",
+    rating: "4.0",
     ratingNum: "4.5",
     reviews: "(23 reviews)",
     description:

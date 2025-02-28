@@ -12,58 +12,76 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Role {
+  ADMIN
+  USER
+}
+
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  Image       String?
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  password     String
+  Image        String?
   phoneNumber  String   @unique
-  DOB         DateTime
+  DOB          DateTime
+  role         Role     @default(USER)
+  favorites    Place[]
+  journey      Int[]
+  reviews      Review[]
+  cusines      Cuisines[]
   refreshToken String?
-  accessToken String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Place {
   id                Int      @id @default(autoincrement())
-  title             String   // e.g. "Round of Golf"
-  mainImage         String   // e.g. cardImg3_4
-  weatherLogo       String?   // e.g. weatherLogo // uda do aur hardcode kr do
-  temperature       String   // e.g. "18"
-  rating            Float   // e.g. "★★★★★"   // e.g. "4.5" we can drive the rating stars by this in the frontend 
+  title             String
+  mainImage         String
+  temperature       String
+  rating            Float
   description       String
-  eventTime        DateTime
+  eventTime         DateTime
+  eventEndTime      DateTime
   location          String
-  eventType         String   // e.g. "Golf"
+  eventType         String
   footerLogo        String
   footerDescription String
-  reviews           Review[] // One-to-many relationship with Review
-  // You may also add an events field here as a relation or JSON field if needed
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  reviews           Review[]
+  favoritedBy       User?    @relation(fields: [userId], references: [id]) 
+  userId            Int?
+  category          String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 model Review {
   id         Int      @id @default(autoincrement())
-  userImage  String?  // URL or reference to user's image (optional)
-  userName   String   // e.g. "Anastasia"
-  reviewDate DateTime // Store the review date (convert "Nov 2022" to a Date)
+  userImage  String?
+  userName   String
+  reviewDate DateTime
   reviewText String
-  rating     Float    // e.g. 4.8
+  rating     Float
   place      Place    @relation(fields: [placeId], references: [id])
   placeId    Int
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  cusine    Cuisines @relation(fields: [cusineId], references: [id])
+  cusineId Int
 }
 
-model Cusines{
-  id        Int      @id @default(autoincrement())
-  logo      String
-  title     String
-  date      DateTime
+model Cuisines {
+  id          Int      @id @default(autoincrement())
+  logo        String
+  title       String
+  date        DateTime
   description String
-  accepted  Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  cusine      User    @relation(fields: [userId], references: [id])
+  userId      Int
+  reviews     Review[]
+  accepted    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
-
