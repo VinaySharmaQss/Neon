@@ -8,8 +8,9 @@ import GoodMorning from "../../components/MorningText/GoodMorning";
 import Slider from "../../components/Slider/Slider";
 import Cards3 from "../../components/Cards/Cards3/Cards3";
 import Card4 from "../../components/Cards/Cards4/Card4";
-import weather from "../../../assets/img/weather.svg"
+import weather from "../../../assets/img/weather.svg";
 import {
+  card1Data,
   card2Data,
   card3Data,
   card4Data,
@@ -25,7 +26,10 @@ const Home = () => {
   const userName = useSelector((state) => state.user?.user?.name) 
                 ?? JSON.parse(localStorage.getItem("user"))?.name 
                 ?? "Guest";
-
+  const isLogin = useSelector((state) => state.user?.isLogin)
+                ?? JSON.parse(localStorage.getItem("isLogin"))
+                ?? false;
+                
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -72,7 +76,7 @@ const Home = () => {
       </div>
     );
 
-  const card1Data = places.map((place) => ({
+  const card1Data1 = places.map((place) => ({
     mainImage: place.mainImage,
     weatherLogo: weather,  // Provide a default weather logo
     temperature: place.temperature,
@@ -83,15 +87,28 @@ const Home = () => {
     description: place.description,
     readMore: " read more",
     events: [
+      { description: new Date(place.eventTime).toLocaleString() },
       { description: place.location },
       { description: place.eventType },
-      { description: place.eventType },
     ],
+    eventEndTime: new Date(place.eventEndTime).toLocaleString(),
     footerLogo: place.footerLogo,
     footerDescription: place.footerDescription,
     footerLink: "Schedule",
   }));
-
+  const cardData = places.map((place, index) => ({
+    mainImage: place.mainImage,
+    // Using a default icon URL (adjust as needed)
+    icon: "https://via.placeholder.com/20",
+    title: place.title,
+    date: new Date(place.eventTime).toLocaleString(),
+    description: place.description,
+    // Use eventEndTime as the time (formatted as a locale time string)
+    time: new Date(place.eventEndTime).toLocaleTimeString(),
+    cardNumber: index + 1,
+    // cardIcon is optional; leaving it as an empty string for now.
+    cardIcon: "",
+  }));
   return (
     <>
       <header>
@@ -100,7 +117,7 @@ const Home = () => {
       </header>
 
       <main>
-        <Slider cardsData={card1Data} CardComponent={Cards1} />
+        <Slider cardsData={isLogin ? card1Data1 : card1Data} CardComponent={Cards1} />
         <div className="flex flex-col flex-wrap gap-4">
           <p
             className="text-[26px] mb-4 mt-16 ml-[50px]"

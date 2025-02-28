@@ -18,6 +18,7 @@ const Cards1 = ({
   description,
   readMore,
   events,
+  eventEndTime,
   footerLogo,
   footerDescription,
   footerLink
@@ -77,7 +78,7 @@ const Cards1 = ({
               <PiBagSimpleLight style={{ fontSize: "0.8rem", color: "red" }} />
             </div>
             <div className={styles.logo_description}>
-              {events[0]?.description}
+              {events[0]?.description} - {eventEndTime}
             </div>
           </div>
           <div className={styles.logo_content}>
