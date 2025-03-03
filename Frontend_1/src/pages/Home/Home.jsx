@@ -21,6 +21,7 @@ import Cards1 from "../../components/Cards/Cards1/Cards1";
 import Cards2 from "../../components/Cards/Cards2/Cards2";
 import MapComponent from "../../components/MapComponent/MapComponent";
 import { useSelector } from "react-redux";
+import Loader from "../../UI/Loader";
 
 const Home = () => {
   const userName = useSelector((state) => state.user?.user?.name) 
@@ -60,7 +61,7 @@ const Home = () => {
   if (loading)
     return (
       <div className="text-center text-lg font-medium mt-10">
-        Loading...
+        <Loader/>
       </div>
     );
   if (error)
@@ -96,18 +97,16 @@ const Home = () => {
     footerDescription: place.footerDescription,
     footerLink: "Schedule",
   }));
-  const cardData = places.map((place, index) => ({
+  const card3Data_User = places.slice(0,5).map((place,index)=>({
+    id: place.id,
     mainImage: place.mainImage,
-    // Using a default icon URL (adjust as needed)
-    icon: "https://via.placeholder.com/20",
-    title: place.title,
-    date: new Date(place.eventTime).toLocaleString(),
-    description: place.description,
-    // Use eventEndTime as the time (formatted as a locale time string)
-    time: new Date(place.eventEndTime).toLocaleTimeString(),
-    cardNumber: index + 1,
-    // cardIcon is optional; leaving it as an empty string for now.
-    cardIcon: "",
+    icon: place.footerLogo,
+    category: place.category,
+    title: place.footerDescription.slice(0, 20),
+    description: place.title,
+    time: `${new Date(place.eventTime).toLocaleTimeString()} - ${new Date(place.eventEndTime).toLocaleTimeString()}`,
+    location: place.location, 
+    cardNumber: index+1
   }));
   return (
     <>
@@ -146,7 +145,9 @@ const Home = () => {
               Today&apos;s recommendations for you, {userName}!
             </p>
             <div className="flex flex-wrap gap-4  ml-16">
-              {card3Data.map((card, index) => (
+              {isLogin ? card3Data_User.map((card, index) => (
+                <Cards3 key={index} {...card} />
+              )) : card3Data.map((card, index) => (
                 <Cards3 key={index} {...card} />
               ))}
             </div>

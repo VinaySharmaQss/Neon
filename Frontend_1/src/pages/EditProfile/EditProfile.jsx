@@ -30,12 +30,12 @@ const EditProfile = () => {
     interests: "",
     Image: "",
   });
-  
+
   const [selected, setSelected] = useState([]);
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  
+
   // Helper function to format date to "yyyy-MM-dd"
   const formatDate = (dateString) => {
     return new Date(dateString).toISOString().split("T")[0];
@@ -46,14 +46,13 @@ const EditProfile = () => {
       try {
         const response = await axios.get(`${backendUrl}user/${id}`);
         const userData = response.data?.data;
-        console.log(userData);
         if (userData) {
           setFormData({
             name: userData.name || "",
             email: userData.email || "",
             phone: userData.phoneNumber || "",
             birthday: userData.DOB ? formatDate(userData.DOB) : "",
-            interests: userData.interests || "",
+            interests: userData.interests ? userData.interests.join(", ") : "",
             Image: userData.Image || "",
           });
           setSelected(userData.interests || []); // Prefill interests
@@ -90,12 +89,27 @@ const EditProfile = () => {
     );
   };
 
+  useEffect(() => {
+    setFormData((prevState) => ({
+      ...prevState,
+      interests: selected.join(", "),
+    }));
+  }, [selected]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+
+    // Handle manual interest entry from input
+    if (name === "interests") {
+      const updatedInterests = value
+        .split(",")
+        .map((interest) => interest.trim());
+      setSelected(updatedInterests);
+    }
   };
 
   // Handle file selection for profile image update
@@ -116,7 +130,9 @@ const EditProfile = () => {
     setMessage("");
 
     // Convert birthday to ISO-8601 string
-    const formattedDOB = formData.birthday ? new Date(formData.birthday).toISOString() : "";
+    const formattedDOB = formData.birthday
+      ? new Date(formData.birthday).toISOString()
+      : "";
 
     try {
       let response;
@@ -127,21 +143,24 @@ const EditProfile = () => {
         formDataObj.append("phoneNumber", formData.phone);
         formDataObj.append("DOB", formattedDOB);
         formDataObj.append("interests", JSON.stringify(selected));
-        // Change field name to "image" to match multer config
         formDataObj.append("Image", imageFile);
-
-        response = await axios.put(`${backendUrl}user/update/${id}`, formDataObj, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        response = await axios.put(
+          `${backendUrl}user/update/${id}`,
+          formDataObj,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
       } else {
         const payload = {
           name: formData.name,
           phoneNumber: formData.phone,
           DOB: formattedDOB,
-          interests: selected,
+          interest: selected,
         };
+        console.log("Payload:", payload);
         response = await axios.put(`${backendUrl}user/update/${id}`, payload);
       }
 
@@ -154,7 +173,9 @@ const EditProfile = () => {
             email: updatedUser.email || "",
             phone: updatedUser.phoneNumber || "",
             birthday: updatedUser.DOB ? formatDate(updatedUser.DOB) : "",
-            interests: updatedUser.interests || "",
+            interests: updatedUser.interests
+              ? updatedUser.interests.join(", ")
+              : "",
             Image: updatedUser.Image || "",
           });
           setSelected(updatedUser.interests || []);
@@ -179,7 +200,10 @@ const EditProfile = () => {
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.title}>Edit Charlie&apos;s Profile</div>
           <div className={styles.content}>
-            <div className={styles.imgWrapper} onClick={() => fileInputRef.current.click()}>
+            <div
+              className={styles.imgWrapper}
+              onClick={() => fileInputRef.current.click()}
+            >
               <img
                 src={formData.Image || Image}
                 alt="profile"
@@ -254,7 +278,9 @@ const EditProfile = () => {
               {interestsData.map(({ name, img }) => (
                 <div
                   key={name}
-                  className={`${styles.card} ${selected.includes(name) ? styles.selected : ""}`}
+                  className={`${styles.card} ${
+                    selected.includes(name) ? styles.selected : ""
+                  }`}
                   onClick={() => toggleInterest(name)}
                 >
                   <img src={img} alt={name} className={styles.image} />
@@ -263,7 +289,10 @@ const EditProfile = () => {
               ))}
             </div>
 
-            <label htmlFor="interests" style={{ marginLeft: "12.5vw", fontSize: "12px" }}>
+            <label
+              htmlFor="interests"
+              style={{ marginLeft: "12.5vw", fontSize: "12px" }}
+            >
               Please let us know if you have some interests
             </label>
             <input
@@ -275,24 +304,24 @@ const EditProfile = () => {
               value={formData.interests}
               onChange={handleChange}
             />
-          </div>
 
-          {message && <p className={styles.message}>{message}</p>}
+            {message && <p className={styles.message}>{message}</p>}
 
-          <div className={styles.buttonContainer}>
-            <button
-              type="submit"
-              className="bg-red-500 text-white px-6 py-2 rounded-md shadow-md hover:bg-red-600 transition"
-              disabled={loading}
-            >
-              {loading ? "Saving..." : "Save"}
-            </button>
-            <button
-              type="button"
-              className="border border-gray-400 text-gray-700 px-6 py-2 rounded-md shadow-md hover:bg-gray-100 transition"
-            >
-              Cancel
-            </button>
+            <div className={styles.buttonContainer}>
+              <button
+                type="submit"
+                className="bg-red-500 text-white px-6 py-2 rounded-md shadow-md hover:bg-red-600 transition"
+                disabled={loading}
+              >
+                {loading ? "Saving..." : "Save"}
+              </button>
+              <button
+                type="button"
+                className="border border-gray-400 text-gray-700 px-6 py-2 rounded-md shadow-md hover:bg-gray-100 transition"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </form>
       </div>

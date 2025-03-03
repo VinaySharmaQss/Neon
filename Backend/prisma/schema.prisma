@@ -29,6 +29,8 @@ model User {
   role         Role     @default(USER)
   favorites    Place[]
   journey      Int[]
+  viewed       Int[]
+  interest     String[]
   reviews      Review[]
   cusines      Cuisines[]
   refreshToken String?

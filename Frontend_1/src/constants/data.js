@@ -429,7 +429,6 @@ export const card5Data = [
     mainImage: Image2,
     title: "Explore the deep sea",
     date: "From Nov 10 to 29, 2022",
-    description: "Explore the deep sea",
     time: "10:30 AM - 7:30 PM",
     logo: logo,
   },

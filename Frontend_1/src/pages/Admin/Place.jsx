@@ -8,7 +8,7 @@ const PlaceForm = () => {
   const [formData, setFormData] = useState({
     title: "",
     temperature: "",
-    rating: "0", 
+    rating: "0",
     description: "",
     eventTime: "",
     eventEndTime: "",
@@ -59,8 +59,8 @@ const PlaceForm = () => {
       !formData.footerDescription ||
       !mainImageFile ||
       !footerLogoFile ||
-      !eventEndTime ||
-      !category
+      !formData.eventEndTime ||
+      !formData.category
     ) {
       toast.error("All fields are required");
       return;
@@ -97,6 +97,8 @@ const PlaceForm = () => {
           rating: "3",
           description: "",
           eventTime: "",
+          eventEndTime: "",
+          category: "",
           location: "",
           eventType: "",
           footerDescription: "",
@@ -120,25 +122,25 @@ const PlaceForm = () => {
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className={styles.field}>
           <label htmlFor="title">Title</label>
-          <input 
-            type="text" 
-            id="title" 
-            name="title" 
-            value={formData.title} 
-            onChange={handleChange} 
-            required 
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            required
           />
         </div>
 
         <div className={styles.field}>
           <label htmlFor="mainImage">Main Image</label>
-          <input 
-            type="file" 
-            id="mainImage" 
-            name="mainImage" 
-            accept="image/*" 
-            onChange={handleFileChange} 
-            required 
+          <input
+            type="file"
+            id="mainImage"
+            name="mainImage"
+            accept="image/*"
+            onChange={handleFileChange}
+            required
           />
           {mainImagePreview && (
             <div className={styles.preview}>
@@ -149,14 +151,14 @@ const PlaceForm = () => {
 
         <div className={styles.field}>
           <label htmlFor="temperature">Temperature</label>
-          <input 
-            type="text" 
-            id="temperature" 
-            name="temperature" 
-            value={formData.temperature} 
-            onChange={handleChange} 
-            placeholder="e.g., 18" 
-            required 
+          <input
+            type="text"
+            id="temperature"
+            name="temperature"
+            value={formData.temperature}
+            onChange={handleChange}
+            placeholder="e.g., 18"
+            required
           />
         </div>
 
@@ -164,103 +166,109 @@ const PlaceForm = () => {
           <label htmlFor="rating">
             Rating: <span className={styles.ratingValue}>{formData.rating}</span>
           </label>
-          <input 
-            type="range" 
-            id="rating" 
-            name="rating" 
-            value={formData.rating} 
-            onChange={handleChange} 
-            min="1" 
-            max="5" 
-            step="0.1" 
-            required 
+          <input
+            type="range"
+            id="rating"
+            name="rating"
+            value={formData.rating}
+            onChange={handleChange}
+            min="1"
+            max="5"
+            step="0.1"
+            required
           />
         </div>
 
         <div className={styles.field}>
           <label htmlFor="description">Description</label>
-          <textarea 
-            id="description" 
-            name="description" 
-            value={formData.description} 
-            onChange={handleChange} 
-            required 
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            required
           ></textarea>
         </div>
 
         <div className={styles.field}>
-          <label htmlFor="eventTime">Event Start </label>
-          <input 
-            type="datetime-local" 
-            id="eventTime" 
-            name="eventTime" 
-            value={formData.eventTime} 
-            onChange={handleChange} 
-            required 
+          <label htmlFor="eventTime">Event Start</label>
+          <input
+            type="datetime-local"
+            id="eventTime"
+            name="eventTime"
+            value={formData.eventTime}
+            onChange={handleChange}
+            required
           />
         </div>
-        
+
         <div className={styles.field}>
-          <label htmlFor="eventTime">Event End Time </label>
-          <input 
-            type="datetime-local" 
-            id="eventEndTime" 
-            name="eventEndTime" 
-            value={formData.eventEndTime} 
-            onChange={handleChange} 
-            required 
+          <label htmlFor="eventEndTime">Event End Time</label>
+          <input
+            type="datetime-local"
+            id="eventEndTime"
+            name="eventEndTime"
+            value={formData.eventEndTime}
+            onChange={handleChange}
+            required
           />
         </div>
 
         <div className={styles.field}>
           <label htmlFor="location">Location</label>
-          <input 
-            type="text" 
-            id="location" 
-            name="location" 
-            value={formData.location} 
-            onChange={handleChange} 
-            required 
+          <input
+            type="text"
+            id="location"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            required
           />
         </div>
 
-         <div className={styles.field}>
+        <div className={styles.field}>
           <label htmlFor="category">Category</label>
-          <select id="category" name="category" value={formData.category} onChange={handleChange} required> 
+          <select
+            id="category"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            required
+          >
             <option value="">Select a category</option>
-            <option value="Standup Comedy">StandupCategory</option>
-            <option value="Ramp Walk">Ramp Walk</option>
+            <option value="Stand Up Comedy">Stand Up Comedy</option>
+            <option value="RAMP Walk">RAMP Walk</option>
             <option value="Box Cricket">Box Cricket</option>
-            <option value="Cricket" >Cricket</option>
-            <option value="Golf tornament">Golf tournament</option>
+            <option value="Swimming">Swimming</option>
+            <option value="Golf Tournament">Golf Tournament</option>
             <option value="Singing">Singing</option>
-           <option value="Talk Show">Talk Show</option>
-           <option value="Kite Surfing">Kite Surfing</option>
-           <option value="Box Exihibtion">Box Exhibition</option>         
-         </select>
-         </div>
+            <option value="Talk Shows">Talk Shows</option>
+            <option value="Kite Surfing">Kite Surfing</option>
+            <option value="Book Exhibitions">Book Exhibitions</option>
+          </select>
+        </div>
 
         <div className={styles.field}>
           <label htmlFor="eventType">Event Type</label>
-          <input 
-            type="text" 
-            id="eventType" 
-            name="eventType" 
-            value={formData.eventType} 
-            onChange={handleChange} 
-            required 
+          <input
+            type="text"
+            id="eventType"
+            name="eventType"
+            value={formData.eventType}
+            onChange={handleChange}
+            required
           />
         </div>
 
         <div className={styles.field}>
           <label htmlFor="footerLogo">Footer Logo</label>
-          <input 
-            type="file" 
-            id="footerLogo" 
-            name="footerLogo" 
-            accept="image/*" 
-            onChange={handleFileChange} 
-            required 
+          <input
+            type="file"
+            id="footerLogo"
+            name="footerLogo"
+            accept="image/*"
+            onChange={handleFileChange}
+            required
           />
           {footerLogoPreview && (
             <div className={styles.preview}>
@@ -271,12 +279,12 @@ const PlaceForm = () => {
 
         <div className={styles.field}>
           <label htmlFor="footerDescription">Footer Description</label>
-          <textarea 
-            id="footerDescription" 
-            name="footerDescription" 
-            value={formData.footerDescription} 
-            onChange={handleChange} 
-            required 
+          <textarea
+            id="footerDescription"
+            name="footerDescription"
+            value={formData.footerDescription}
+            onChange={handleChange}
+            required
           ></textarea>
         </div>
 

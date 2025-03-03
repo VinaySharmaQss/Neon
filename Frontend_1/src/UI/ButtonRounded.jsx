@@ -1,16 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 
-const ButtonRounded = ({ children, width }) => {
-  const [selected, setSelected] = useState(false);
-
+const ButtonRounded = ({ children, width, active, onClick }) => {
   return (
     <button
-      onClick={() => setSelected(!selected)}
-      className={`w-${width} h-8 text-[10px] flex  justify-center px-3 items-center rounded-full transition-all border-[1px] border-black ${
-        selected ? "bg-black text-white border-2 border-white" : "text-black"
-      }`
-    }
-    style={{ fontFamily: "BrownRegular" }}
+      onClick={onClick}
+      className={`w-${width} h-8 text-[10px] flex justify-center px-3 items-center rounded-full transition-all border-[1px] border-black ${
+        active ? "bg-black text-white border-2 " : "text-black"
+      }`}
+      style={{ fontFamily: "BrownRegular" }}
     >
       {children}
     </button>
@@ -18,4 +15,3 @@ const ButtonRounded = ({ children, width }) => {
 };
 
 export default ButtonRounded;
-

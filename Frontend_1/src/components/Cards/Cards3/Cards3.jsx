@@ -3,7 +3,7 @@ import styles from './Cards3.module.css';
 import { FiHeart } from "react-icons/fi";
 import RemoveBtn from '../../../UI/RemoveBtn';
 
-const Cards3 = ({ mainImage, icon, title, date, description, time, cardNumber, cardIcon }) => {
+const Cards3 = ({id , mainImage, icon, title, date, description, time, cardNumber, cardIcon }) => {
   return (
     <div className={styles.container}>
       <div className={styles.card}>

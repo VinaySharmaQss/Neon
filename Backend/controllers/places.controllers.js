@@ -118,9 +118,6 @@ const updatePlace = asyncHandler(async (req, res) => {
         footerLink,
       };
   
-      // Check if new files have been provided and update images accordingly.
-      // Depending on your file upload configuration (e.g., using multer's upload.fields),
-      // req.files might contain separate arrays for mainImage and footerLogo.
       if (req.files && req.files.mainImage) {
         // Assume req.files.mainImage is an array (e.g., when using upload.fields)
         const mainImagePath = req.files.mainImage[0].path;
@@ -146,6 +143,37 @@ const updatePlace = asyncHandler(async (req, res) => {
     }
   });
   
+  const addViewedPlace = asyncHandler(async (req, res, next) => {
+    // Expect userId and placeId in the body (or get userId from req.user if using auth middleware)
+    const { userId, placeId } = req.body;
+    if (!userId || !placeId) {
+      return next(new ApiError(400, "userId and placeId are required"));
+    }
+    // Update the user's viewed array by pushing the new placeId
+    const updatedUser = await prisma.user.update({
+      where: { id: parseInt(userId, 10) },
+      data: { 
+        viewed: { push: parseInt(placeId, 10) } 
+      },
+    });
+    res.status(200).json(new ApiResponse(200, updatedUser.viewed, "Place added to viewed"));
+  });
 
+  const getViewedPlaces = asyncHandler(async (req, res, next) => {
+    const userId = parseInt(req.params.userId, 10);
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+    if (!user) {
+      return next(new ApiError(404, "User not found"));
+    }
+    // user.viewed is an array of place IDs
+    const viewedPlaces = await prisma.place.findMany({
+      where: {
+        id: { in: user.viewed || [] },
+      },
+    });
+    res.status(200).json(new ApiResponse(200, viewedPlaces, "Viewed places fetched successfully"));
+  });
 
-export { createPlace,getPlaceById , getAllPlaces, updatePlace};
+export { createPlace,getPlaceById , getAllPlaces, updatePlace, addViewedPlace, getViewedPlaces };

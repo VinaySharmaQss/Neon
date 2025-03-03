@@ -134,7 +134,7 @@ const getUserById = asyncHandler(async (req, res, next) => {
 // UPDATE USER (with optional image update)
 const updateUser = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const { name, phoneNumber, DOB } = req.body;
+  const { name, phoneNumber, DOB,interest } = req.body;
   
   const user = await prisma.user.findUnique({
     where: { id: parseInt(id, 10) },
@@ -143,8 +143,13 @@ const updateUser = asyncHandler(async (req, res, next) => {
   if (!user) {
     return next(new ApiError(404, "User not found"));
   }
-
-  let updatedData = { name, phoneNumber, DOB };
+  const interests = user.interest;
+  for(let i=0;i<interest.length;i++){
+    if(!interests.includes(interest[i])){
+      interests.push(interest[i]);
+    }
+  }
+  let updatedData = { name, phoneNumber, DOB,interest:interests };
 
   // If a new image file is provided, upload it
   if (req.file?.path) {
