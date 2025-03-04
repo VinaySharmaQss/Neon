@@ -31,7 +31,7 @@ const Cards1 = ({
   };
 
   return (
-    <div className={styles.card}>
+    <div className={styles.card} >
       <div className={styles.left}>
         <div className={styles.mainImage}>
           <img src={mainImage} alt={title} />

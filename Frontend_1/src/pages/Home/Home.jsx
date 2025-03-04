@@ -30,16 +30,43 @@ const Home = () => {
   const isLogin = useSelector((state) => state.user?.isLogin)
                 ?? JSON.parse(localStorage.getItem("isLogin"))
                 ?? false;
+
+  const userId = useSelector((state) => state.user?.user?.id) 
+                ?? JSON.parse(localStorage.getItem("user"))?.id
+                ?? null;              
                 
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [viewedPlaces, setViewedPlaces] = useState([]);
+
+
+  // fetch the user's viewed places
+   useEffect(() => {
+    const fetchViewedPlaces = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}places/viewed/${userId}`, { withCredentials: true });
+        if (response.data.success) {
+          console.log(response.data?.data);
+          setViewedPlaces(response?.data.data);
+        } else {
+          setError("Failed to load viewed places");
+          toast.error("Failed to load viewed places");
+        }
+      } catch (err) {
+        console.error("Error fetching viewed places:", err);
+        toast.error("Error fetching viewed places");
+      } 
+    }
+    fetchViewedPlaces();
+  }, [userId]);
 
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
         const response = await axios.get(`${backendUrl}places/all`, { withCredentials: true });
         if (response.data.success) {
+         
           setPlaces(response.data.message);
           toast.success(response.data.data || "Places fetched successfully");
         } else {
@@ -77,9 +104,10 @@ const Home = () => {
       </div>
     );
 
-  const card1Data1 = places.map((place) => ({
+  const card1Data1 = viewedPlaces.map((place) => ({
+    id: place.id,
     mainImage: place.mainImage,
-    weatherLogo: weather,  // Provide a default weather logo
+    weatherLogo: weather,  
     temperature: place.temperature,
     title: place.title,
     rating: place.rating,

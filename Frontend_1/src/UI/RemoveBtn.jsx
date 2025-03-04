@@ -1,8 +1,9 @@
 
 
-const RemoveBtn = () => {
+const RemoveBtn = ({ onClick }) => {
   return (
     <button
+      onClick={onClick}
       className='bg-white text-red-500 hover:bg-red-500 hover:text-white font-bold py-1 px-2 mt-1 rounded-full'
       style={{
         fontFamily: 'BrownRegular, sans-serif',

@@ -15,8 +15,6 @@ import { backendUrl } from "../../utils/utils";
 import styles from "./Faviorates.module.css";
 
 const Faviorates = () => {
-
- 
   const userName =
     useSelector((state) => state.user?.user?.name) ??
     JSON.parse(localStorage.getItem("user"))?.name ??
@@ -27,9 +25,16 @@ const Faviorates = () => {
     JSON.parse(localStorage.getItem("isLogin")) ??
     false;
 
+  const userId =
+    useSelector((state) => state.user?.user?.id) ??
+    JSON.parse(localStorage.getItem("user"))?.id ??
+    null;
+
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [favorites, setFavorites] = useState([]);
+
 
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -55,7 +60,59 @@ const Faviorates = () => {
 
     fetchPlaces();
   }, []);
-  
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const response = await axios.get(
+          `${backendUrl}places/getAllFavourite/${userId}`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        if (response.data.success) {
+          setFavorites(response.data.data); // Assuming `data` holds the favorites array
+          toast.success("Favorites fetched successfully");
+        } else {
+          setError("Failed to load favorites");
+          toast.error("Failed to load favorites");
+        }
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+        setError("Error fetching favorites");
+        toast.error(error.response?.data?.message || "Error fetching favorites");
+      }
+    };
+
+    if (userId) {
+      fetchFavorites();
+    }
+  }, [userId]);
+
+  const handleRemoveFavorite = async (placeId) => {
+    try {
+      const response = await axios.delete(
+        `${backendUrl}places/removeFavourite/${userId}/${placeId}`,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.data.success) {
+        setFavorites((prevFavorites) =>
+          prevFavorites.filter((place) => place.id !== placeId)
+        );
+        toast.success("Favorite removed successfully");
+      } else {
+        toast.error("Failed to remove favorite");
+      }
+    } catch (error) {
+      console.error("Error removing favorite:", error);
+      toast.error(error.response?.data?.message || "Error removing favorite");
+    }
+  };
+
   if (loading)
     return (
       <div className="text-center text-lg font-medium mt-10">
@@ -82,7 +139,9 @@ const Faviorates = () => {
     category: place.category,
     title: place.footerDescription?.slice(0, 20) || "",
     description: place.title,
-    time: `${new Date(place.eventTime).toLocaleTimeString()} - ${new Date(place.eventEndTime).toLocaleTimeString()}`,
+    time: `${new Date(place.eventTime).toLocaleTimeString()} - ${new Date(
+      place.eventEndTime
+    ).toLocaleTimeString()}`,
     location: place.location,
     cardNumber: index + 1,
   }));
@@ -90,12 +149,30 @@ const Faviorates = () => {
   const card5DataUser = places.slice(0, 5).map((place) => ({
     id: place.id, // Use a comma here
     title: place.title,
-    date: `From ${new Date(place.eventTime).toLocaleDateString()} to ${new Date(place.eventEndTime).toLocaleDateString()}`,
-    time: `${new Date(place.eventTime).toLocaleTimeString()} - ${new Date(place.eventEndTime).toLocaleTimeString()}`,
+    date: `From ${new Date(place.eventTime).toLocaleDateString()} to ${new Date(
+      place.eventEndTime
+    ).toLocaleDateString()}`,
+    time: `${new Date(place.eventTime).toLocaleTimeString()} - ${new Date(
+      place.eventEndTime
+    ).toLocaleTimeString()}`,
     mainImage: place.mainImage,
     logo: place.footerLogo,
   }));
-  
+
+  const card2_1DataUser = favorites.map((place, index) => ({
+    id: place.id,
+    mainImage: place.mainImage,
+    icon: place.footerLogo,
+    category: place.category,
+    title: place.footerDescription?.slice(0, 20) || "",
+    description: place.title,
+    time: `${new Date(place.eventTime).toLocaleTimeString()} - ${new Date(
+      place.eventEndTime
+    ).toLocaleTimeString()}`,
+    location: place.location,
+    cardNumber: index + 1,
+    onRemove: () => handleRemoveFavorite(place.id), // Add onRemove handler
+  }));
 
   return (
     <>
@@ -116,9 +193,13 @@ const Faviorates = () => {
 
       <main>
         <div className="grid grid-cols-5 mr-24 ml-12">
-          {card2_1Data.map((card, index) => (
-            <Cards3 key={index} {...card} cardIcon={true} />
-          ))}
+          {isLogin
+            ? card2_1DataUser.map((card, index) => (
+                <Cards3 key={index} {...card} cardIcon={true}  />
+              ))
+            : card2_1Data.map((card, index) => (
+                <Cards3 key={index} {...card} cardIcon={true} />
+              ))}
         </div>
 
         <div className="flex flex-col flex-wrap gap-4">
@@ -129,9 +210,11 @@ const Faviorates = () => {
             Today&apos;s recommendations for you, {userName}!
           </p>
           <div className="flex flex-wrap gap-4">
-            {isLogin ?
+            {isLogin ? (
               <Slider3 cardsData={card5DataUser} CardComponent={Card5} />
-            :<Slider3 cardsData={card5Data} CardComponent={Card5} />}
+            ) : (
+              <Slider3 cardsData={card5Data} CardComponent={Card5} />
+            )}
           </div>
         </div>
 

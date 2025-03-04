@@ -63,7 +63,7 @@ model Review {
   id         Int      @id @default(autoincrement())
   userImage  String?
   userName   String
-  reviewDate DateTime
+  reviewDate DateTime  @default(now())
   reviewText String
   rating     Float
   place      Place    @relation(fields: [placeId], references: [id])
