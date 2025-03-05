@@ -22,6 +22,7 @@ import Cards2 from "../../components/Cards/Cards2/Cards2";
 import MapComponent from "../../components/MapComponent/MapComponent";
 import { useSelector } from "react-redux";
 import Loader from "../../UI/Loader";
+import ReviewModal from "../../components/Modal/Modal";
 
 const Home = () => {
   const userName = useSelector((state) => state.user?.user?.name) 
@@ -34,7 +35,8 @@ const Home = () => {
   const userId = useSelector((state) => state.user?.user?.id) 
                 ?? JSON.parse(localStorage.getItem("user"))?.id
                 ?? null;              
-                
+  
+
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -136,6 +138,34 @@ const Home = () => {
     location: place.location, 
     cardNumber: index+1
   }));
+  const card2DataUser = places.slice(0,5).map((place,index)=>({
+    id: place.id,
+    mainImage: place.mainImage,
+    logo: place.footerLogo,
+    description: place.description.slice(0, 300),
+    date:new Date(place.eventEndTime).toLocaleString(),
+    visited:place.visited,
+    button1: [
+      {
+        text: "Yes, I accept",
+        class: "btn_black",
+      },
+      {
+        text: "No, thanks",
+        class: "btn_white",
+      },
+    ],
+    button2: [
+      {
+        text: "Yes, I would share",
+        class: "btn_black",
+      },
+      {
+        text: "Remind me later",
+        class: "btn_white",
+      },
+    ],
+  }))
   return (
     <>
       <header>
@@ -152,7 +182,7 @@ const Home = () => {
           >
             {userName}, hope we understand you better
           </p>
-          <Slider cardsData={card2Data} CardComponent={Cards2} />
+          <Slider cardsData={card2DataUser} CardComponent={Cards2} />
         </div>
         {/* CARD-3 */}
         <div className="flex flex-col flex-wrap gap-4">

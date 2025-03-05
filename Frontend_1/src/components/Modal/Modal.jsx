@@ -1,187 +1,161 @@
-import React, { useState } from "react";
-import { Star } from "lucide-react"; // Using lucide-react for star icons
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { Star } from "lucide-react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { modalToggle, postReview } from "../../redux/features/modal";
 
-const ReviewModal = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
-  const [ratings, setRatings] = useState({
-    quality: 0,
-    services: 0,
-    facilities: 0,
-    operator: 0,
-    politeness: 0,
-  });
+const categories = [
+  { key: "quality", label: "Quality of Event" },
+  { key: "services", label: "Services at Event" },
+  { key: "facilities", label: "Facilities of Event" },
+  { key: "operator", label: "Operator of Event" },
+  { key: "politeness", label: "Staff Politeness" },
+];
 
+const ReviewModal = ({ placeId, cusineId,isModalOpen }) => {
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.modal);
+
+  const [ratings, setRatings] = useState(
+    categories.reduce((acc, { key }) => ({ ...acc, [key]: 0 }), {})
+  );
+  const [feedback, setFeedback] = useState("");
+  const userName = useSelector((state) => state.user?.user?.name) 
+                ?? JSON.parse(localStorage.getItem("user"))?.name 
+                ?? "Guest";
+  const userId = useSelector((state) => state.user?.user?.id) 
+                ?? JSON.parse(localStorage.getItem("user"))?.id
+                ?? null;
+  const userImage = useSelector((state) => state.user?.user?.Image) 
+                ?? JSON.parse(localStorage.getItem("user"))?.Image
+                ?? null;
+  const reviewDate = new Date(Date.now()).toISOString();
   const handleRating = (category, value) => {
     setRatings((prev) => ({ ...prev, [category]: value }));
+  };
+  // handling the scrolling of the  desktop
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => (document.body.style.overflow = "auto");
+  }, [isModalOpen]);
+
+  const handleSubmit = () => {
+    const reviewData = {
+      userId,
+      userName,
+      userImage,
+      feedback,
+      ratings,
+      placeId,
+      cusineId,
+      reviewDate
+    };
+    dispatch(postReview(reviewData))
+      .unwrap()
+      .then(() => {
+        console.log("Review submitted successfully");
+        dispatch(modalToggle()); // Close modal on success
+        setFeedback("");
+        setRatings(
+          categories.reduce((acc, { key }) => ({ ...acc, [key]: 0 }), {})
+        );
+      })
+      .catch((err) => {
+        console.error("Error submitting review:", err);
+      });
   };
 
   return (
     <div>
-      {/* Button to open modal */}
-      <button
-        onClick={() => setIsModalOpen(true)}
+      {/* Open Modal Button */}
+      {/* <button
+        onClick={() => dispatch(modalToggle())}
         className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
       >
         Add Review
-      </button>
+      </button> */}
 
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-2xl mt-40 mb-32 p-8 w-2xl shadow-xl">
-            <div className="flex justify-between">
-              <div
-                className="text-lg font-semibold text-gray-800 mb-4"
+          <div
+            className="bg-white rounded-2xl p-6 shadow-xl overflow-y-auto"
+            style={{
+              width: "531px",
+              height: "550px",
+              fontFamily: "BrownRegular",
+            }}
+          >
+            {/* Header */}
+            <div className="flex justify-between items-center mb-4">
+              <h2
+                className="text-lg font-semibold text-gray-800"
                 style={{ fontFamily: "IvyMode" }}
               >
                 Add a review
-              </div>
-              <div className="mt-[-20px] ml-[30px]">
-                <IoIosCloseCircleOutline
-                  onClick={() => setIsModalOpen(false)}
-                  className="text-2xl text-gray-500 cursor-pointer bg-white"
-                />
-              </div>
+              </h2>
+              <IoIosCloseCircleOutline
+                onClick={() => dispatch(modalToggle())}
+                className="text-2xl text-gray-500 cursor-pointer"
+              />
             </div>
-            <p
-              className="text-sm text-gray-600 mb-6"
-              style={{ fontFamily: "BrownRegular" }}
-            >
-              Hi Charlie, if you’re here on this page, we bet you enjoy this
-              event fully. Would you mind sharing your valuable feedback review
-              with us?
+
+            {/* Description */}
+            <p className="text-sm text-gray-600 mb-6">
+              Hi {userName}, if you’re here on this page, we bet you enjoyed this
+              event. Would you mind sharing your valuable feedback with us?
             </p>
 
-            {/* Quality of Event */}
-            <div className="flex flex-row justify-between">
-              <div className="mb-4">
-                <p
-                  className="text-sm font-medium text-gray-700 mb-1"
-                  style={{ fontFamily: "BrownRegular" }}
-                >
-                  Quality of Event
-                </p>
-                <div className="flex gap-1">
-                  {[1, 2, 3, 4, 5].map((value) => (
-                    <Star
-                      key={value}
-                      className={`w-6 h-6 cursor-pointer ${
-                        ratings.quality >= value
-                          ? "text-black"
-                          : "text-gray-300"
-                      }`}
-                      onClick={() => handleRating("quality", value)}
-                    />
-                  ))}
+            {/* Ratings */}
+            <div className="grid grid-cols-2 gap-4">
+              {categories.map(({ key, label }) => (
+                <div key={key}>
+                  <p className="text-sm font-medium text-gray-700 mb-1">
+                    {label}
+                  </p>
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map((value) => (
+                      <Star
+                        key={value}
+                        className={`w-5 h-5 cursor-pointer ${
+                          ratings[key] >= value ? "text-black" : "text-gray-300"
+                        }`}
+                        onClick={() => handleRating(key, value)}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-
-              {/* Services at Event */}
-              <div className="mb-4" style={{ fontFamily: "BrownRegular" }}>
-                <p className="text-sm font-medium text-gray-700 mb-1">
-                  Services at Event
-                </p>
-                <div className="flex gap-1">
-                  {[1, 2, 3, 4, 5].map((value) => (
-                    <Star
-                      key={value}
-                      className={`w-6 h-6 cursor-pointer ${
-                        ratings.services >= value
-                          ? "text-black"
-                          : "text-gray-300"
-                      }`}
-                      onClick={() => handleRating("services", value)}
-                    />
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
 
-            <div className="flex flex-row justify-between">
-              <div className="mb-4">
-                <p
-                  className="text-sm font-medium text-gray-700 mb-1"
-                  style={{ fontFamily: "BrownRegular" }}
-                >
-                  Facilities of Event
-                </p>
-                <div className="flex gap-1">
-                  {[1, 2, 3, 4, 5].map((value) => (
-                    <Star
-                      key={value}
-                      className={`w-6 h-6 cursor-pointer ${
-                        ratings.facilities >= value
-                          ? "text-black"
-                          : "text-gray-300"
-                      }`}
-                      onClick={() => handleRating("facilities", value)}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Operator of Event */}
-              <div className="mb-4">
-                <p
-                  className="text-sm font-medium text-gray-700 mb-1"
-                  style={{ fontFamily: "BrownRegular" }}
-                >
-                  Operator of Event
-                </p>
-                <div className="flex gap-1">
-                  {[1, 2, 3, 4, 5].map((value) => (
-                    <Star
-                      key={value}
-                      className={`w-6 h-6 cursor-pointer ${
-                        ratings.operator >= value
-                          ? "text-black"
-                          : "text-gray-300"
-                      }`}
-                      onClick={() => handleRating("operator", value)}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Staff Politeness */}
-            <div className="mb-4">
-              <p
-                className="text-sm font-medium text-gray-700 mb-1"
-                style={{ fontFamily: "BrownRegular" }}
-              >
-                Staff Politeness
-              </p>
-              <div className="flex gap-1">
-                {[1, 2, 3, 4, 5].map((value) => (
-                  <Star
-                    key={value}
-                    className={`w-6 h-6 cursor-pointer ${
-                      ratings.politeness >= value
-                        ? "text-black"
-                        : "text-gray-300"
-                    }`}
-                    onClick={() => handleRating("politeness", value)}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Feedback Input */}
-            <div className="mb-4 mt-8">
+            {/* Feedback */}
+            <div className="mt-6">
               <textarea
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
                 className="w-full border rounded-lg p-2 text-sm text-gray-700"
-                rows="8"
+                rows="4"
                 placeholder="Share your feedback and suggestions about this event..."
               ></textarea>
             </div>
 
-            {/* Submit and Close Buttons */}
-            <div className="flex gap-2">
-              <button className="w-40 bg-black text-white py-2 rounded-lg font-medium hover:bg-gray-900 transition">
-                Submit
+            {/* Submit Button */}
+            <div className="mt-4">
+              <button
+                onClick={handleSubmit}
+                disabled={loading}
+                className="w-full bg-black text-white py-2 rounded-lg font-medium hover:bg-gray-900 transition"
+              >
+                {loading ? "Submitting..." : "Submit"}
               </button>
+              {error && (
+                <p className="mt-2 text-sm text-red-500">{error}</p>
+              )}
             </div>
           </div>
         </div>

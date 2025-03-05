@@ -4,7 +4,7 @@ import { createCuisine } from "../controllers/cuisines.controllers.js";
 
 const router = Router();
 
-router.route("/create").post(upload.single("logo"), createCuisine);
+router.route("/create").post(upload.fields([{ name: "logo" }, { name: "image" }]), createCuisine);
 
 // Get all cards
 // router.route("/all").get(getAllPlaces);

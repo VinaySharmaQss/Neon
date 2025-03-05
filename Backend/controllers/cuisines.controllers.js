@@ -13,7 +13,7 @@ const createCuisine = asyncHandler(async (req, res, next) => {
         if (!title || !date || !description) {
             return next(new ApiError("Please provide all required fields", 400));
         }
-        const logo = req.file?.path;
+        const logo = req.files?.logo[0].path;
         if (!logo) {
             return next(new ApiError("Logo is required", 400));
         }
@@ -21,12 +21,21 @@ const createCuisine = asyncHandler(async (req, res, next) => {
         if (!logoUrl) {
             return next(new ApiError("Logo upload failed", 400));
         }
+        const Image = req.files?.image[0]?.path;
+        if (!Image) {
+            return next(new ApiError("Image is required", 400));
+        }
+        const imageUrl = await uploadImage(Image);
+        if (!imageUrl) {
+            return next(new ApiError("Image upload failed", 400));
+        }
         const cuisine = await prisma.cuisines.create({
             data: {
                 title,
                 date,
                 description,
                 logo: logoUrl.url,
+                image: imageUrl.url,
                 userId: parseInt(userId), // Ensure userId is an integer
             },
         });
@@ -44,9 +53,7 @@ const getAllCuisine = asyncHandler(async (req, res, next) => {
         res.status(200).json(new ApiResponse(200, cuisine, "Cuisine fetched successfully"));
     } catch (error) {
         res.status(500).json(new ApiResponse(500, null, "Internal server error"));
-
     }
-
 })
 
 const getCuisineById = asyncHandler(async (req, res, next) => {

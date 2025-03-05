@@ -8,6 +8,7 @@ import { FaStar } from "react-icons/fa";
 import weather from "../../../../assets/img/weather.svg";
 
 const Cards1 = ({
+  id,
   mainImage,
   weatherLogo,
   temperature,
@@ -31,6 +32,7 @@ const Cards1 = ({
   };
 
   return (
+    <Link to={`/event-details/${id}`}>
     <div className={styles.card} >
       <div className={styles.left}>
         <div className={styles.mainImage}>
@@ -65,7 +67,7 @@ const Cards1 = ({
         <div className={styles.body}>
           <p>
             {description.slice(0, 150)}...
-            <Link to="/event-details">
+            <Link to={`/event-details/${id}`}>
               <span className={styles.readMore}>{readMore}</span>
             </Link>
           </p>
@@ -115,6 +117,7 @@ const Cards1 = ({
         </div>
       </div>
     </div>
+    </Link>
   );
 };
 
