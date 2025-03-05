@@ -15,7 +15,7 @@ const initialState = {
   isSignup: localStorage.getItem("isSignup") === "true" || false,
   isLogout: false,
   isAdmin: false,
-  isNotification: localStorage.getItem("isNotification") === "true" || true,
+  isNotification: false,
   user: storedUser,
 };
 
@@ -61,12 +61,11 @@ export const userSlice = createSlice({
       localStorage.removeItem("isSignup");
       localStorage.removeItem("isNotification");
     },
-    notificationReducer: (state) => {
+    toggleNotification(state) {
       state.isNotification = !state.isNotification;
-      localStorage.setItem("isNotification", state.isNotification.toString());
     },
   },
 });
 
-export const { signupReducer, loginReducer, logoutReducer, notificationReducer } = userSlice.actions;
+export const { signupReducer, loginReducer, logoutReducer, toggleNotification } = userSlice.actions;
 export default userSlice.reducer;

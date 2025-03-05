@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./features/user";
 import cardReducer from "./features/card";
 import modalReducer from "./features/modal";
+import notificationReducer from "./features/notification";
 import { thunk } from "redux-thunk"; // Corrected import
 
 // Function to load state from localStorage and wrap it with a 'user' key
@@ -32,7 +33,8 @@ const store = configureStore({
   reducer: {
     user: userReducer,
     card: cardReducer,
-    modal: modalReducer
+    modal: modalReducer,
+    notification: notificationReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
   preloadedState,

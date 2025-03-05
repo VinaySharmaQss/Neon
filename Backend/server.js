@@ -5,15 +5,22 @@ import cors from 'cors';
 import bodyParser from "body-parser";
 import cookieParser from 'cookie-parser';
 import { ApiError } from './utils/ApiError.js';
+import { Server } from "socket.io"; // ✅ Corrected import
+import http from "http"; // ✅ Required to create the server for socket.io
 
+// Load environment variables from .env file
 dotenv.config();
+
+// Create an instance of express app
 const app = express();
+
+// Set the port from environment variables or default to 4000
 const PORT = process.env.PORT || 4000;
 
 // ✅ Apply CORS middleware BEFORE defining routes
 app.use(cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",  // Allow frontend origin
-    credentials: true,  // Allow cookies
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
     allowedHeaders: [
         "Content-Type",
@@ -25,21 +32,24 @@ app.use(cors({
     ],
 }));
 
-// Middleware
+// Middleware for parsing JSON, URL-encoded bodies, and cookies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static("public"));
 app.use(cookieParser());
 
-// ✅ Now add routes AFTER applying CORS
+// Serve static files from the "public" folder
+app.use(express.static("public"));
+
+// Use custom routes
 app.use(routes);
 
+// Root route for testing server status
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
 
-// Error-handling middleware (must have 4 parameters)
+// Error-handling middleware
 app.use((err, req, res, next) => {
     if (err instanceof ApiError) {
         return res.status(err.statusCode).json({
@@ -56,6 +66,45 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+// ✅ Create HTTP server to work with socket.io
+const server = http.createServer(app);
+
+// ✅ Initialize Socket.io
+const io = new Server(server, {
+    cors: {
+        origin: process.env.FRONTEND_URL || "http://localhost:5173",
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
+        allowedHeaders: [
+            "Content-Type",
+            "Authorization",
+            "X-Requested-With",
+            "device-remember-token",
+            "Origin",
+            "Accept",
+        ],
+    },
+});
+
+// ✅ Listen for socket connections
+io.on("connection", (socket) => {
+    console.log("✅ User connected:", socket.id);
+
+    // Example custom event listener
+    socket.on("someEvent", (data) => {
+        console.log("📩 Received data:", data);
+        socket.emit("responseEvent", { message: "✅ Data received!" });
+    });
+
+    // Disconnect event
+    socket.on("disconnect", () => {
+        console.log("❌ User disconnected:", socket.id);
+    });
+});
+
+// ✅ Export io if you need to use it elsewhere
+export { io };
+
+// ✅ Start the server
+server.listen(PORT, () => {
+    console.log(`🚀 Server is running on port ${PORT}`);
 });

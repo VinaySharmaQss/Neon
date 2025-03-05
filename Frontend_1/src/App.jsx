@@ -24,6 +24,7 @@ const Login = lazy(() => import("./pages/Auth/Login"));
 const ResetPassword = lazy(() => import("./pages/Auth/Reset"));
 const CreateEvent = lazy(()=> import("./pages/Admin/Place"));
 const CreateCusine = lazy(()=> import("./pages/Admin/Cusines"));
+const CreateNotification = lazy(()=> import("./pages/Admin/Notification"));
 
 
 const App = () => {
@@ -48,6 +49,7 @@ const App = () => {
               {/* Admin Route */}
               <Route path="/admin/create-event" element={<CreateEvent />} />
               <Route path="/admin/create-cusine" element={<CreateCusine />} />
+              <Route path="/admin/create-notification" element={<CreateNotification />} />
             </Routes>
           </Suspense>
         </BrowserRouter>

@@ -23,6 +23,7 @@ import MapComponent from "../../components/MapComponent/MapComponent";
 import { useSelector } from "react-redux";
 import Loader from "../../UI/Loader";
 import ReviewModal from "../../components/Modal/Modal";
+import NotificationComponent from "../../components/Notification/Notifications";
 
 const Home = () => {
   const userName = useSelector((state) => state.user?.user?.name) 
@@ -168,6 +169,7 @@ const Home = () => {
   }))
   return (
     <>
+    <NotificationComponent/>
       <header>
         <Navbar />
         <GoodMorning />

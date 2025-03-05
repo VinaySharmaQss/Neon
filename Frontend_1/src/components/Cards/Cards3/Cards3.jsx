@@ -83,7 +83,7 @@ const Cards3 = ({ id, mainImage, icon, title, date, description, time, cardNumbe
   };
 
   return (
-    <div className={styles.container} onClick={() => navigate(`/event-details/${id}`)}>
+    <div className={styles.container} >
       <div className={styles.card}>
         <img
           src={mainImage}
@@ -106,7 +106,7 @@ const Cards3 = ({ id, mainImage, icon, title, date, description, time, cardNumbe
         </div>
       </div>
 
-      <div className={styles.content}>
+      <div className={styles.content} onClick={() => navigate(`/event-details/${id}`)}>
         <div className={styles.title}>
           <div className={styles.titleLeft}>
             <img src={icon} alt="icon" style={{ width: "9px", height: "9px", objectFit: "cover" }} />
