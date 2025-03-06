@@ -120,3 +120,67 @@
 .reserveButton:hover {
   background-color: #333;
 }
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.popupActions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.popupActions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.popupActions button:first-child {
+  background-color: #ccc;
+}
+
+.popupActions button:last-child {
+  background-color: #4caf50;
+  color: #fff;
+}
+.popupContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.popupRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  color: #555;
+}
+
+.popupRow span:first-child {
+  text-align: left;
+}
+
+.popupRow span:last-child {
+  text-align: right;
+}

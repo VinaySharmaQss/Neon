@@ -6,6 +6,7 @@ import {
   createPlace,
   getAllFavouritePlaces,
   getAllPlaces,
+  getAllReviewsofPlaces,
   getPlaceById,
   getViewedPlaces,
   removeFromFaviourate,
@@ -35,7 +36,10 @@ router.route("/removeFromFavourite").post(removeFromFaviourate);
 // Update the card
 router.route("/:id").put(updatePlace);
 
-//get viewed places
+//get viewed places by the user
 router.route("/viewed/:userId").get(getViewedPlaces);
+
+// get all reviews by place id
+ router.route("/reviews/:placeId").get(getAllReviewsofPlaces);
 
 export default router;

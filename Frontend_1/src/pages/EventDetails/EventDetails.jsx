@@ -6,7 +6,6 @@ import styles from "./EventDetails.module.css";
 import Card6 from "../../components/Cards/Cards6/Card";
 import { BiCategory } from "react-icons/bi";
 import { CiLocationOn } from "react-icons/ci";
-import { card3_1Data, reviews } from "../../constants/data";
 import Slider4 from "../../components/Slider/Slider4";
 import Cards3 from "../../components/Cards/Cards3/Cards3";
 import { useParams } from "react-router";
@@ -30,6 +29,7 @@ const EventDetails = () => {
   const [places, setPlaces] = useState([]);
   const [error, setError] = useState(null);
   const [event, setEvent] = useState(null);
+  const [reviews, setReviews] = useState([]);
 
   const stars = Array.from({ length: 5 });
   const colors = {
@@ -85,6 +85,25 @@ const EventDetails = () => {
     getEvent();
   }, [id]);
 
+  useEffect(() => {
+    try {
+      const fetchReviews = async () => {
+        const response = await axios.get(`${backendUrl}places/reviews/${id}`, {
+          withCredentials: true,
+        });
+        if (response.data.success) {
+          toast.success("Reviews fetched successfully");
+          console.log(response.data.data);
+          setReviews(response.data.data);
+        } else {
+          toast.error("Failed to load reviews");
+          setError("Failed to load reviews");
+        }
+      };
+      fetchReviews();
+    } catch (error) {}
+  }, [id]);
+
   if (error)
     return (
       <div className="text-center text-red-500 text-lg mt-10">{error}</div>
@@ -103,17 +122,31 @@ const EventDetails = () => {
     location: place.location,
   }));
 
+  //  userImage, userName, reviewDate, reviewText, rating
+  const reviewsData = reviews.map((review) => ({
+    userImage: review.userImage,
+    userName: review.userName,
+    reviewDate: new Date(review.reviewDate).toISOString(),
+    reviewText: review.reviewText,
+    rating: review.rating,
+  }));
+
   return (
     <>
       <Navbar />
-     <ReviewModal isModalOpen={isModalOpen}
-      placeId={id} />
+      <ReviewModal isModalOpen={isModalOpen} placeId={id} />
       {/* Feedback Banner */}
-      <div className="w-[1122.48px] h-[128.57px]  border border-[#222222] rounded-lg flex items-center justify-between px-6 mx-10 mt-8 mb-4"
-       style={{ fontFamily: "BrownRegular" }}>
+      <div
+        className="w-[1122.48px] h-[128.57px]  border border-[#222222] rounded-lg flex items-center justify-between px-6 mx-10 mt-8 mb-4"
+        style={{ fontFamily: "BrownRegular" }}
+      >
         <div>
-          <h2 className="text-[27px] font-medium text-gray-800"
-           style={{ fontFamily: "IvyMode" }}>Hey Charlie,</h2>
+          <h2
+            className="text-[27px] font-medium text-gray-800"
+            style={{ fontFamily: "IvyMode" }}
+          >
+            Hey Charlie,
+          </h2>
           <p className="text-[16px] text-gray-600">
             We are sure that you have enjoyed this event a lot. Would you like
             to share your feedback with us?
@@ -121,8 +154,10 @@ const EventDetails = () => {
             It helps us to improve and serve you better.
           </p>
         </div>
-        <button className="bg-black text-white text-sm px-4 py-2 rounded-md hover:bg-gray-900 transition"
-         onClick={() => dispatch(modalToggle())}>
+        <button
+          className="bg-black text-white text-sm px-4 py-2 rounded-md hover:bg-gray-900 transition"
+          onClick={() => dispatch(modalToggle())}
+        >
           Add a review
         </button>
       </div>
@@ -155,8 +190,16 @@ const EventDetails = () => {
       <div className={styles.description}>
         <div className={styles.content}>
           <h1>About the Event</h1>
-          <EventInfo icon={<BiCategory />} title={event?.category} description={`This is one of the primary categories under the ${event?.category} category.`} />
-          <EventInfo icon={<CiLocationOn />} title="Great location" description="Every guest has given a five-star rating to this location." />
+          <EventInfo
+            icon={<BiCategory />}
+            title={event?.category}
+            description={`This is one of the primary categories under the ${event?.category} category.`}
+          />
+          <EventInfo
+            icon={<CiLocationOn />}
+            title="Great location"
+            description="Every guest has given a five-star rating to this location."
+          />
           <EventInfo
             image={event?.footerLogo}
             title={event?.footerDescription}
@@ -170,7 +213,7 @@ const EventDetails = () => {
 
         <div className="flex flex-col items-center mr-[120px]">
           <div className={styles.box}>
-            <Card6 />
+            <Card6 userId={userId} placeId={id} />
           </div>
           <p className="font-['BrownRegular']">Need help?</p>
         </div>
@@ -180,15 +223,25 @@ const EventDetails = () => {
         <h1 className={styles.heading} style={{ fontFamily: "IvyMode" }}>
           Round of Golf
         </h1>
-        <div className={styles.reviews}>★★★★★</div>
+        <div className={styles.stars}>★★★★★</div>
         <div className={styles.reviewNum}>4.5 (23 reviews)</div>
         <p className={styles.reviewText}>
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr...
+          Lorem ipsum dolor sit amet, consetetur sadipscing el Lorem ipsum dolor
+          sit amet consectetur adipisicing elit. Soluta inventore omnis
+          exercitationem ea sit ullam voluptate quas doloribus suscipit. Quo
+          dignissimos quod vitae magni, quae quisquam non saepe. Nihil,
+          veritatis.
         </p>
       </div>
 
       <div className={styles.reviewCard}>
-        <Slider4 cards={reviews} />
+        {reviews.length > 0 ? (
+          <Slider4 cards={reviewsData} />
+        ) : (
+          <p className="text-center text-gray-500 text-lg py-10">
+            No reviews yet
+          </p>
+        )}
       </div>
 
       <div className={`${styles.content} ml-[45px]`}>

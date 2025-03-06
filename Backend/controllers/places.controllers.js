@@ -196,9 +196,9 @@ const addViewedPlace = asyncHandler(async (req, res, next) => {
   }
 
   if (user.viewed.includes(parseInt(placeId, 10))) {
-    return res.status(200).json(
-      new ApiResponse(200, user.viewed, "Place already added to viewed")
-    );
+    return res
+      .status(200)
+      .json(new ApiResponse(200, user.viewed, "Place already added to viewed"));
   }
 
   const updatedUser = await prisma.user.update({
@@ -208,9 +208,9 @@ const addViewedPlace = asyncHandler(async (req, res, next) => {
     },
   });
 
-  res.status(200).json(
-    new ApiResponse(200, updatedUser.viewed, "Place added to viewed")
-  );
+  res
+    .status(200)
+    .json(new ApiResponse(200, updatedUser.viewed, "Place added to viewed"));
 });
 
 const getViewedPlaces = asyncHandler(async (req, res, next) => {
@@ -228,9 +228,9 @@ const getViewedPlaces = asyncHandler(async (req, res, next) => {
 
   // If no viewed places, return early
   if (!user.viewed || user.viewed.length === 0) {
-    return res.status(200).json(
-      new ApiResponse(200, [], "No viewed places found")
-    );
+    return res
+      .status(200)
+      .json(new ApiResponse(200, [], "No viewed places found"));
   }
 
   // Fetch only the viewed places
@@ -240,11 +240,12 @@ const getViewedPlaces = asyncHandler(async (req, res, next) => {
     },
   });
 
-  res.status(200).json(
-    new ApiResponse(200, viewedPlaces, "Viewed places fetched successfully")
-  );
+  res
+    .status(200)
+    .json(
+      new ApiResponse(200, viewedPlaces, "Viewed places fetched successfully")
+    );
 });
-
 
 const addToFavourite = asyncHandler(async (req, res, next) => {
   const { userId, placeId } = req.body;
@@ -262,108 +263,128 @@ const addToFavourite = asyncHandler(async (req, res, next) => {
       return next(new ApiError(404, "Place not found"));
     }
 
-    // Fetch the user's current favorites to check for duplicates
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      include: { favorites: true },
+    const existingFavorite = await prisma.favorite.findFirst({
+      where: {
+        userId: Number(userId),
+        placeId: Number(placeId),
+      },
     });
 
-    const alreadyFavorited = user.favorites.some(
-      (favorite) => favorite.id === placeId
-    );
-
-    if (alreadyFavorited) {
+    if (existingFavorite) {
       return next(new ApiError(400, "Place already in favourites"));
     }
 
-    // Add the place to favorites
-    const updatedUser = await prisma.user.update({
-      where: { id: userId },
+    const favorite = await prisma.favorite.create({
       data: {
-        favorites: {
-          connect: {
-            id: placeId,
-          },
-        },
-      },
-      include: {
-        favorites: true,
+        userId: Number(userId),
+        placeId: Number(placeId),
       },
     });
 
     res
       .status(200)
-      .json(
-        new ApiResponse(200, updatedUser.favorites, "Place added to favourites")
-      );
+      .json(new ApiResponse(200, favorite, "Place added to favourites"));
   } catch (error) {
+    console.error("Error adding to favourites:", error);
     res
       .status(500)
       .json(new ApiResponse(500, null, "Internal server error", error.message));
   }
 });
 
+const removeFromFaviourate = asyncHandler(async (req, res, next) => {
+  try {
+    const { userId, placeId } = req.body;
+    if (!userId || !placeId) {
+      return next(new ApiError(400, "userId and placeId are required"));
+    }
+
+    const favorite = await prisma.favorite.findFirst({
+      where: {
+        userId: Number(userId),
+        placeId: Number(placeId),
+      },
+    });
+
+    if (!favorite) {
+      return next(new ApiError(404, "Favorite not found"));
+    }
+
+    await prisma.favorite.delete({
+      where: { id: favorite.id },
+    });
+
+    res
+      .status(200)
+      .json(
+        new ApiResponse(200, null, "Place removed from favourites successfully")
+      );
+  } catch (error) {
+    console.log(error);
+    return next(
+      new ApiError(
+        500,
+        "Error removing the place from favourites",
+        error.message
+      )
+    );
+  }
+});
 const getAllFavouritePlaces = asyncHandler(async (req, res, next) => {
   try {
     const { userId } = req.params;
     if (!userId) {
       return next(new ApiError(400, "userId is required"));
     }
-    const user = await prisma.user.findUnique({
-      where: { id: parseInt(userId, 10) },
-      include: { favorites: true },
+
+    const favorites = await prisma.favorite.findMany({
+      where: { userId: Number(userId) },
+      include: { place: true }, // Get place details
     });
-    if (!user) {
-      return next(new ApiError(404, "User not found"));
-    }
-    res
-      .status(200)
-      .json(
-        new ApiResponse(
-          200,
-          user.favorites,
-          "Favourite places fetched successfully"
-        )
-      );
+
+    res.status(200).json(
+      new ApiResponse(
+        200,
+        favorites.map((fav) => fav.place), // Just return the places
+        "Favourite places fetched successfully"
+      )
+    );
   } catch (error) {
     console.log(error);
     return next(
-      new ApiError(500, "Error in fetching the faviorate places", error.message)
+      new ApiError(500, "Error fetching favourite places", error.message)
     );
   }
 });
 
-// Remove from the favourite
-const removeFromFaviourate = asyncHandler(async (req, res, next) => {
- try {
-  const {userId, placeId} = req.body;
-  if(!userId || !placeId) {
-    return next(new ApiError(400, "userId and placeId are required"));
-  }
-  const user = await prisma.user.findUnique({
-    where: { id: parseInt(userId, 10) },
-    include: { favorites: true },
-  })
-  if(!user) {
-    return next(new ApiError(404, "User not found"));
-  }
-  const updatedUser = await prisma.user.update({
-    where: { id: parseInt(userId, 10) },
-    data: {
-      favorites: {
-        disconnect: {
-          id: parseInt(placeId, 10),
-        },
+const getAllReviewsofPlaces = asyncHandler(async (req, res) => {
+  const { placeId } = req.params;
+  try {
+    if (!placeId) {
+      return next(new ApiError(400, "placeId is required"));
+    }
+    const reviews = await prisma.review.findMany({
+      where: {
+        placeId: parseInt(placeId),
       },
-    },
-    include: {
-      favorites: true,
-    },
-  });
-  res.status(200).json(new ApiResponse(200, updatedUser.favorites, "Place removed from favourites"));
- } catch (error) {
-  return next(new ApiError(500, "Error in removing the place from favourites", error.message));
- }
+      select: {
+        id: true,
+        userImage: true,
+        userName: true,
+        reviewDate: true,
+        reviewText: true,
+        rating: true,
+      },
+    });
+    res
+      .status(200)
+      .json(new ApiResponse(200, reviews, "All reviews fetched successfully."));
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    res
+      .status(500)
+      .json(new ApiError(500, "Error fetching reviews.", error.message));
+  }
 });
 
 export {
@@ -376,4 +397,5 @@ export {
   addToFavourite,
   getAllFavouritePlaces,
   removeFromFaviourate,
+  getAllReviewsofPlaces,
 };

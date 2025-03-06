@@ -7,9 +7,12 @@ import cookieParser from 'cookie-parser';
 import { ApiError } from './utils/ApiError.js';
 import { Server } from "socket.io"; // ✅ Corrected import
 import http from "http"; // ✅ Required to create the server for socket.io
+import Stripe from "stripe";
 
 // Load environment variables from .env file
 dotenv.config();
+const stripe = new Stripe(process.env.STRIPE_SECERT_KEY);
+
 
 // Create an instance of express app
 const app = express();

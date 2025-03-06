@@ -25,6 +25,8 @@ const ResetPassword = lazy(() => import("./pages/Auth/Reset"));
 const CreateEvent = lazy(()=> import("./pages/Admin/Place"));
 const CreateCusine = lazy(()=> import("./pages/Admin/Cusines"));
 const CreateNotification = lazy(()=> import("./pages/Admin/Notification"));
+const PaymentSuccess = lazy(()=> import("./pages/paymentPage/PaymentSucess"));
+const PaymentFailed = lazy(()=> import("./pages/paymentPage/Paymentfailed"));
 
 
 const App = () => {
@@ -46,10 +48,16 @@ const App = () => {
               <Route path="/auth/signup" element={<Signup />} />
               <Route path="/auth/login" element={<Login />} />
               <Route path="/auth/reset" element={<ResetPassword />} />
+
               {/* Admin Route */}
               <Route path="/admin/create-event" element={<CreateEvent />} />
               <Route path="/admin/create-cusine" element={<CreateCusine />} />
               <Route path="/admin/create-notification" element={<CreateNotification />} />
+
+             
+             {/* Payment Routes */}
+              <Route path="/payment/cancel" element={<PaymentFailed />} />
+              <Route path="/payment/success" element={<PaymentSuccess />} />
             </Routes>
           </Suspense>
         </BrowserRouter>

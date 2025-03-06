@@ -3,7 +3,7 @@
   font-family: "IvyMode";
   text-align: left;
   font-size: 21px;
-  margin-top: 5px;
+  margin-top: 25px;
   letter-spacing: 1.19px;
   color: #222222;
   opacity: 1;
@@ -12,7 +12,7 @@
 .reviews {
   display: flex;
   flex-direction: row;
-  margin-top: -7px;
+  margin-top: -12px;
   font-size: 12px;
   align-items: start;
   gap: 15px;

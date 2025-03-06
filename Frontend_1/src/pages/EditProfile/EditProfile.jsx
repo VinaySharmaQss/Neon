@@ -14,9 +14,11 @@ import card7 from "../../../assets/img/card4_3.jpg";
 import card8 from "../../../assets/img/card3_1.jpg";
 import card9 from "../../../assets/img/card3_2.jpg";
 import card10 from "../../../assets/img/card3_3.jpg";
+import Like from "../../../assets/img/Like.svg";
 import { backendUrl } from "../../utils/utils";
 import { useParams } from "react-router";
 import toast from "react-hot-toast";
+import { AiTwotoneLike } from "react-icons/ai";
 
 const EditProfile = () => {
   const { id } = useParams();
@@ -82,19 +84,19 @@ const EditProfile = () => {
   ];
 
   const toggleInterest = (interest) => {
-    setSelected((prev) =>
-      prev.includes(interest)
+    setSelected((prev) => {
+      const updated = prev.includes(interest)
         ? prev.filter((item) => item !== interest)
-        : [...prev, interest]
-    );
-  };
+        : [...prev, interest];
 
-  useEffect(() => {
-    setFormData((prevState) => ({
-      ...prevState,
-      interests: selected.join(", "),
-    }));
-  }, [selected]);
+      setFormData((prevState) => ({
+        ...prevState,
+        interests: updated.join(", "),
+      }));
+
+      return updated;
+    });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -103,11 +105,15 @@ const EditProfile = () => {
       [name]: value,
     }));
 
-    // Handle manual interest entry from input
     if (name === "interests") {
-      const updatedInterests = value
-        .split(",")
-        .map((interest) => interest.trim());
+      const updatedInterests = Array.from(
+        new Set(
+          value
+            .split(",")
+            .map((interest) => interest.trim())
+            .filter((interest) => interest.length > 0)
+        )
+      );
       setSelected(updatedInterests);
     }
   };
@@ -280,11 +286,18 @@ const EditProfile = () => {
                   key={name}
                   className={`${styles.card} ${
                     selected.includes(name) ? styles.selected : ""
-                  }`}
+                  } relative`}
                   onClick={() => toggleInterest(name)}
                 >
-                  <img src={img} alt={name} className={styles.image} />
-                  <span>{name}</span>
+                  {selected.includes(name) ? (
+                    <img
+                      src={Like}
+                      alt="selected"
+                      className="absolute top-12 left-8 w-10 h-10 drop-shadow-md z-10"
+                    />
+                  ) : null}
+                  <img src={img} alt={name} className={styles.cardImage} />
+                  <span className="relative z-10">{name}</span>
                 </div>
               ))}
             </div>

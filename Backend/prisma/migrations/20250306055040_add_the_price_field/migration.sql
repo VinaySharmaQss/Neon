@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Place" ADD COLUMN     "priceAdult" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "priceChild" INTEGER NOT NULL DEFAULT 0;
