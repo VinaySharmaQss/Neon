@@ -16,7 +16,7 @@ import { FaStar } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { postEvent } from "../../redux/features/card";
 import ReviewModal from "../../components/Modal/Modal";
-import { modalToggle } from "../../redux/features/modal";
+import { fetchReviewsByUser, modalToggle } from "../../redux/features/modal";
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -36,6 +36,20 @@ const EventDetails = () => {
     orange: "#ff385c",
     grey: "#e4e5e9",
   };
+
+    const  reviewsPlaces  = useSelector((state) => state.modal.reviews);
+    // Fetch reviews when component mounts
+    useEffect(() => {
+      dispatch(fetchReviewsByUser()); 
+    }, []);
+    const reviewdPlacesId = reviewsPlaces.map((review) => review.placeId);
+    
+    const isReviewd = (placeId) => {
+      return reviewdPlacesId.includes(placeId);
+    };
+
+    const  userReviewed=isReviewd(parseInt(id, 10)) ?? false;
+
 
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -136,31 +150,34 @@ const EventDetails = () => {
       <Navbar />
       <ReviewModal isModalOpen={isModalOpen} placeId={id} />
       {/* Feedback Banner */}
+     {
+      !userReviewed &&
       <div
-        className="w-[1122.48px] h-[128.57px]  border border-[#222222] rounded-lg flex items-center justify-between px-6 mx-10 mt-8 mb-4"
-        style={{ fontFamily: "BrownRegular" }}
-      >
-        <div>
-          <h2
-            className="text-[27px] font-medium text-gray-800"
-            style={{ fontFamily: "IvyMode" }}
-          >
-            Hey Charlie,
-          </h2>
-          <p className="text-[16px] text-gray-600">
-            We are sure that you have enjoyed this event a lot. Would you like
-            to share your feedback with us?
-            <br />
-            It helps us to improve and serve you better.
-          </p>
-        </div>
-        <button
-          className="bg-black text-white text-sm px-4 py-2 rounded-md hover:bg-gray-900 transition"
-          onClick={() => dispatch(modalToggle())}
+      className="w-[1122.48px] h-[128.57px]  border border-[#222222] rounded-lg flex items-center justify-between px-6 mx-10 mt-8 mb-4"
+      style={{ fontFamily: "BrownRegular" }}
+    >
+      <div>
+        <h2
+          className="text-[27px] font-medium text-gray-800"
+          style={{ fontFamily: "IvyMode" }}
         >
-          Add a review
-        </button>
+          Hey Charlie,
+        </h2>
+        <p className="text-[16px] text-gray-600">
+          We are sure that you have enjoyed this event a lot. Would you like
+          to share your feedback with us?
+          <br />
+          It helps us to improve and serve you better.
+        </p>
       </div>
+      <button
+        className="bg-black text-white text-sm px-4 py-2 rounded-md hover:bg-gray-900 transition"
+        onClick={() => dispatch(modalToggle())}
+      >
+        Add a review
+      </button>
+    </div>
+     }
 
       {/* Event Details */}
       <div className="flex flex-col px-12">
@@ -213,7 +230,7 @@ const EventDetails = () => {
 
         <div className="flex flex-col items-center mr-[120px]">
           <div className={styles.box}>
-            <Card6 userId={userId} placeId={id} />
+            <Card6 userId={userId} placeId={id} booked={userReviewed} />
           </div>
           <p className="font-['BrownRegular']">Need help?</p>
         </div>

@@ -21,9 +21,12 @@ function handleLogout(){
           <Link to={`/edit-profile/${JSON.parse(localStorage.getItem("user")).id}`}>
            <li className="py-2 hover:bg-gray-100 cursor-pointer">Edit profile</li>
            </Link>
-            <li className="py-2 hover:bg-gray-100 cursor-pointer">Feedback</li>
+           <Link to={"/feedback"}>
+           <li className="py-2 hover:bg-gray-100 cursor-pointer">Feedback</li>
+           </Link>
             <Link to="/settings" >
-            <li className="py-2 hover:bg-gray-100 cursor-pointer">Settings</li></Link>
+            <li className="py-2 hover:bg-gray-100 cursor-pointer">Settings</li>
+            </Link>
             <li className="py-2 hover:bg-gray-100 cursor-pointer" onClick={handleLogout}>Logout</li>
           </ul>
         </div>

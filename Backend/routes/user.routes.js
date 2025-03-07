@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { getUserById, Login, Logout, SignUp, updateUser } from "../controllers/user.controllers.js";
+import { getAllAcceptedByUserId, getUserById, Login, Logout, SignUp, updateUser } from "../controllers/user.controllers.js";
 import { upload } from "../middlewares/multer.middlewares.js";
 import auth from "../middlewares/auth.middlewares.js"
 import { sendNotifications } from "../controllers/sendNotifications.controllers.js";
@@ -11,5 +11,6 @@ router.route("/login").post(Login); //login route
 router.route("/logout").post(auth,Logout)
 router.route("/:id").get(getUserById);
 router.route("/update/:id").put(upload.single("Image"),updateUser);
+router.route("/allAccepted/:userId").get(getAllAcceptedByUserId);
 
 export default router;

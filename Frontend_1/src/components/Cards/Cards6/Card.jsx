@@ -3,26 +3,32 @@ import axios from 'axios';
 import styles from './Card6.module.css';
 import { backendUrl } from '../../../utils/utils';
 
-const Card6 = ({ userId, placeId }) => {
+const Card6 = ({ userId, placeId, booked }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedGuests, setSelectedGuests] = useState('1 adult');
+  const [selectedChildren, setSelectedChildren] = useState(0);
   const [dates, setDates] = useState({ from: 'Nov 10, 2022', to: 'Nov 29, 2022' });
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const amountPerAdult = 500;
   const amountPerChild = 300;
-  const children = 0;
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+
   const selectGuest = (guest) => {
     setSelectedGuests(guest);
     setDropdownOpen(false);
   };
 
+  const selectChildren = (childCount) => {
+    setSelectedChildren(childCount);
+  };
+
   const getGuestCounts = () => {
     const adults = parseInt(selectedGuests.split(' ')[0], 10);
-    return { adults, children };
+    return { adults, children: selectedChildren };
   };
 
   const totalAmount = () => {
@@ -49,7 +55,7 @@ const Card6 = ({ userId, placeId }) => {
       }
     } catch (error) {
       console.error('Payment error:', error);
-      alert('Failed to create payment. Please try again.');
+      setErrorMessage('Failed to create payment. Please try again.');
     } finally {
       setLoading(false);
       setShowPopup(false);
@@ -71,34 +77,55 @@ const Card6 = ({ userId, placeId }) => {
         </div>
       </div>
 
-      <div className={styles.dropdownContainer}>
-        <label>Guests</label>
-        <div className={styles.dropdown} onClick={toggleDropdown}>
-          {selectedGuests}
-          <span className={styles.arrow}>{dropdownOpen ? '\u25B2' : '\u25BC'}</span>
-        </div>
-        {dropdownOpen && (
-          <ul className={styles.dropdownMenu}>
-            {[...Array(7)].map((_, i) => (
-              <li key={i} onClick={() => selectGuest(`${i + 1} adult${i + 1 > 1 ? 's' : ''}`)}>
-                {i + 1} adult{i + 1 > 1 ? 's' : ''}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      {booked && (
+        <>
+          <div className={styles.dropdownContainer}>
+            <label>Guests</label>
+            <div className={styles.dropdown} onClick={toggleDropdown}>
+              {selectedGuests} {selectedChildren > 0 && `+ ${selectedChildren} child${selectedChildren > 1 ? 'ren' : ''}`}
+              <span className={styles.arrow}>{dropdownOpen ? '\u25B2' : '\u25BC'}</span>
+            </div>
+            {dropdownOpen && (
+              <ul className={styles.dropdownMenu}>
+                {[...Array(7)].map((_, i) => (
+                  <li key={i} onClick={() => selectGuest(`${i + 1} adult${i + 1 > 1 ? 's' : ''}`)}>
+                    {i + 1} adult{i + 1 > 1 ? 's' : ''}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
-      <div className={styles.seatsInfo}>
-        {100 + Math.floor(Math.random() * 10)} Seats still available
-      </div>
+          <div className={styles.dropdownContainer}>
+            <label>Children</label>
+            <div className={styles.dropdown} onClick={toggleDropdown}>
+              {selectedChildren} child{selectedChildren > 1 ? 'ren' : ''}
+              <span className={styles.arrow}>{dropdownOpen ? '\u25B2' : '\u25BC'}</span>
+            </div>
+            {dropdownOpen && (
+              <ul className={styles.dropdownMenu}>
+                {[...Array(4)].map((_, i) => (
+                  <li key={i} onClick={() => selectChildren(i)}>
+                    {i} child{(i > 1) && 'ren'}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
-      <button
-        className={styles.reserveButton}
-        onClick={() => setShowPopup(true)}
-        disabled={loading}
-      >
-        {loading ? 'Processing...' : 'Reserve my seats'}
-      </button>
+          <div className={styles.seatsInfo}>
+            {100 + Math.floor(Math.random() * 10)} Seats still available
+          </div>
+
+          <button
+            className={styles.reserveButton}
+            onClick={() => setShowPopup(true)}
+            disabled={loading || getGuestCounts().adults === 0}
+          >
+            {loading ? 'Processing...' : 'Reserve my seats'}
+          </button>
+        </>
+      )}
 
       {showPopup && (
         <div className={styles.popupOverlay}>
@@ -115,12 +142,14 @@ const Card6 = ({ userId, placeId }) => {
                 <span>₹{getGuestCounts().adults * amountPerAdult}</span>
               </div>
               <div className={styles.popupRow}>
-                <span>{children} child(ren) x ₹{amountPerChild}</span>
-                <span>₹{children * amountPerChild}</span>
+                <span>{selectedChildren} child(ren) x ₹{amountPerChild}</span>
+                <span>₹{selectedChildren * amountPerChild}</span>
               </div>
             </div>
 
             <h4>Total: ₹{totalAmount()}</h4>
+
+            {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
 
             <div className={styles.popupActions}>
               <button onClick={() => setShowPopup(false)}>Cancel</button>

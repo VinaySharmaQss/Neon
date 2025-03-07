@@ -1,8 +1,11 @@
 import React from "react";
 import styles from "./Card4.module.css";
+import { Link } from "react-router";
 
-const Card4 = ({ mainImage, title, guests, date, flag, rating }) => {
+const Card4 = ({id, mainImage, title, guests, date, flag, rating }) => {
   return (
+    <>
+   
     <div className={styles.card}>
       <div className={styles.card__image}>
         <img src={mainImage} alt="Image" />
@@ -20,11 +23,18 @@ const Card4 = ({ mainImage, title, guests, date, flag, rating }) => {
               <div className={styles.rating__star}>{rating}</div>
             </div>
           ) : (
-            <div className={styles.non_rating}>Rate this event</div>
+             <Link to={`/event-details/${id}`}>
+                <div className={styles.non_rating} 
+            style={{
+              cursor: "pointer"
+            }}>Rate this event</div>
+              </Link>
           )}
         </div>
       </div>
     </div>
+    </>
+   
   );
 };
 

@@ -23,7 +23,7 @@ const ReviewModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-[500px]">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Add a review</h2>

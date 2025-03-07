@@ -20,10 +20,11 @@ import Footer from "../../components/Footer/Footer";
 import Cards1 from "../../components/Cards/Cards1/Cards1";
 import Cards2 from "../../components/Cards/Cards2/Cards2";
 import MapComponent from "../../components/MapComponent/MapComponent";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../UI/Loader";
 import ReviewModal from "../../components/Modal/Modal";
 import NotificationComponent from "../../components/Notification/Notifications";
+import { fetchReviewsByUser } from "../../redux/features/modal";
 
 const Home = () => {
   const userName = useSelector((state) => state.user?.user?.name) 
@@ -42,6 +43,8 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [viewedPlaces, setViewedPlaces] = useState([]);
+  const [acceptedUser, setAcceptedUser] = useState([]);
+
 
 
   // fetch the user's viewed places
@@ -88,6 +91,50 @@ const Home = () => {
     fetchPlaces();
   }, []);
 
+  // Fetch accepted users
+  useEffect(() => {
+    const fetchAcceptedUsers = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}user/allAccepted/${userId}`, {
+          withCredentials: true,
+        });
+  
+        console.log("Accepted users:", response.data.data);
+  
+        if (response.data && response.data.data) {
+          setAcceptedUser(response.data.data); 
+        } else {
+          setError("Failed to load accepted users");
+          toast.error("Failed to load accepted users");
+        }
+      } catch (err) {
+        console.error("Error fetching accepted users:", err);
+        setError("Error fetching accepted users");
+        toast.error("Error fetching accepted users");
+      }
+    };
+  
+    if (userId) {
+      fetchAcceptedUsers();
+    }
+  }, [userId]); // Added userId as dependency
+  
+
+ // fetch the user's reviewed places
+  const dispatch = useDispatch();
+  const { reviews } = useSelector((state) => state.modal);
+
+  // Fetch reviews when component mounts
+  useEffect(() => {
+    dispatch(fetchReviewsByUser()); 
+  }, []);
+  const reviewdPlacesId = reviews.map((review) => review.placeId);
+  
+  const isReviewd = (placeId) => {
+    return reviewdPlacesId.includes(placeId);
+  };
+
+  
   if (loading)
     return (
       <div className="text-center text-lg font-medium mt-10">
@@ -127,6 +174,7 @@ const Home = () => {
     footerLogo: place.footerLogo,
     footerDescription: place.footerDescription,
     footerLink: "Schedule",
+
   }));
   const card3Data_User = places.slice(0,5).map((place,index)=>({
     id: place.id,
@@ -146,6 +194,7 @@ const Home = () => {
     description: place.description.slice(0, 300),
     date:new Date(place.eventEndTime).toLocaleString(),
     visited:place.visited,
+    isReviewd:isReviewd(place.id),
     button1: [
       {
         text: "Yes, I accept",
@@ -166,6 +215,21 @@ const Home = () => {
         class: "btn_white",
       },
     ],
+  }))
+      // mainImage: cardImg4_1,
+      // title: "Round of Golf",
+      // guests: 3,
+      // date: "on Nov 17, 2022",
+      // flag: true,
+      // rating: "★ ★ ★ ★ ★",
+  const acceptedPlaces = acceptedUser.slice(0,5).map((place)=>({
+    id: place.id,
+    mainImage: place.mainImage,
+    title: place.title,
+    guests: Math.round(Math.random() * 10),
+    date: `${new Date(place.eventTime).toLocaleTimeString()} - ${new Date(place.eventEndTime).toLocaleTimeString()}`,
+    flag: isReviewd(place.id),
+    rating: "★ ★ ★ ★ ★",
   }))
   return (
     <>
@@ -221,9 +285,14 @@ const Home = () => {
               {userName}, here is your master journey with us so far!
             </p>
             <div className="flex flex-wrap gap-4  ml-16">
-              {card4Data.map((card, index) => (
+              {!isLogin?
+              card4Data.map((card, index) => (
                 <Card4 key={index} {...card} />
-              ))}
+              )):
+              acceptedPlaces.map((card, index) => (
+                <Card4 key={index} {...card} />
+              ) 
+              )}
             </div>
           </div>
         </div>

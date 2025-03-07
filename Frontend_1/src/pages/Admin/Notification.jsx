@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { backendUrl } from "../../utils/utils";
@@ -6,6 +6,26 @@ import { backendUrl } from "../../utils/utils";
 const NotificationCreatePage = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [places, setPlaces] = useState([]);
+  const [selectedPlaceId, setSelectedPlaceId] = useState("");
+
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}places/all`, {
+          withCredentials: true,
+        });
+        if (response.data.success) {
+          setPlaces(response.data.message);
+        } else {
+          console.log(response.data.message);
+        }
+      } catch (error) {
+        console.log("Error fetching places for notification: " + error);
+      }
+    };
+    fetchPlaces();
+  }, []);
 
   const handleSendNotification = async (e) => {
     e.preventDefault();
@@ -15,12 +35,17 @@ const NotificationCreatePage = () => {
       return;
     }
 
+    if (!selectedPlaceId) {
+      toast.error("Please select a place.");
+      return;
+    }
+
     try {
       setLoading(true);
 
       const { data } = await axios.post(
         `${backendUrl}user/notification`,
-        { message },
+        { message, placeId: selectedPlaceId },
         {
           headers: {
             "Content-Type": "application/json",
@@ -30,6 +55,7 @@ const NotificationCreatePage = () => {
 
       toast.success(data.message || "Notification sent successfully!");
       setMessage("");
+      setSelectedPlaceId("");
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Failed to send notification"
@@ -53,6 +79,24 @@ const NotificationCreatePage = () => {
             rows={4}
             required
           ></textarea>
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Select Place</label>
+          <select
+            value={selectedPlaceId}
+            onChange={(e) => setSelectedPlaceId(e.target.value)}
+            className="mt-1 block w-full p-2 border rounded"
+            required
+          >
+            <option value="" disabled>
+              -- Select a place --
+            </option>
+            {places.map((place) => (
+              <option key={place.id} value={place.id}>
+                {place.title} (ID: {place.id})
+              </option>
+            ))}
+          </select>
         </div>
         <button
           type="submit"

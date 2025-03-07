@@ -50,6 +50,7 @@ nav{
     height: 30px;
     font-size: 10px;
     width: 53px;
+    margin-top: 5px;
  }
  .bell_icon{
     height: 12px;
@@ -64,6 +65,7 @@ nav{
     font-size: 20px;
     position: relative;
     cursor: pointer;
+    margin-top: 5px;
  }
  .navItem {
   font-family: "BrownRegular";

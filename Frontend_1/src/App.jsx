@@ -27,6 +27,7 @@ const CreateCusine = lazy(()=> import("./pages/Admin/Cusines"));
 const CreateNotification = lazy(()=> import("./pages/Admin/Notification"));
 const PaymentSuccess = lazy(()=> import("./pages/paymentPage/PaymentSucess"));
 const PaymentFailed = lazy(()=> import("./pages/paymentPage/Paymentfailed"));
+const ReschedulesPage = lazy(()=> import("./pages/RescheduledPage/ReschedulesPage"));
 
 
 const App = () => {
@@ -40,7 +41,7 @@ const App = () => {
               <Route path="/upcoming-events" element={<UpcomingEvents />} />
               <Route path="/event-details/:id" element={<EventDetails />} />
               <Route path="/faviorates" element={<Faviorates />} />
-              <Route path="/recommendations" element={<Recommendations />} />
+              <Route path="/recommendations/:id" element={<Recommendations />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/edit-profile/:id" element={<EditProfile />} />
               <Route path="/test" element={<Test />} /> 
@@ -48,6 +49,7 @@ const App = () => {
               <Route path="/auth/signup" element={<Signup />} />
               <Route path="/auth/login" element={<Login />} />
               <Route path="/auth/reset" element={<ResetPassword />} />
+              <Route path="/reschedules/:id" element={<ReschedulesPage />} />
 
               {/* Admin Route */}
               <Route path="/admin/create-event" element={<CreateEvent />} />

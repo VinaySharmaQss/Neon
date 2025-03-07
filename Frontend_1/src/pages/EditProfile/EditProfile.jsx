@@ -14,7 +14,7 @@ import card7 from "../../../assets/img/card4_3.jpg";
 import card8 from "../../../assets/img/card3_1.jpg";
 import card9 from "../../../assets/img/card3_2.jpg";
 import card10 from "../../../assets/img/card3_3.jpg";
-import Like from "../../../assets/img/Like.svg";
+import Like from "../../../assets/img/Like2.svg";
 import { backendUrl } from "../../utils/utils";
 import { useParams } from "react-router";
 import toast from "react-hot-toast";

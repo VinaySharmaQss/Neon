@@ -4,14 +4,19 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { io } from "../server.js";
 
 export const sendNotifications = asyncHandler(async (req, res, next) => {
-    const { message } = req.body;
+    const { message,placeId
+     } = req.body;
 
     if (!message ) {
-        throw new ApiError("Please provide both userName and message", 400);
+        throw new ApiError("Please provide  message", 400);
+    }
+    if (!placeId) {
+        throw new ApiError("Please provide place Id", 400);
     }
 
     const notification = {
         message,
+        placeId,
         time: new Date().toISOString(),
     };
 

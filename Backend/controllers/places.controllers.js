@@ -387,6 +387,7 @@ const getAllReviewsofPlaces = asyncHandler(async (req, res) => {
   }
 });
 
+
 export {
   createPlace,
   getPlaceById,

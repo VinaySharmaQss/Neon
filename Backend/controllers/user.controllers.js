@@ -180,4 +180,47 @@ const getUserName = asyncHandler(async (req, res, next) => {
   res.status(200).json(new ApiResponse(200, user.name, "User name fetched successfully"));
 });
 
-export { SignUp, Login, Logout, getUserById, updateUser };
+const getAllAcceptedByUserId = asyncHandler(async (req, res, next) => {
+  const { userId } = req.params;
+  try {
+    if (!userId) {
+      return next(new ApiError(400, "userId is required"));
+    }
+
+    // Get the user's accepted places (array of place IDs)
+    const user = await prisma.user.findUnique({
+      where: {
+        id: parseInt(userId),
+      },
+      select: {
+        accepted: true,
+      },
+    });
+
+    if (!user) {
+      return next(new ApiError(404, "User not found"));
+    }
+
+    if (user.accepted.length === 0) {
+      return res.status(200).json(new ApiResponse(200, [], "No accepted places found."));
+    }
+
+    // Fetch all places with IDs in the accepted array
+    const places = await prisma.place.findMany({
+      where: {
+        id: { in: user.accepted },
+      },
+    });
+
+    res.status(200).json(new ApiResponse(200, places, "All accepted places fetched successfully."));
+  } catch (error) {
+    console.error("Error fetching places:", error);
+    res
+      .status(500)
+      .json(new ApiError(500, "Error fetching places.", error.message));
+  }
+});
+
+
+
+export { SignUp, Login, Logout, getUserById, updateUser,getAllAcceptedByUserId, getUserName };
