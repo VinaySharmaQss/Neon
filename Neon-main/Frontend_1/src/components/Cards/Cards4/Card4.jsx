@@ -5,7 +5,7 @@ import { Link } from "react-router";
 const Card4 = ({id, mainImage, title, guests, date, flag, rating }) => {
   return (
     <>
-   
+   <Link to={`/event-details/${id}`}>
     <div className={styles.card}>
       <div className={styles.card__image}>
         <img src={mainImage} alt="Image" />
@@ -33,6 +33,7 @@ const Card4 = ({id, mainImage, title, guests, date, flag, rating }) => {
         </div>
       </div>
     </div>
+    </Link>
     </>
    
   );

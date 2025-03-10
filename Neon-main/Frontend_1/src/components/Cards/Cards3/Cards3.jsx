@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { toast } from "react-hot-toast";
 import { backendUrl } from '../../../utils/utils';
 import { useNavigate } from 'react-router';
+import { Link } from 'lucide-react';
 
 const Cards3 = ({ id, mainImage, icon, title, date, description, time, cardNumber, cardIcon }) => {
   const userId =
@@ -83,6 +84,7 @@ const Cards3 = ({ id, mainImage, icon, title, date, description, time, cardNumbe
   };
 
   return (
+    
     <div className={styles.container} >
       <div className={styles.card}>
         <img
@@ -125,7 +127,7 @@ const Cards3 = ({ id, mainImage, icon, title, date, description, time, cardNumbe
           <p>{time}</p>
         </div>
       </div>
-    </div>
+    </div>   
   );
 };
 

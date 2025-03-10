@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import styles from './Card6.module.css';
 import { backendUrl } from '../../../utils/utils';
 
 const Card6 = ({ userId, placeId, booked }) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [guestsDropdownOpen, setGuestsDropdownOpen] = useState(false);
+  const [childrenDropdownOpen, setChildrenDropdownOpen] = useState(false);
   const [selectedGuests, setSelectedGuests] = useState('1 adult');
   const [selectedChildren, setSelectedChildren] = useState(0);
   const [dates, setDates] = useState({ from: 'Nov 10, 2022', to: 'Nov 29, 2022' });
@@ -15,15 +16,41 @@ const Card6 = ({ userId, placeId, booked }) => {
   const amountPerAdult = 500;
   const amountPerChild = 300;
 
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+  const guestsRef = useRef(null);
+  const childrenRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (guestsRef.current && !guestsRef.current.contains(event.target)) {
+        setGuestsDropdownOpen(false);
+      }
+      if (childrenRef.current && !childrenRef.current.contains(event.target)) {
+        setChildrenDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const toggleGuestsDropdown = () => {
+    setGuestsDropdownOpen((prev) => !prev);
+    setChildrenDropdownOpen(false); // Close the other dropdown
+  };
+
+  const toggleChildrenDropdown = () => {
+    setChildrenDropdownOpen((prev) => !prev);
+    setGuestsDropdownOpen(false); // Close the other dropdown
+  };
 
   const selectGuest = (guest) => {
     setSelectedGuests(guest);
-    setDropdownOpen(false);
+    setGuestsDropdownOpen(false); // Close dropdown on selection
   };
 
   const selectChildren = (childCount) => {
     setSelectedChildren(childCount);
+    setChildrenDropdownOpen(false); // Close dropdown on selection
   };
 
   const getGuestCounts = () => {
@@ -79,13 +106,14 @@ const Card6 = ({ userId, placeId, booked }) => {
 
       {booked && (
         <>
-          <div className={styles.dropdownContainer}>
+          {/* Guests Dropdown */}
+          <div className={styles.dropdownContainer} ref={guestsRef}>
             <label>Guests</label>
-            <div className={styles.dropdown} onClick={toggleDropdown}>
+            <div className={styles.dropdown} onClick={toggleGuestsDropdown}>
               {selectedGuests} {selectedChildren > 0 && `+ ${selectedChildren} child${selectedChildren > 1 ? 'ren' : ''}`}
-              <span className={styles.arrow}>{dropdownOpen ? '\u25B2' : '\u25BC'}</span>
+              <span className={styles.arrow}>{guestsDropdownOpen ? '▲' : '▼'}</span>
             </div>
-            {dropdownOpen && (
+            {guestsDropdownOpen && (
               <ul className={styles.dropdownMenu}>
                 {[...Array(7)].map((_, i) => (
                   <li key={i} onClick={() => selectGuest(`${i + 1} adult${i + 1 > 1 ? 's' : ''}`)}>
@@ -96,13 +124,14 @@ const Card6 = ({ userId, placeId, booked }) => {
             )}
           </div>
 
-          <div className={styles.dropdownContainer}>
+          {/* Children Dropdown */}
+          <div className={styles.dropdownContainer} ref={childrenRef}>
             <label>Children</label>
-            <div className={styles.dropdown} onClick={toggleDropdown}>
+            <div className={styles.dropdown} onClick={toggleChildrenDropdown}>
               {selectedChildren} child{selectedChildren > 1 ? 'ren' : ''}
-              <span className={styles.arrow}>{dropdownOpen ? '\u25B2' : '\u25BC'}</span>
+              <span className={styles.arrow}>{childrenDropdownOpen ? '▲' : '▼'}</span>
             </div>
-            {dropdownOpen && (
+            {childrenDropdownOpen && (
               <ul className={styles.dropdownMenu}>
                 {[...Array(4)].map((_, i) => (
                   <li key={i} onClick={() => selectChildren(i)}>

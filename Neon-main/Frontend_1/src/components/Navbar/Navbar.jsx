@@ -42,14 +42,14 @@ const Navbar = () => {
 
   const handleRescheduleConfirm = () => {
     closeReschedulePopup();
-    navigate(`/recommendations/${notifications[0]?.placeId}`)
+    navigate(`/reschedules/${notifications[0]?.placeId}`)
     toast.success("Event rescheduled successfully!");
   };
 
   const handleCancelConfirm = () => {
     closeCancelPopup();
     console.log(notifications[0]);
-    navigate(`/reschedules/${notifications[0]?.placeId}`)
+    navigate(`/recommendations/${notifications[0]?.placeId}`)
     toast.success("Event cancelled successfully!");
   };
 

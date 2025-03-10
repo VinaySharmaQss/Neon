@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { Star } from "lucide-react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { modalToggle, postReview } from "../../redux/features/modal";
+import VibeOMeter from "../../UI/VibeOMeter";
 
 const categories = [
   { key: "quality", label: "Quality of Event" },
@@ -13,7 +13,7 @@ const categories = [
   { key: "politeness", label: "Staff Politeness" },
 ];
 
-const ReviewModal = ({ placeId, cusineId,isModalOpen }) => {
+const ReviewModal = ({ placeId, cusineId, isModalOpen }) => {
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.modal);
 
@@ -21,6 +21,8 @@ const ReviewModal = ({ placeId, cusineId,isModalOpen }) => {
     categories.reduce((acc, { key }) => ({ ...acc, [key]: 0 }), {})
   );
   const [feedback, setFeedback] = useState("");
+  const [showVibeOMeter, setShowVibeOMeter] = useState(false);
+
   const userName = useSelector((state) => state.user?.user?.name) 
                 ?? JSON.parse(localStorage.getItem("user"))?.name 
                 ?? "Guest";
@@ -31,10 +33,12 @@ const ReviewModal = ({ placeId, cusineId,isModalOpen }) => {
                 ?? JSON.parse(localStorage.getItem("user"))?.Image
                 ?? null;
   const reviewDate = new Date(Date.now()).toISOString();
+
   const handleRating = (category, value) => {
     setRatings((prev) => ({ ...prev, [category]: value }));
   };
-  // handling the scrolling of the  desktop
+
+  // handling the scrolling of the desktop
   useEffect(() => {
     if (isModalOpen) {
       document.body.style.overflow = "hidden";
@@ -64,6 +68,7 @@ const ReviewModal = ({ placeId, cusineId,isModalOpen }) => {
         setRatings(
           categories.reduce((acc, { key }) => ({ ...acc, [key]: 0 }), {})
         );
+        setShowVibeOMeter(true); // Open VibeOMeter modal
       })
       .catch((err) => {
         console.error("Error submitting review:", err);
@@ -72,14 +77,6 @@ const ReviewModal = ({ placeId, cusineId,isModalOpen }) => {
 
   return (
     <div>
-      {/* Open Modal Button */}
-      {/* <button
-        onClick={() => dispatch(modalToggle())}
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-      >
-        Add Review
-      </button> */}
-
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
@@ -160,6 +157,9 @@ const ReviewModal = ({ placeId, cusineId,isModalOpen }) => {
           </div>
         </div>
       )}
+
+      {/* VibeOMeter Modal */}
+      {showVibeOMeter && <VibeOMeter flag={true} onClose={() => setShowVibeOMeter(false)} />}
     </div>
   );
 };
