@@ -157,28 +157,8 @@ const Home = () => {
         No places available.
       </div>
     );
-  // viewedPlaces
-  const card1Data1 = acceptedUser.map((place) => ({
-    id: place.id,
-    mainImage: place.mainImage,
-    weatherLogo: weather,
-    temperature: place.temperature,
-    title: place.title,
-    rating: place.rating,
-    ratingNum: place.rating.toFixed(1),
-    reviews: `(${place.reviews?.length || Math.round(Math.random() * 10)})`,
-    description: place.description,
-    readMore: " read more",
-    events: [
-      { description: new Date(place.eventTime).toLocaleString() },
-      { description: place.location },
-      { description: place.eventType },
-    ],
-    eventEndTime: new Date(place.eventEndTime).toLocaleString(),
-    footerLogo: place.footerLogo,
-    footerDescription: place.footerDescription,
-    footerLink: "Schedule",
-  }));
+  
+
   const card3Data_User = places.slice(0, 5).map((place, index) => ({
     id: place.id,
     mainImage: place.mainImage,
@@ -275,6 +255,32 @@ const Home = () => {
       console.error("Error marking event as completed:", error);
     }
   }
+ // filter the accepted user from the  completed places on the basis of the id
+  const eventsData = acceptedUser.filter((place)=>{
+    return completed.find((completedPlace)=>completedPlace.id !== place.id);
+  })
+  
+  const card1Data1 = eventsData.map((place) => ({
+    id: place.id,
+    mainImage: place.mainImage,
+    weatherLogo: weather,
+    temperature: place.temperature,
+    title: place.title,
+    rating: place.rating,
+    ratingNum: place.rating.toFixed(1),
+    reviews: `(${place.reviews?.length || Math.round(Math.random() * 10)})`,
+    description: place.description,
+    readMore: " read more",
+    events: [
+      { description: new Date(place.eventTime).toLocaleString() },
+      { description: place.location },
+      { description: place.eventType },
+    ],
+    eventEndTime: new Date(place.eventEndTime).toLocaleString(),
+    footerLogo: place.footerLogo,
+    footerDescription: place.footerDescription,
+    footerLink: "Scheduled",
+  }));
 
   return (
     <>

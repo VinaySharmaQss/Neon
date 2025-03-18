@@ -30,6 +30,7 @@ const EventDetails = () => {
   const [error, setError] = useState(null);
   const [event, setEvent] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [completed, setCompleted] = useState([]);
 
   const stars = Array.from({ length: 5 });
   const colors = {
@@ -51,6 +52,25 @@ const EventDetails = () => {
    const  userReviewed=isReviewd(parseInt(id, 10)) ?? false;
 
 
+  // get all the completed events
+  useEffect(() => {
+    const fetchCompletedEvents = async () => {
+      try {
+        const respone = await axios.get(`${backendUrl}user/completed/${userId}`, {
+          withCredentials: true,
+        })
+        console.log(respone.data.data+"completed");
+        if (respone.data.success) {
+          console.log(respone.data.data+"completed");
+          setCompleted(respone.data.data);
+        }
+      }
+      catch (error) {
+        console.log("Error fetching completed events:")
+      }
+    }
+    fetchCompletedEvents();
+  },[userId])
   useEffect(() => {
     const fetchPlaces = async () => {
       try {

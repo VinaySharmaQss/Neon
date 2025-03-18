@@ -284,25 +284,43 @@ const getUserRatedPlaces = asyncHandler(async (req, res, next) => {
 });
 
 
-const  completedPlaces = asyncHandler(async (req, res, next) => {
+const completedPlaces = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const { placeId } = req.body;
 
   try {
-    const user = await prisma.user.update({
-      where: { id: parseInt(id,10) },
+    // Fetch the current user data
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(id, 10) },
+      select: { completed: true }, // Fetch only the completed array
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    // If the placeId is already in the completed array, return the user data without updating
+    if (user.completed.includes(placeId)) {
+      return res.json({ message: "Place already marked as completed.", user });
+    }
+
+    // Update the user by pushing the new placeId
+    const updatedUser = await prisma.user.update({
+      where: { id: parseInt(id, 10) },
       data: {
         completed: {
           push: placeId,
         },
       },
     });
-    res.json(user);
+
+    res.json(updatedUser);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred while updating the completed array.' });
+    console.error("Error updating completed places:", error);
+    res.status(500).json({ error: "An error occurred while updating the completed array." });
   }
-})
+});
+
 
 const getCompletedPlaces = async (req, res) => {
   const { id } = req.params;
