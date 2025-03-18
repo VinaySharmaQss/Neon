@@ -18,7 +18,6 @@ import Like from "../../../assets/img/Like2.svg";
 import { backendUrl } from "../../utils/utils";
 import { useParams } from "react-router";
 import toast from "react-hot-toast";
-import { AiTwotoneLike } from "react-icons/ai";
 
 const EditProfile = () => {
   const { id } = useParams();
@@ -29,45 +28,17 @@ const EditProfile = () => {
     email: "",
     phone: "",
     birthday: "",
-    interests: "",
     Image: "",
   });
-
+  // The selected interests as an array
   const [selected, setSelected] = useState([]);
+  // The interests input field value (a comma-separated string)
+  const [interestInput, setInterestInput] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-
-  // Helper function to format date to "yyyy-MM-dd"
-  const formatDate = (dateString) => {
-    return new Date(dateString).toISOString().split("T")[0];
-  };
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(`${backendUrl}user/${id}`);
-        const userData = response.data?.data;
-        if (userData) {
-          setFormData({
-            name: userData.name || "",
-            email: userData.email || "",
-            phone: userData.phoneNumber || "",
-            birthday: userData.DOB ? formatDate(userData.DOB) : "",
-            interests: userData.interests ? userData.interests.join(", ") : "",
-            Image: userData.Image || "",
-          });
-          setSelected(userData.interests || []); // Prefill interests
-        }
-      } catch (error) {
-        console.error("Get user data error:", error);
-      }
-    };
-
-    if (id) {
-      fetchUser();
-    }
-  }, [id]);
+  // Extra interests from another endpoint (optional)
+  const [userInterest, setUserInterest] = useState([]);
 
   const interestsData = [
     { name: "Golf", img: card1 },
@@ -83,67 +54,133 @@ const EditProfile = () => {
     { name: "Water sports", img: card1 },
   ];
 
+  // Helper: format a date string to "yyyy-MM-dd"
+  const formatDate = (dateString) => {
+    return new Date(dateString).toISOString().split("T")[0];
+  };
+
+  // Fetch user data (including interests) on mount
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}user/${id}`);
+        const userData = response.data?.data;
+        if (userData) {
+          setFormData({
+            name: userData.name || "",
+            email: userData.email || "",
+            phone: userData.phoneNumber || "",
+            birthday: userData.DOB ? formatDate(userData.DOB) : "",
+            Image: userData.Image || "",
+          });
+          const interests = userData.interests || [];
+          setSelected(interests);
+          setInterestInput(interests.join(", "));
+        }
+      } catch (error) {
+        console.error("Get user data error:", error);
+      }
+    };
+
+    if (id) {
+      fetchUser();
+    }
+  }, [id]);
+
+  // Optionally fetch extra interests from another endpoint
+  useEffect(() => {
+    const getUserInterest = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}user/interest/${id}`);
+        const data = response.data?.data;
+        if (data && Array.isArray(data.interest)) {
+          setUserInterest(data.interest);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user interest:", error);
+      }
+    };
+
+    if (id) {
+      getUserInterest();
+    }
+  }, [id]);
+
+  // Merge extra interests into selected interests
+  useEffect(() => {
+    if (userInterest.length > 0) {
+      setSelected((prev) => Array.from(new Set([...prev, ...userInterest])));
+    }
+  }, [userInterest]);
+
+  // Keep the input field in sync with selected interests
+  useEffect(() => {
+    setInterestInput(selected.join(", "));
+  }, [selected]);
+
+  // Toggle interest when clicking a card (preset or custom)
   const toggleInterest = (interest) => {
     setSelected((prev) => {
       const updated = prev.includes(interest)
         ? prev.filter((item) => item !== interest)
         : [...prev, interest];
-
-      setFormData((prevState) => ({
-        ...prevState,
-        interests: updated.join(", "),
-      }));
-
       return updated;
     });
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+  // Update the interest input field as the user types
+  const handleInterestInputChange = (e) => {
+    setInterestInput(e.target.value);
+  };
 
-    if (name === "interests") {
-      const updatedInterests = Array.from(
-        new Set(
-          value
-            .split(",")
-            .map((interest) => interest.trim())
-            .filter((interest) => interest.length > 0)
-        )
-      );
-      setSelected(updatedInterests);
+  // Parse the input and update selected interests (on Enter or blur)
+  const updateInterestsFromInput = () => {
+    const parsedInterests = interestInput
+      .split(",")
+      .map((item) => item.trim())
+      .filter((item) => item);
+    setSelected(Array.from(new Set(parsedInterests)));
+  };
+
+  const handleInterestKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      updateInterestsFromInput();
     }
   };
 
-  // Handle file selection for profile image update
+  // For other form inputs
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Handle profile image change
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
-      setFormData((prevState) => ({
-        ...prevState,
+      setFormData((prev) => ({
+        ...prev,
         Image: URL.createObjectURL(file),
       }));
     }
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
-
-    // Convert birthday to ISO-8601 string
     const formattedDOB = formData.birthday
       ? new Date(formData.birthday).toISOString()
       : "";
-
     try {
       let response;
       if (imageFile) {
-        // Create FormData to send file and other fields
         const formDataObj = new FormData();
         formDataObj.append("name", formData.name);
         formDataObj.append("phoneNumber", formData.phone);
@@ -154,9 +191,7 @@ const EditProfile = () => {
           `${backendUrl}user/update/${id}`,
           formDataObj,
           {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
+            headers: { "Content-Type": "multipart/form-data" },
           }
         );
       } else {
@@ -166,10 +201,8 @@ const EditProfile = () => {
           DOB: formattedDOB,
           interest: selected,
         };
-        console.log("Payload:", payload);
         response = await axios.put(`${backendUrl}user/update/${id}`, payload);
       }
-
       if (response.data.success) {
         toast.success("Profile updated successfully!");
         const updatedUser = response.data.data;
@@ -179,9 +212,6 @@ const EditProfile = () => {
             email: updatedUser.email || "",
             phone: updatedUser.phoneNumber || "",
             birthday: updatedUser.DOB ? formatDate(updatedUser.DOB) : "",
-            interests: updatedUser.interests
-              ? updatedUser.interests.join(", ")
-              : "",
             Image: updatedUser.Image || "",
           });
           setSelected(updatedUser.interests || []);
@@ -198,6 +228,12 @@ const EditProfile = () => {
       setLoading(false);
     }
   };
+
+  // Get names of preset interests to filter custom ones
+  const presetInterestNames = interestsData.map((item) => item.name);
+  const customInterests = selected.filter(
+    (interest) => !presetInterestNames.includes(interest)
+  );
 
   return (
     <>
@@ -235,7 +271,7 @@ const EditProfile = () => {
                 placeholder="Name"
                 className={styles.input}
                 value={formData.name}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 required
               />
 
@@ -263,7 +299,7 @@ const EditProfile = () => {
                 placeholder="Phone Number"
                 className={styles.input}
                 value={formData.phone}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 required
               />
 
@@ -276,10 +312,11 @@ const EditProfile = () => {
                 name="birthday"
                 className={styles.input}
                 value={formData.birthday}
-                onChange={handleChange}
+                onChange={handleInputChange}
               />
             </div>
 
+            {/* Render both preset and custom interest cards in a single grid */}
             <div className={styles.grid}>
               {interestsData.map(({ name, img }) => (
                 <div
@@ -289,15 +326,33 @@ const EditProfile = () => {
                   } relative`}
                   onClick={() => toggleInterest(name)}
                 >
-                  {selected.includes(name) ? (
+                  {selected.includes(name) && (
                     <img
                       src={Like}
                       alt="selected"
                       className="absolute top-12 left-8 w-10 h-10 drop-shadow-md z-10"
                     />
-                  ) : null}
+                  )}
                   <img src={img} alt={name} className={styles.cardImage} />
                   <span className="relative z-10">{name}</span>
+                </div>
+              ))}
+              {customInterests.map((interest) => (
+                <div
+                  key={interest}
+                  className={`${styles.card} ${styles.customCard} ${
+                    selected.includes(interest) ? styles.selected : ""
+                  } relative`}
+                  onClick={() => toggleInterest(interest)}
+                >
+                  {selected.includes(interest) && (
+                    <img
+                      src={Like}
+                      alt="selected"
+                      className="absolute top-12 left-8 w-10 h-10 drop-shadow-md z-10"
+                    />
+                  )}
+                  <span className="relative z-10">{interest}</span>
                 </div>
               ))}
             </div>
@@ -306,16 +361,18 @@ const EditProfile = () => {
               htmlFor="interests"
               style={{ marginLeft: "12.5vw", fontSize: "12px" }}
             >
-              Please let us know if you have some interests
+              Interests (comma separated)
             </label>
             <input
               id="interests"
               type="text"
-              placeholder="Add multiple interests comma ( , ) separated"
+              placeholder="Enter interests"
               className={styles.inputs}
               name="interests"
-              value={formData.interests}
-              onChange={handleChange}
+              value={interestInput}
+              onChange={handleInterestInputChange}
+              onKeyDown={handleInterestKeyDown}
+              onBlur={updateInterestsFromInput}
             />
 
             {message && <p className={styles.message}>{message}</p>}
@@ -325,6 +382,10 @@ const EditProfile = () => {
                 type="submit"
                 className="bg-red-500 text-white px-6 py-2 rounded-md shadow-md hover:bg-red-600 transition"
                 disabled={loading}
+                onClick={() => window.location.reload()}
+                style={{
+                  backgroundColor: loading ? "#D3D3D3" : "#FF0000",
+                }}
               >
                 {loading ? "Saving..." : "Save"}
               </button>

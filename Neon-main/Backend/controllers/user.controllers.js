@@ -23,13 +23,13 @@ const generateRefreshAndAccessToken = async (userId) => {
 const SignUp = asyncHandler(async (req, res, next) => {
   console.log(req.body);
   const { name, email, password, phoneNumber, DOB } = req.body;
-  
+
   // Check if the user already exists by email
   const existingUser = await prisma.user.findUnique({ where: { email } });
   if (existingUser) {
     return next(new ApiError(400, "User already exists"));
   }
-  
+
   // Check if the phone number already exists
   const existingPhoneNumber = await prisma.user.findUnique({
     where: { phoneNumber },
@@ -64,7 +64,9 @@ const SignUp = asyncHandler(async (req, res, next) => {
   });
 
   // Send response with the newly created user
-  res.status(201).json(new ApiResponse(201, newUser, "User created successfully"));
+  res
+    .status(201)
+    .json(new ApiResponse(201, newUser, "User created successfully"));
 });
 
 // LOGIN
@@ -81,7 +83,9 @@ const Login = asyncHandler(async (req, res, next) => {
       return next(new ApiError(401, "Invalid email or password"));
     }
 
-    const { refreshToken, accessToken } = await generateRefreshAndAccessToken(user.id);
+    const { refreshToken, accessToken } = await generateRefreshAndAccessToken(
+      user.id
+    );
 
     // Set cookie options; secure flag is enabled only in production
     const cookieOptions = {
@@ -92,10 +96,16 @@ const Login = asyncHandler(async (req, res, next) => {
 
     res.cookie("refreshToken", refreshToken, cookieOptions);
     res.cookie("accessToken", accessToken, cookieOptions);
-    
-    res.status(200).json(
-      new ApiResponse(200, { userId: user.id, accessToken }, "User logged in successfully")
-    );
+
+    res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          { userId: user.id, accessToken },
+          "User logged in successfully"
+        )
+      );
   } catch (error) {
     return next(error);
   }
@@ -117,7 +127,9 @@ const Logout = asyncHandler(async (req, res, next) => {
   };
   res.clearCookie("refreshToken", options);
   res.clearCookie("accessToken", options);
-  res.status(200).json(new ApiResponse(200, {}, "User logged out successfully"));
+  res
+    .status(200)
+    .json(new ApiResponse(200, {}, "User logged out successfully"));
 });
 
 // GET USER BY ID
@@ -134,8 +146,8 @@ const getUserById = asyncHandler(async (req, res, next) => {
 // UPDATE USER (with optional image update)
 const updateUser = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const { name, phoneNumber, DOB,interest } = req.body;
-  
+  const { name, phoneNumber, DOB, interest } = req.body;
+
   const user = await prisma.user.findUnique({
     where: { id: parseInt(id, 10) },
   });
@@ -143,13 +155,9 @@ const updateUser = asyncHandler(async (req, res, next) => {
   if (!user) {
     return next(new ApiError(404, "User not found"));
   }
-  const interests = user.interest;
-  for(let i=0;i<interest.length;i++){
-    if(!interests.includes(interest[i])){
-      interests.push(interest[i]);
-    }
-  }
-  let updatedData = { name, phoneNumber, DOB,interest:interests };
+  
+  // Override the user's previous interests with the provided interests
+  let updatedData = { name, phoneNumber, DOB, interest };
 
   // If a new image file is provided, upload it
   if (req.file?.path) {
@@ -165,7 +173,9 @@ const updateUser = asyncHandler(async (req, res, next) => {
     data: updatedData,
   });
 
-  res.status(200).json(new ApiResponse(200, updatedUser, "User updated successfully"));
+  res
+    .status(200)
+    .json(new ApiResponse(200, updatedUser, "User updated successfully"));
 });
 
 // GET USER NAME
@@ -177,7 +187,9 @@ const getUserName = asyncHandler(async (req, res, next) => {
   if (!user) {
     return next(new ApiError(404, "User not found"));
   }
-  res.status(200).json(new ApiResponse(200, user.name, "User name fetched successfully"));
+  res
+    .status(200)
+    .json(new ApiResponse(200, user.name, "User name fetched successfully"));
 });
 
 const getAllAcceptedByUserId = asyncHandler(async (req, res, next) => {
@@ -202,7 +214,9 @@ const getAllAcceptedByUserId = asyncHandler(async (req, res, next) => {
     }
 
     if (user.accepted.length === 0) {
-      return res.status(200).json(new ApiResponse(200, [], "No accepted places found."));
+      return res
+        .status(200)
+        .json(new ApiResponse(200, [], "No accepted places found."));
     }
 
     // Fetch all places with IDs in the accepted array
@@ -212,7 +226,15 @@ const getAllAcceptedByUserId = asyncHandler(async (req, res, next) => {
       },
     });
 
-    res.status(200).json(new ApiResponse(200, places, "All accepted places fetched successfully."));
+    res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          places,
+          "All accepted places fetched successfully."
+        )
+      );
   } catch (error) {
     console.error("Error fetching places:", error);
     res
@@ -221,6 +243,102 @@ const getAllAcceptedByUserId = asyncHandler(async (req, res, next) => {
   }
 });
 
+const getInterest = asyncHandler(async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(id, 10) },
+      select: { interest: true }, // Only select the interest field
+    });
+    if (!user) {
+      return next(new ApiError(404, "User not found"));
+    }
+    res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          user,
+          "User interest fetched successfully"
+        )
+      );
+  } catch (error) {
+    res
+      .status(500)
+      .json(new ApiError(500, "Error fetching user interest.", error.message));
+  }
+});
+
+// Get user rated places by user id
+const getUserRatedPlaces = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const user = await prisma.user.findUnique({
+    where: { id: parseInt(id, 10) },
+  });
+  if (!user) {
+    return next(new ApiError(404, "User not found"));
+  }
+  res
+    .status(200)
+    .json(new ApiResponse(200, user.rated, "User rated places fetched successfully"));
+});
 
 
-export { SignUp, Login, Logout, getUserById, updateUser,getAllAcceptedByUserId, getUserName };
+const  completedPlaces = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const { placeId } = req.body;
+
+  try {
+    const user = await prisma.user.update({
+      where: { id: parseInt(id,10) },
+      data: {
+        completed: {
+          push: placeId,
+        },
+      },
+    });
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while updating the completed array.' });
+  }
+})
+
+const getCompletedPlaces = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(id) },
+      select: { completed: true },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const completedPlaces = await prisma.place.findMany({
+      where: { id: { in: user.completed } },
+    });
+
+    res.json(completedPlaces);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred while fetching completed places." });
+  }
+};
+
+
+
+export {
+  SignUp,
+  Login,
+  Logout,
+  getUserById,
+  updateUser,
+  getAllAcceptedByUserId,
+  getUserName,
+  getInterest,
+  completedPlaces,
+  getCompletedPlaces
+};

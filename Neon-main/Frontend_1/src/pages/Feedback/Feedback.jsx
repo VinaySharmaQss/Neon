@@ -13,7 +13,6 @@ const Feedback = () => {
   return (
     <>
       <Navbar />
-
       <main>
         <div className={styles.container}>
           <div className={styles.right}>

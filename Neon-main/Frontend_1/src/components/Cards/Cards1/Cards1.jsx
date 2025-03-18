@@ -36,7 +36,7 @@ const Cards1 = ({
     <div className={styles.card} >
       <div className={styles.left}>
         <div className={styles.mainImage}>
-          <img src={mainImage} alt={title} />
+          <img  className = "object-cover h-20"src={mainImage} alt={title} />
         </div>
         <div className={styles.leftContent}>
           <div className={styles.mainWeather}>

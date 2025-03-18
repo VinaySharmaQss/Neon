@@ -42,4 +42,6 @@ router.route("/viewed/:userId").get(getViewedPlaces);
 // get all reviews by place id
  router.route("/reviews/:placeId").get(getAllReviewsofPlaces);
 
+ // get all 
+
 export default router;

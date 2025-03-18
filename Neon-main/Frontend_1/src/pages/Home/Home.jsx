@@ -27,17 +27,19 @@ import NotificationComponent from "../../components/Notification/Notifications";
 import { fetchReviewsByUser } from "../../redux/features/modal";
 
 const Home = () => {
-  const userName = useSelector((state) => state.user?.user?.name) 
-                ?? JSON.parse(localStorage.getItem("user"))?.name 
-                ?? "Guest";
-  const isLogin = useSelector((state) => state.user?.isLogin)
-                ?? JSON.parse(localStorage.getItem("isLogin"))
-                ?? false;
+  const userName =
+    useSelector((state) => state.user?.user?.name) ??
+    JSON.parse(localStorage.getItem("user"))?.name ??
+    "Guest";
+  const isLogin =
+    useSelector((state) => state.user?.isLogin) ??
+    JSON.parse(localStorage.getItem("isLogin")) ??
+    false;
 
-  const userId = useSelector((state) => state.user?.user?.id) 
-                ?? JSON.parse(localStorage.getItem("user"))?.id
-                ?? null;              
-  
+  const userId =
+    useSelector((state) => state.user?.user?.id) ??
+    JSON.parse(localStorage.getItem("user"))?.id ??
+    null;
 
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,13 +47,14 @@ const Home = () => {
   const [viewedPlaces, setViewedPlaces] = useState([]);
   const [acceptedUser, setAcceptedUser] = useState([]);
 
-
-
   // fetch the user's viewed places
-   useEffect(() => {
+  useEffect(() => {
     const fetchViewedPlaces = async () => {
       try {
-        const response = await axios.get(`${backendUrl}places/viewed/${userId}`, { withCredentials: true });
+        const response = await axios.get(
+          `${backendUrl}places/viewed/${userId}`,
+          { withCredentials: true }
+        );
         if (response.data.success) {
           console.log(response.data?.data);
           setViewedPlaces(response?.data.data);
@@ -62,17 +65,18 @@ const Home = () => {
       } catch (err) {
         console.error("Error fetching viewed places:", err);
         toast.error("Error fetching viewed places");
-      } 
-    }
+      }
+    };
     fetchViewedPlaces();
   }, [userId]);
 
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
-        const response = await axios.get(`${backendUrl}places/all`, { withCredentials: true });
+        const response = await axios.get(`${backendUrl}places/all`, {
+          withCredentials: true,
+        });
         if (response.data.success) {
-         
           setPlaces(response.data.message);
           toast.success(response.data.data || "Places fetched successfully");
         } else {
@@ -95,14 +99,17 @@ const Home = () => {
   useEffect(() => {
     const fetchAcceptedUsers = async () => {
       try {
-        const response = await axios.get(`${backendUrl}user/allAccepted/${userId}`, {
-          withCredentials: true,
-        });
-  
+        const response = await axios.get(
+          `${backendUrl}user/allAccepted/${userId}`,
+          {
+            withCredentials: true,
+          }
+        );
+
         console.log("Accepted users:", response.data.data);
-  
+
         if (response.data && response.data.data) {
-          setAcceptedUser(response.data.data); 
+          setAcceptedUser(response.data.data);
         } else {
           setError("Failed to load accepted users");
           toast.error("Failed to load accepted users");
@@ -113,39 +120,36 @@ const Home = () => {
         toast.error("Error fetching accepted users");
       }
     };
-  
+
     if (userId) {
       fetchAcceptedUsers();
     }
   }, [userId]); // Added userId as dependency
-  
 
- // fetch the user's reviewed places
+  // fetch the user's reviewed places
   const dispatch = useDispatch();
   const { reviews } = useSelector((state) => state.modal);
 
   // Fetch reviews when component mounts
   useEffect(() => {
-    dispatch(fetchReviewsByUser()); 
+    dispatch(fetchReviewsByUser());
   }, []);
+
   const reviewdPlacesId = reviews.map((review) => review.placeId);
-  
+
   const isReviewd = (placeId) => {
     return reviewdPlacesId.includes(placeId);
   };
 
-  
   if (loading)
     return (
       <div className="text-center text-lg font-medium mt-10">
-        <Loader/>
+        <Loader />
       </div>
     );
   if (error)
     return (
-      <div className="text-center text-red-500 text-lg mt-10">
-        {error}
-      </div>
+      <div className="text-center text-red-500 text-lg mt-10">{error}</div>
     );
   if (places.length === 0)
     return (
@@ -153,16 +157,16 @@ const Home = () => {
         No places available.
       </div>
     );
-
-  const card1Data1 = viewedPlaces.map((place) => ({
+  // viewedPlaces
+  const card1Data1 = acceptedUser.map((place) => ({
     id: place.id,
     mainImage: place.mainImage,
-    weatherLogo: weather,  
+    weatherLogo: weather,
     temperature: place.temperature,
     title: place.title,
     rating: place.rating,
     ratingNum: place.rating.toFixed(1),
-    reviews: `(${place.reviews?.length || 0})`,
+    reviews: `(${place.reviews?.length || Math.round(Math.random() * 10)})`,
     description: place.description,
     readMore: " read more",
     events: [
@@ -174,27 +178,28 @@ const Home = () => {
     footerLogo: place.footerLogo,
     footerDescription: place.footerDescription,
     footerLink: "Schedule",
-
   }));
-  const card3Data_User = places.slice(0,5).map((place,index)=>({
+  const card3Data_User = places.slice(0, 5).map((place, index) => ({
     id: place.id,
     mainImage: place.mainImage,
     icon: place.footerLogo,
     category: place.category,
     title: place.footerDescription.slice(0, 20),
     description: place.title,
-    time: `${new Date(place.eventTime).toLocaleTimeString()} - ${new Date(place.eventEndTime).toLocaleTimeString()}`,
-    location: place.location, 
-    cardNumber: index+1
+    time: `${new Date(place.eventTime).toLocaleTimeString()} - ${new Date(
+      place.eventEndTime
+    ).toLocaleTimeString()}`,
+    location: place.location,
+    cardNumber: index + 1,
   }));
-  const card2DataUser = places.slice(0,5).map((place,index)=>({
+  const card2DataUser = places.slice(0, 5).map((place, index) => ({
     id: place.id,
     mainImage: place.mainImage,
     logo: place.footerLogo,
     description: place.description.slice(0, 300),
-    date:new Date(place.eventEndTime).toLocaleString(),
-    visited:place.visited,
-    isReviewd:isReviewd(place.id),
+    date: new Date(place.eventEndTime).toLocaleString(),
+    visited: place.visited,
+    isReviewd: isReviewd(place.id),
     button1: [
       {
         text: "Yes, I accept",
@@ -215,32 +220,75 @@ const Home = () => {
         class: "btn_white",
       },
     ],
-  }))
-      // mainImage: cardImg4_1,
-      // title: "Round of Golf",
-      // guests: 3,
-      // date: "on Nov 17, 2022",
-      // flag: true,
-      // rating: "★ ★ ★ ★ ★",
-  const acceptedPlaces = acceptedUser.slice(0,5).map((place)=>({
-    id: place.id,
-    mainImage: place.mainImage,
-    title: place.title,
-    guests: Math.round(Math.random() * 10),
-    date: `${new Date(place.eventTime).toLocaleTimeString()} - ${new Date(place.eventEndTime).toLocaleTimeString()}`,
-    flag: isReviewd(place.id),
-    rating: "★ ★ ★ ★ ★",
-  }))
+  }));
+  // mainImage: cardImg4_1,
+  // title: "Round of Golf",
+  // guests: 3,
+  // date: "on Nov 17, 2022",
+  // flag: true,
+  // rating: "★ ★ ★ ★ ★",
+
+  const completed = [];
+
+  const acceptedPlaces = acceptedUser.slice(0, 5).map((place) => {
+    const eventStartTime = new Date(place.eventTime); // Assuming eventTime is a valid date string
+    const eventEndTime = new Date(place.eventEndTime); // Assuming eventEndTime is a valid date string
+
+    console.log("Event End Time: ", eventEndTime);
+    const now = new Date(); // Gets the current date and time in the local timezone
+
+    // Logs for debugging
+    console.log("Current Time: ", now);
+    console.log("Is Event Completed: ", eventEndTime < now); // true if event is completed
+
+    const isCompleted = eventEndTime < now; // ✅ Properly checks if event has ended
+
+    const placeData = {
+      id: place.id,
+      mainImage: place.mainImage,
+      title: place.title,
+      guests: Math.round(Math.random() * 10), // Example: random number for guests
+      date: `${eventStartTime.toLocaleTimeString()} - ${eventEndTime.toLocaleTimeString()}`, // Formats the start and end times
+      flag: isReviewd(place.id), // Assuming isReviewd is a function that checks if the place has been reviewed
+      rating: "★ ★ ★ ★ ★", // Example static rating
+    };
+
+    if (isCompleted) {
+      completed.push(placeData); // ✅ Adds the place to completed synchronously
+      CompletedEvent(place.id); // ✅ Calls the function to mark the event as completed
+    }
+
+    return placeData; // Returning the placeData object for each place
+  });
+
+  async function CompletedEvent(placeId) {
+    try {
+      const response = await axios.post(
+        `${backendUrl}user/completed/${userId}`,
+        { placeId: placeId },
+        { withCredentials: true }
+      );
+      if (response.status === 200) {
+        console.log(`Event ${placeId} marked as completed.`);
+      }
+    } catch (error) {
+      console.error("Error marking event as completed:", error);
+    }
+  }
+
   return (
     <>
-    <NotificationComponent/>
+      <NotificationComponent />
       <header>
         <Navbar />
         <GoodMorning />
       </header>
 
       <main>
-        <Slider cardsData={isLogin ? card1Data1 : card1Data} CardComponent={Cards1} />
+        <Slider
+          cardsData={isLogin ? card1Data1 : card1Data}
+          CardComponent={Cards1}
+        />
         <div className="flex flex-col flex-wrap gap-4">
           <p
             className="text-[26px] mb-4 mt-16 ml-[50px]"
@@ -269,11 +317,13 @@ const Home = () => {
               Today&apos;s recommendations for you, {userName}!
             </p>
             <div className="flex flex-wrap gap-4  ml-16">
-              {isLogin ? card3Data_User.map((card, index) => (
-                <Cards3 key={index} {...card} />
-              )) : card3Data.map((card, index) => (
-                <Cards3 key={index} {...card} />
-              ))}
+              {isLogin
+                ? card3Data_User.map((card, index) => (
+                    <Cards3 key={index} {...card} />
+                  ))
+                : card3Data.map((card, index) => (
+                    <Cards3 key={index} {...card} />
+                  ))}
             </div>
           </div>
         </div>
@@ -285,14 +335,13 @@ const Home = () => {
               {userName}, here is your master journey with us so far!
             </p>
             <div className="flex flex-wrap gap-4  ml-16">
-              {!isLogin?
-              card4Data.map((card, index) => (
-                <Card4 key={index} {...card} />
-              )):
-              acceptedPlaces.map((card, index) => (
-                <Card4 key={index} {...card} />
-              ) 
-              )}
+              {!isLogin
+                ? card4Data.map((card, index) => (
+                    <Card4 key={index} {...card} />
+                  ))
+                : completed.map((card, index) => (
+                    <Card4 key={index} {...card} />
+                  ))}
             </div>
           </div>
         </div>
@@ -301,7 +350,7 @@ const Home = () => {
       <div className="flex flex-row flex-wrap gap-2 justify-center items-center">
         <p className={`text-[26px] ${styles.card2_text}`}>Find events on map</p>
       </div>
-      <div  className="px-[5vw] w-[1250px] mb-[50px] h-[420px]">
+      <div className="px-[5vw] w-[1250px] mb-[50px] h-[420px]">
         <MapComponent />
       </div>
       <Footer />

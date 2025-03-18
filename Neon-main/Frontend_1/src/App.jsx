@@ -6,6 +6,7 @@ import Test from "./pages/Test/Test";
 import store from "./redux/store";
 import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
+import AdminDashboard from "./pages/AdminDashboard.jsx/AdminDashboard";
 
 const UpcomingEvents = lazy(() =>
   import("./pages/UpcomingEvents/UpcomingEvents")
@@ -52,6 +53,7 @@ const App = () => {
               <Route path="/reschedules/:id" element={<ReschedulesPage />} />
 
               {/* Admin Route */}
+              <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/create-event" element={<CreateEvent />} />
               <Route path="/admin/create-cusine" element={<CreateCusine />} />
               <Route path="/admin/create-notification" element={<CreateNotification />} />

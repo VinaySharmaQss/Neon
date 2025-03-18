@@ -48,7 +48,7 @@ const EventDetails = () => {
       return reviewdPlacesId.includes(placeId);
     };
 
-    const  userReviewed=isReviewd(parseInt(id, 10)) ?? false;
+   const  userReviewed=isReviewd(parseInt(id, 10)) ?? false;
 
 
   useEffect(() => {

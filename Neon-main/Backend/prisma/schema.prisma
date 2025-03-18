@@ -24,6 +24,7 @@ model User {
   favorites    Favorite[]
   journey      Int[]
   viewed       Int[]
+  completed    Int[]
   interest     String[]
   reviews      Review[]
   cusines      Cuisines[]
