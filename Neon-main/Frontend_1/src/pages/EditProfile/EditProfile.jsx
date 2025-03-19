@@ -18,7 +18,7 @@ import Like from "../../../assets/img/Like2.svg";
 import { backendUrl } from "../../utils/utils";
 import { useParams } from "react-router";
 import toast from "react-hot-toast";
-
+import { CiEdit } from "react-icons/ci";
 const EditProfile = () => {
   const { id } = useParams();
   const fileInputRef = useRef(null);
@@ -242,6 +242,7 @@ const EditProfile = () => {
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.title}>Edit Charlie&apos;s Profile</div>
           <div className={styles.content}>
+            <CiEdit/>
             <div
               className={styles.imgWrapper}
               onClick={() => fileInputRef.current.click()}

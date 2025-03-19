@@ -38,14 +38,16 @@ const ReviewModal = ({ placeId, cusineId, isModalOpen }) => {
     setRatings((prev) => ({ ...prev, [category]: value }));
   };
 
-  // handling the scrolling of the desktop
+  // Prevent scrolling on the body when modal is open
   useEffect(() => {
     if (isModalOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-    return () => (document.body.style.overflow = "auto");
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [isModalOpen]);
 
   const handleSubmit = () => {
@@ -81,17 +83,13 @@ const ReviewModal = ({ placeId, cusineId, isModalOpen }) => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
           <div
-            className="bg-white rounded-2xl p-6 shadow-xl overflow-y-auto"
-            style={{
-              width: "531px",
-              height: "550px",
-              fontFamily: "BrownRegular",
-            }}
+            className="bg-white rounded-2xl p-6 shadow-xl w-[531px] h-[550px] flex flex-col justify-between"
+            style={{ fontFamily: "BrownRegular" }}
           >
             {/* Header */}
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center ">
               <h2
-                className="text-lg font-semibold text-gray-800"
+                className="text-lg font-semibold text-gray-800 mb-[-50px]"
                 style={{ fontFamily: "IvyMode" }}
               >
                 Add a review
@@ -103,18 +101,16 @@ const ReviewModal = ({ placeId, cusineId, isModalOpen }) => {
             </div>
 
             {/* Description */}
-            <p className="text-sm text-gray-600 mb-6">
+            <p className="text-sm text-gray-600">
               Hi {userName}, if you’re here on this page, we bet you enjoyed this
               event. Would you mind sharing your valuable feedback with us?
             </p>
 
             {/* Ratings */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-2 mt-[-20px]">
               {categories.map(({ key, label }) => (
                 <div key={key}>
-                  <p className="text-sm font-medium text-gray-700 mb-1">
-                    {label}
-                  </p>
+                  <p className="text-sm font-medium text-gray-700">{label}</p>
                   <div className="flex gap-1">
                     {[1, 2, 3, 4, 5].map((value) => (
                       <Star
@@ -131,29 +127,25 @@ const ReviewModal = ({ placeId, cusineId, isModalOpen }) => {
             </div>
 
             {/* Feedback */}
-            <div className="mt-6">
-              <textarea
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
-                className="w-full border rounded-lg p-2 text-sm text-gray-700"
-                rows="4"
-                placeholder="Share your feedback and suggestions about this event..."
-              ></textarea>
-            </div>
+            <textarea
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+              className="w-full border rounded-lg p-2 text-sm text-gray-700 mt-2"
+              rows="3"
+              placeholder="Share your feedback and suggestions about this event..."
+            ></textarea>
 
             {/* Submit Button */}
-            <div className="mt-4">
-              <button
-                onClick={handleSubmit}
-                disabled={loading}
-                className="w-full bg-black text-white py-2 rounded-lg font-medium hover:bg-gray-900 transition"
-              >
-                {loading ? "Submitting..." : "Submit"}
-              </button>
-              {error && (
-                <p className="mt-2 text-sm text-red-500">{error}</p>
-              )}
-            </div>
+            <button
+              onClick={handleSubmit}
+              disabled={loading}
+              className="w-[100px] bg-black text-white py-2 rounded-lg font-medium hover:bg-gray-900 transition mt-2"
+            >
+              {loading ? "Submitting..." : "Submit"}
+            </button>
+            {error && (
+              <p className="text-sm text-red-500 text-center mt-1">{error}</p>
+            )}
           </div>
         </div>
       )}

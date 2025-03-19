@@ -25,10 +25,10 @@ const VibeOMeter = ({ flag, onClose }) => {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-4 rounded-lg shadow-xl w-full max-w-xs relative animate-fadeIn">
+          <div className="bg-white p-5 rounded-lg shadow-xl w-[380px] h-[500px] flex flex-col justify-between relative animate-fadeIn">
             {/* Close Button */}
             <button
-              className="absolute top-2 right-3 text-gray-500 hover:text-gray-800"
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-lg"
               onClick={() => {
                 setShowModal(false);
                 onClose();
@@ -38,15 +38,15 @@ const VibeOMeter = ({ flag, onClose }) => {
             </button>
 
             {/* Modal Heading */}
-            <h2 className="text-lg font-semibold text-gray-800 text-center">
-              Vibe-o-meter
-            </h2>
-            <p className="text-gray-600 text-xs text-center mt-1 mb-3">
-              How was your experience? Your feedback helps us improve!
-            </p>
+            <div>
+              <h2 className="text-xl font-semibold text-gray-800">Vibe-o-meter</h2>
+              <p className="text-gray-600 text-sm mt-1">
+                How was your experience? Your feedback helps us improve!
+              </p>
+            </div>
 
             {/* Speedometer Gauge */}
-            <div className="flex flex-col items-center space-y-1">
+            <div className="flex flex-col items-center">
               <Speedometer
                 value={vibeValue}
                 minValue={0}
@@ -56,8 +56,8 @@ const VibeOMeter = ({ flag, onClose }) => {
                 startColor="green"
                 endColor="red"
                 ringWidth={20}
-                width={200}
-                height={120} // Decreased height
+                width={220}
+                height={150} // Decreased height
                 currentValueText={getVibeText(vibeValue)}
                 textColor="black"
               />
@@ -70,23 +70,23 @@ const VibeOMeter = ({ flag, onClose }) => {
                 step="50"
                 value={vibeValue}
                 onChange={(e) => setVibeValue(Number(e.target.value))}
-                className="w-full accent-black cursor-pointer"
+                className="w-full mt-4 accent-black cursor-pointer"
               />
             </div>
 
             {/* Feedback Textarea */}
             <textarea
-              className="w-full mt-2 p-2 border rounded-lg text-gray-700 text-sm focus:ring-2 focus:ring-black focus:outline-none"
+              className="w-full p-2 border rounded-lg text-gray-700 text-sm focus:ring-2 focus:ring-black focus:outline-none"
               placeholder="Share your experience..."
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
-              rows={2} // Reduced height
+              rows={5}
             />
 
             {/* Submit Button */}
             <button
               onClick={handleSubmitFeedback}
-              className="w-full mt-3 px-3 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition text-sm"
+              className="w-[100px] mt-2 px-3 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition text-sm"
             >
               Submit
             </button>

@@ -24,7 +24,7 @@ const Cards2 = ({ id, mainImage, logo, title, date, description, button1, button
           <p style={{ fontFamily: "BrownRegular" }} className={styles.para1}>{date}</p>
           <p style={{ fontFamily: "BrownRegular" }} className={styles.para}>{description}</p>
           <div className={styles.btn_group}>
-            {isReviewd ? button1.map((button, index) => (
+            {!isReviewd ? button1.map((button, index) => (
               <Link to={`/event-details/${id}`} key={index}>
                 <button className={styles[button.class]} style={{ fontFamily: "BrownRegular" }}>
                   {button.text}

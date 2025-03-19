@@ -44,7 +44,6 @@ const Faviorates = () => {
         });
         if (response.data.success) {
           setPlaces(response.data.message);
-          toast.success("Places fetched successfully");
         } else {
           setError("Failed to load places");
           toast.error("Failed to load places");
@@ -73,7 +72,6 @@ const Faviorates = () => {
 
         if (response.data.success) {
           setFavorites(response.data.data); // Assuming `data` holds the favorites array
-          toast.success("Favorites fetched successfully");
         } else {
           setError("Failed to load favorites");
           toast.error("Failed to load favorites");
@@ -103,7 +101,6 @@ const Faviorates = () => {
         setFavorites((prevFavorites) =>
           prevFavorites.filter((place) => place.id !== placeId)
         );
-        toast.success("Favorite removed successfully");
       } else {
         toast.error("Failed to remove favorite");
       }

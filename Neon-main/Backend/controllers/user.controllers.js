@@ -326,8 +326,9 @@ const getCompletedPlaces = async (req, res) => {
   const { id } = req.params;
 
   try {
+    // Fetch the user and their completed places array
     const user = await prisma.user.findUnique({
-      where: { id: parseInt(id) },
+      where: { id: parseInt(id, 10) },
       select: { completed: true },
     });
 
@@ -335,16 +336,23 @@ const getCompletedPlaces = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+    // Ensure completed array is not null or empty
+    if (!user.completed || user.completed.length === 0) {
+      return res.json({ message: "No completed places found.", completedPlaces: [] });
+    }
+
+    // Fetch places using the completed place IDs
     const completedPlaces = await prisma.place.findMany({
       where: { id: { in: user.completed } },
     });
 
-    res.json(completedPlaces);
+    res.json({ completedPlaces });
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching completed places:", error);
     res.status(500).json({ error: "An error occurred while fetching completed places." });
   }
 };
+
 
 
 

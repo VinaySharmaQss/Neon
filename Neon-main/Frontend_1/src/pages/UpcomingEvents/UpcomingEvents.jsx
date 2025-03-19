@@ -42,7 +42,7 @@ const UpcomingEvents = () => {
         });
         if (response.data.success) {
           setPlaces(response.data.message);
-          toast.success("Places fetched successfully");
+         
         } else {
           setError("Failed to load places");
           toast.error("Failed to load places");

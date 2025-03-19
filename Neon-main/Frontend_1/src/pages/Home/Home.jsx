@@ -45,6 +45,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [viewedPlaces, setViewedPlaces] = useState([]);
+
   const [acceptedUser, setAcceptedUser] = useState([]);
 
   // fetch the user's viewed places
@@ -78,7 +79,6 @@ const Home = () => {
         });
         if (response.data.success) {
           setPlaces(response.data.message);
-          toast.success(response.data.data || "Places fetched successfully");
         } else {
           setError("Failed to load places");
           toast.error("Failed to load places");
@@ -137,7 +137,7 @@ const Home = () => {
 
   const reviewdPlacesId = reviews.map((review) => review.placeId);
 
-  const isReviewd = (placeId) => {
+  const isReviewed = (placeId) => {
     return reviewdPlacesId.includes(placeId);
   };
 
@@ -159,6 +159,7 @@ const Home = () => {
     );
   
 
+
   const card3Data_User = places.slice(0, 5).map((place, index) => ({
     id: place.id,
     mainImage: place.mainImage,
@@ -172,35 +173,7 @@ const Home = () => {
     location: place.location,
     cardNumber: index + 1,
   }));
-  const card2DataUser = places.slice(0, 5).map((place, index) => ({
-    id: place.id,
-    mainImage: place.mainImage,
-    logo: place.footerLogo,
-    description: place.description.slice(0, 300),
-    date: new Date(place.eventEndTime).toLocaleString(),
-    visited: place.visited,
-    isReviewd: isReviewd(place.id),
-    button1: [
-      {
-        text: "Yes, I accept",
-        class: "btn_black",
-      },
-      {
-        text: "No, thanks",
-        class: "btn_white",
-      },
-    ],
-    button2: [
-      {
-        text: "Yes, I would share",
-        class: "btn_black",
-      },
-      {
-        text: "Remind me later",
-        class: "btn_white",
-      },
-    ],
-  }));
+
   // mainImage: cardImg4_1,
   // title: "Round of Golf",
   // guests: 3,
@@ -229,7 +202,7 @@ const Home = () => {
       title: place.title,
       guests: Math.round(Math.random() * 10), // Example: random number for guests
       date: `${eventStartTime.toLocaleTimeString()} - ${eventEndTime.toLocaleTimeString()}`, // Formats the start and end times
-      flag: isReviewd(place.id), // Assuming isReviewd is a function that checks if the place has been reviewed
+      flag: isReviewed(place.id), // Assuming isReviewd is a function that checks if the place has been reviewed
       rating: "★ ★ ★ ★ ★", // Example static rating
     };
 
@@ -259,6 +232,11 @@ const Home = () => {
   const eventsData = acceptedUser.filter((place)=>{
     return completed.find((completedPlace)=>completedPlace.id !== place.id);
   })
+  const completedPlaces = completed.map((review) => review.id);
+    
+  const isReviewes = (placeId) => {
+    return completedPlaces.includes(placeId);
+  };
   
   const card1Data1 = eventsData.map((place) => ({
     id: place.id,
@@ -280,6 +258,35 @@ const Home = () => {
     footerLogo: place.footerLogo,
     footerDescription: place.footerDescription,
     footerLink: "Scheduled",
+  }));
+  const card2DataUser = places.slice(0, 5).map((place, index) => ({
+    id: place.id,
+    mainImage: place.mainImage,
+    logo: place.footerLogo,
+    description: place.description.slice(0, 300),
+    date: new Date(place.eventEndTime).toLocaleString(),
+    visited: place.visited,
+    isReviewd: isReviewes(place.id),
+    button1: [
+      {
+        text: "Yes, I accept",
+        class: "btn_black",
+      },
+      {
+        text: "No, thanks",
+        class: "btn_white",
+      },
+    ],
+    button2: [
+      {
+        text: "Yes, I would share",
+        class: "btn_black",
+      },
+      {
+        text: "Remind me later",
+        class: "btn_white",
+      },
+    ],
   }));
 
   return (

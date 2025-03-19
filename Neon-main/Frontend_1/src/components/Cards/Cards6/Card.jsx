@@ -104,7 +104,7 @@ const Card6 = ({ userId, placeId, booked }) => {
         </div>
       </div>
 
-      {booked && (
+      {!booked && (
         <>
           {/* Guests Dropdown */}
           <div className={styles.dropdownContainer} ref={guestsRef}>

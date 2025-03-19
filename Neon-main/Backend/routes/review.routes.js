@@ -1,5 +1,6 @@
 import {Router} from "express";
-import { createReview, getAllReviews, getReviewByCusineId, getReviewByPlaceId, getReviewByUserId } from "../controllers/modal.controllers.js";
+import { createReview, getAllReviews, getReviewByCusineId, getReviewByPlaceId, getReviewByUserId, getUserReviewedPlaces } from "../controllers/modal.controllers.js";
+
 
 const router = Router();
 
@@ -17,5 +18,8 @@ router.route("/cusine/:cusineId").get(getReviewByCusineId);
 
 // get all review by user id
 router.route("/user/:userId").get(getReviewByUserId);
+
+// get all the user reviewed places
+router.route("/user/:userId/places").get(getUserReviewedPlaces);
 
 export default router;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Cards3.module.css';
 import { FiHeart } from "react-icons/fi";
 import RemoveBtn from '../../../UI/RemoveBtn';
@@ -18,6 +18,25 @@ const Cards3 = ({ id, mainImage, icon, title, date, description, time, cardNumbe
   const navigate = useNavigate();
 
   const [isFavorited, setIsFavorited] = useState(false);
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}places/getAllFavourite/${userId}`);
+        setFavorites(response.data.data);
+
+        // Check if the current place is in the favorites array
+        if (response.data.data.some(favorite => favorite.id === id)) {
+          setIsFavorited(true);
+        }
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+      }
+    };
+
+    fetchFavorites();
+  }, [userId, id]);
 
   const addToFavorite = async () => {
     if (!userId) {
@@ -42,7 +61,7 @@ const Cards3 = ({ id, mainImage, icon, title, date, description, time, cardNumbe
 
       if (response.data.success) {
         setIsFavorited(true); // Change the heart color
-        toast.success("Added to favorites");
+        window.location.reload();
       }
 
     } catch (error) {
@@ -74,8 +93,8 @@ const Cards3 = ({ id, mainImage, icon, title, date, description, time, cardNumbe
       console.log("Removed from favorites:", response.data);
 
       if (response.data.success) {
+        setIsFavorited(false); // Change the heart color back to default
         window.location.reload();
-        toast.success("Removed from favorites");
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong!");
@@ -84,7 +103,6 @@ const Cards3 = ({ id, mainImage, icon, title, date, description, time, cardNumbe
   };
 
   return (
-    
     <div className={styles.container} >
       <div className={styles.card}>
         <img
@@ -99,7 +117,7 @@ const Cards3 = ({ id, mainImage, icon, title, date, description, time, cardNumbe
             <FiHeart
               className={styles.heartIcon}
               fill={isFavorited ? 'red' : '#00000080'}
-              onClick={addToFavorite}
+              onClick={isFavorited ? removeFromFavorite : addToFavorite}
             />
           )}
           <div className="relative flex items-center justify-center w-20 h-28 shadow-lg">

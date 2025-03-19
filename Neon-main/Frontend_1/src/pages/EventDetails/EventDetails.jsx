@@ -43,10 +43,10 @@ const EventDetails = () => {
     useEffect(() => {
       dispatch(fetchReviewsByUser()); 
     }, []);
-    const reviewdPlacesId = reviewsPlaces.map((review) => review.placeId);
+    const completedPlaces = completed.map((review) => review.id);
     
     const isReviewd = (placeId) => {
-      return reviewdPlacesId.includes(placeId);
+      return completedPlaces.includes(placeId);
     };
 
    const  userReviewed=isReviewd(parseInt(id, 10)) ?? false;
@@ -56,21 +56,25 @@ const EventDetails = () => {
   useEffect(() => {
     const fetchCompletedEvents = async () => {
       try {
-        const respone = await axios.get(`${backendUrl}user/completed/${userId}`, {
+        const response = await axios.get(`${backendUrl}user/completed/${userId}`, {
           withCredentials: true,
-        })
-        console.log(respone.data.data+"completed");
-        if (respone.data.success) {
-          console.log(respone.data.data+"completed");
-          setCompleted(respone.data.data);
+        });
+  
+      
+  
+        if (response.data.completedPlaces.length > 0) {
+          setCompleted(response.data.completedPlaces);
         }
+      } catch (error) {
+        console.error("Error fetching completed events:", error);
       }
-      catch (error) {
-        console.log("Error fetching completed events:")
-      }
+    };
+  
+    if (userId) {
+      fetchCompletedEvents();
     }
-    fetchCompletedEvents();
-  },[userId])
+  }, [userId]); // ✅ Dependency array only triggers when userId changes
+  
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
@@ -84,7 +88,6 @@ const EventDetails = () => {
 
         if (response.data.success) {
           setPlaces(response.data.message);
-          toast.success(response.data.data || "Places fetched successfully");
         } else {
           setError("Failed to load places");
           toast.error("Failed to load places");
@@ -108,7 +111,6 @@ const EventDetails = () => {
         );
         if (response.data.success) {
           setEvent(response.data.message);
-          toast.success("Event fetched successfully");
         }
       } catch (error) {
         console.error("Error fetching event:", error);
@@ -126,7 +128,6 @@ const EventDetails = () => {
           withCredentials: true,
         });
         if (response.data.success) {
-          toast.success("Reviews fetched successfully");
           console.log(response.data.data);
           setReviews(response.data.data);
         } else {
@@ -171,14 +172,14 @@ const EventDetails = () => {
       <ReviewModal isModalOpen={isModalOpen} placeId={id} />
       {/* Feedback Banner */}
      {
-      !userReviewed &&
+      userReviewed &&
       <div
       className="w-[1122.48px] h-[128.57px]  border border-[#222222] rounded-lg flex items-center justify-between px-6 mx-10 mt-8 mb-4"
       style={{ fontFamily: "BrownRegular" }}
     >
       <div>
         <h2
-          className="text-[27px] font-medium text-gray-800"
+          className="text-[27px] font-medium text-gray-800 ml-[-520px] mb-[-10px]"
           style={{ fontFamily: "IvyMode" }}
         >
           Hey Charlie,
