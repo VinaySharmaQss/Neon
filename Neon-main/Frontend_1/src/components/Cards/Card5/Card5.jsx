@@ -1,10 +1,12 @@
 import React from 'react';
 import styles from './Card5.module.css';
 import { FiHeart } from "react-icons/fi";
+import { useNavigate } from 'react-router';
 
-const Card5 = ({ mainImage, title, date, description, time, logo }) => {
+const Card5 = ({id, mainImage, title, date, description, time, logo }) => {
+  const navigate= useNavigate();
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={()=>navigate(`/event-details/${id}`)}>
       <img src={mainImage} alt="Event" className={styles.mainImage} />
       <div className={styles.content}>
         <div className={styles.left}>
