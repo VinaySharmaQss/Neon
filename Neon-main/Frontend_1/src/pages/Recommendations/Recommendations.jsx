@@ -19,7 +19,8 @@ const Recommendations = () => {
     useSelector((state) => state.user?.user?.name) ??
     JSON.parse(localStorage.getItem("user"))?.name ??
     "Guest";
-
+  const userId = useSelector((state) => state.user?.user?.id) ?? JSON.parse(localStorage.getItem("user"))?.id ?? null;  
+  const [completed, setCompleted] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [event, setEvent] = useState(null);
   const [places, setPlaces] = useState([]);
@@ -44,7 +45,27 @@ const Recommendations = () => {
     fetchPlace();
   }, [id]);
 
-  // ✅ Get all the places, excluding the canceled event's place
+  // ✅ Get the user's completed places
+  useEffect(() => {
+    const fetchCompleted = async () => {
+      try {
+        const response = await axios.get(`${backendUrl}user/completed/${userId}`, {
+          withCredentials: true,
+        });
+        if (response.data) {
+          const completedIds = response.data.completedPlaces.map(place => place.id);
+          setCompleted(completedIds);
+          toast.success("Completed places fetched successfully");
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Error fetching completed places");
+      }
+    };
+    fetchCompleted();
+  }, [userId]);
+
+  // ✅ Get all the places, excluding the canceled event's place and completed places
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
@@ -52,8 +73,9 @@ const Recommendations = () => {
           withCredentials: true,
         });
         if (response.data.success) {
+          console.log();
           const filteredPlaces = response.data.message.filter((place) => {
-            return String(place.id) !== String(id);
+            return String(place.id) !== String(id) && !completed.includes(place.id);
           });
           setPlaces(filteredPlaces);
         }
@@ -63,7 +85,7 @@ const Recommendations = () => {
       }
     };
     fetchPlaces();
-  }, [id]);
+  }, [id, completed]);
 
   // Update eventData whenever places change
   useEffect(() => {
@@ -81,7 +103,7 @@ const Recommendations = () => {
 
   const deletedEvent = event?.title;
 
-  const card3Data_User = places.slice(0,5).map((place,index)=>({
+  const card3Data_User = places.slice(0,15).map((place,index)=>({
     id: place.id,
     mainImage: place.mainImage,
     icon: place.footerLogo,
@@ -90,7 +112,6 @@ const Recommendations = () => {
     description: place.title,
     time: `${new Date(place.eventTime).toLocaleTimeString()} - ${new Date(place.eventEndTime).toLocaleTimeString()}`,
     location: place.location, 
-    cardNumber: index+1
   }));
 
   const nextCard = () => {

@@ -13,8 +13,10 @@ import Loader from "../../UI/Loader";
 import { card2_1Data, card3Data, card5Data } from "../../constants/data";
 import { backendUrl } from "../../utils/utils";
 import styles from "./Faviorates.module.css";
+import { useNavigate } from "react-router";
 
 const Faviorates = () => {
+  const navigate = useNavigate(); 
   const userName =
     useSelector((state) => state.user?.user?.name) ??
     JSON.parse(localStorage.getItem("user"))?.name ??
@@ -171,10 +173,17 @@ const Faviorates = () => {
     onRemove: () => handleRemoveFavorite(place.id), // Add onRemove handler
   }));
 
+   function handleStaticData(){
+    if(!isLogin){
+      navigate("/auth/login");
+    }
+  }
+
   return (
     <>
-      <header>
+      
         <Navbar />
+        <div onClick={handleStaticData}>
         <div className="mx-[50px] my-8">
           <h1 className="text-[26px] mt-2.5" style={{ fontFamily: "IvyMode" }}>
             Good Morning {userName}!
@@ -186,7 +195,7 @@ const Faviorates = () => {
             You have shortlisted 8 events to join later.
           </p>
         </div>
-      </header>
+      
 
       <main>
         <div className="grid grid-cols-5 mr-24 ml-12">
@@ -228,6 +237,7 @@ const Faviorates = () => {
       </main>
 
       <Footer />
+      </div>
     </>
   );
 };

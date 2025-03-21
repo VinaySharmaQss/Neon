@@ -3,7 +3,7 @@ import { FaUser, FaEnvelope, FaLock, FaCalendarAlt, FaPhone, FaImage } from "rea
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // Import Link from react-router-dom
 import { backendUrl } from "../../utils/utils";
 import toast from "react-hot-toast";
 import { signupReducer } from "../../redux/features/user";
@@ -203,6 +203,12 @@ const Signup = () => {
             Sign Up
           </motion.button>
         </form>
+        <p className="text-center mt-4">
+          Already have an account?{" "}
+          <Link to="/auth/login" className="text-blue-500 hover:underline">
+            Sign In
+          </Link>
+        </p>
       </motion.div>
     </motion.div>
   );

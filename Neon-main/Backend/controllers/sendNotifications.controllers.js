@@ -6,7 +6,7 @@ import { io } from "../server.js";
 export const sendNotifications = asyncHandler(async (req, res, next) => {
     const { message,placeId
      } = req.body;
-
+   
     if (!message ) {
         throw new ApiError("Please provide  message", 400);
     }
@@ -19,6 +19,7 @@ export const sendNotifications = asyncHandler(async (req, res, next) => {
         placeId,
         time: new Date().toISOString(),
     };
+
 
     io.emit("notification", notification); // emit to all clients
 

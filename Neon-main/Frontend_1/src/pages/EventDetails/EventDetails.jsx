@@ -31,6 +31,7 @@ const EventDetails = () => {
   const [event, setEvent] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [completed, setCompleted] = useState([]);
+  const [acceptedUser, setAcceptedUser] = useState([]);
 
   const stars = Array.from({ length: 5 });
   const colors = {
@@ -38,30 +39,30 @@ const EventDetails = () => {
     grey: "#e4e5e9",
   };
 
-    const  reviewsPlaces  = useSelector((state) => state.modal.reviews);
-    // Fetch reviews when component mounts
-    useEffect(() => {
-      dispatch(fetchReviewsByUser()); 
-    }, []);
-    const completedPlaces = completed.map((review) => review.id);
-    
-    const isReviewd = (placeId) => {
-      return completedPlaces.includes(placeId);
-    };
+  const reviewsPlaces = useSelector((state) => state.modal.reviews);
+  // Fetch reviews when component mounts
+  useEffect(() => {
+    dispatch(fetchReviewsByUser());
+  }, []);
+  const completedPlaces = completed.map((review) => review.id);
 
-   const  userReviewed=isReviewd(parseInt(id, 10)) ?? false;
+  const isReviewd = (placeId) => {
+    return completedPlaces.includes(placeId);
+  };
 
+  const userReviewed = isReviewd(parseInt(id, 10)) ?? false;
 
   // get all the completed events
   useEffect(() => {
     const fetchCompletedEvents = async () => {
       try {
-        const response = await axios.get(`${backendUrl}user/completed/${userId}`, {
-          withCredentials: true,
-        });
-  
-      
-  
+        const response = await axios.get(
+          `${backendUrl}user/completed/${userId}`,
+          {
+            withCredentials: true,
+          }
+        );
+
         if (response.data.completedPlaces.length > 0) {
           setCompleted(response.data.completedPlaces);
         }
@@ -69,12 +70,12 @@ const EventDetails = () => {
         console.error("Error fetching completed events:", error);
       }
     };
-  
+
     if (userId) {
       fetchCompletedEvents();
     }
   }, [userId]); // ✅ Dependency array only triggers when userId changes
-  
+
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
@@ -139,6 +140,38 @@ const EventDetails = () => {
     } catch (error) {}
   }, [id]);
 
+  useEffect(() => {
+    const fetchAcceptedUsers = async () => {
+      try {
+        const response = await axios.get(
+          `${backendUrl}user/allAccepted/${userId}`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        console.log("Accepted users:", response.data.data);
+
+        if (response.data && response.data.data) {
+          setAcceptedUser(response.data.data);
+        } else {
+          setError("Failed to load accepted users");
+          toast.error("Failed to load accepted users");
+        }
+      } catch (err) {
+        console.error("Error fetching accepted users:", err);
+        setError("Error fetching accepted users");
+        toast.error("Error fetching accepted users");
+      }
+    };
+
+    fetchAcceptedUsers();
+  }, [userId]);
+
+  const acceptedUserIds = acceptedUser.map((user) => user.id);
+
+  const scheduledPlace = acceptedUserIds.includes(parseInt(id, 10));
+
   if (error)
     return (
       <div className="text-center text-red-500 text-lg mt-10">{error}</div>
@@ -171,34 +204,33 @@ const EventDetails = () => {
       <Navbar />
       <ReviewModal isModalOpen={isModalOpen} placeId={id} />
       {/* Feedback Banner */}
-     {
-      userReviewed &&
-      <div
-      className="w-[1122.48px] h-[128.57px]  border border-[#222222] rounded-lg flex items-center justify-between px-6 mx-10 mt-8 mb-4"
-      style={{ fontFamily: "BrownRegular" }}
-    >
-      <div>
-        <h2
-          className="text-[27px] font-medium text-gray-800 ml-[-520px] mb-[-10px]"
-          style={{ fontFamily: "IvyMode" }}
+      {userReviewed && (
+        <div
+          className="w-[1122.48px] h-[128.57px]  border border-[#222222] rounded-lg flex items-center justify-between px-6 mx-10 mt-8 mb-4"
+          style={{ fontFamily: "BrownRegular" }}
         >
-          Hey Charlie,
-        </h2>
-        <p className="text-[16px] text-gray-600">
-          We are sure that you have enjoyed this event a lot. Would you like
-          to share your feedback with us?
-          <br />
-          It helps us to improve and serve you better.
-        </p>
-      </div>
-      <button
-        className="bg-black text-white text-sm px-4 py-2 rounded-md hover:bg-gray-900 transition"
-        onClick={() => dispatch(modalToggle())}
-      >
-        Add a review
-      </button>
-    </div>
-     }
+          <div>
+            <h2
+              className="text-[27px] font-medium text-gray-800 ml-[-520px] mb-[-10px]"
+              style={{ fontFamily: "IvyMode" }}
+            >
+              Hey Charlie,
+            </h2>
+            <p className="text-[16px] text-gray-600">
+              We are sure that you have enjoyed this event a lot. Would you like
+              to share your feedback with us?
+              <br />
+              It helps us to improve and serve you better.
+            </p>
+          </div>
+          <button
+            className="bg-black text-white text-sm px-4 py-2 rounded-md hover:bg-gray-900 transition"
+            onClick={() => dispatch(modalToggle())}
+          >
+            Add a review
+          </button>
+        </div>
+      )}
 
       {/* Event Details */}
       <div className="flex flex-col px-12">
@@ -221,8 +253,14 @@ const EventDetails = () => {
       </div>
 
       <div className={styles.Images}>
-        <div className={styles.scheduled}>Scheduled</div>
-        <ImageGrid Image={event?.mainImage} />
+        <div className={styles.scheduled}>
+          {userReviewed
+            ? "Completed"
+            : scheduledPlace
+            ? "Scheduled"
+            : "Schedule"}
+        </div>
+        <ImageGrid image={event?.mainImage} />
       </div>
 
       <div className={styles.description}>
@@ -251,7 +289,7 @@ const EventDetails = () => {
 
         <div className="flex flex-col items-center mr-[120px]">
           <div className={styles.box}>
-            <Card6 userId={userId} placeId={id} booked={userReviewed} />
+            <Card6 userId={userId} placeId={id} booked={userReviewed} scheduled={scheduledPlace} />
           </div>
           <p className="font-['BrownRegular']">Need help?</p>
         </div>

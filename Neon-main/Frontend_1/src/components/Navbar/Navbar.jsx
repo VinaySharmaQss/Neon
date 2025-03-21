@@ -34,7 +34,9 @@ const Navbar = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
   const toggleNotificationModal = () => dispatch(toggleNotification());
 
-  const openReschedulePopup = () => (setIsReschedulePopupOpen(true));
+  const openReschedulePopup = () => (
+    toggleNotificationModal(),
+    setIsReschedulePopupOpen(true));
   const closeReschedulePopup = () => setIsReschedulePopupOpen(false);
 
   const openCancelPopup = () => setIsCancelPopupOpen(true);

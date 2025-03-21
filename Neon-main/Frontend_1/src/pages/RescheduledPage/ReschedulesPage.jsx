@@ -133,12 +133,12 @@ const ReschedulesPage = () => {
           )}
         </div>
 
-        <button className={styles.prevButton} onClick={prevCard}>
+        {/* <button className={styles.prevButton} onClick={prevCard}>
           <ArrowLeft className="w-4 h-4" />
         </button>
         <button className={styles.nextButton} onClick={nextCard}>
           <ArrowRight className="w-4 h-4" />
-        </button>
+        </button> */}
       </div>
       <div className={styles.title_1}>
         <h1>Some similar recommendations for you, {userName}.</h1>

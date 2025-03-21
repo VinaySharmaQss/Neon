@@ -3,7 +3,8 @@ import axios from 'axios';
 import styles from './Card6.module.css';
 import { backendUrl } from '../../../utils/utils';
 
-const Card6 = ({ userId, placeId, booked }) => {
+const Card6 = ({ userId, placeId, booked,scheduled }) => {
+  console.log("Scheduled" ,scheduled)
   const [guestsDropdownOpen, setGuestsDropdownOpen] = useState(false);
   const [childrenDropdownOpen, setChildrenDropdownOpen] = useState(false);
   const [selectedGuests, setSelectedGuests] = useState('1 adult');
@@ -103,8 +104,8 @@ const Card6 = ({ userId, placeId, booked }) => {
           <label>To</label>
         </div>
       </div>
-
-      {!booked && (
+      
+      {(!booked && !scheduled) && (
         <>
           {/* Guests Dropdown */}
           <div className={styles.dropdownContainer} ref={guestsRef}>

@@ -25,8 +25,10 @@ import Loader from "../../UI/Loader";
 import ReviewModal from "../../components/Modal/Modal";
 import NotificationComponent from "../../components/Notification/Notifications";
 import { fetchReviewsByUser } from "../../redux/features/modal";
+import { useNavigate } from "react-router";
 
 const Home = () => {
+  const navigate = useNavigate();
   const userName =
     useSelector((state) => state.user?.user?.name) ??
     JSON.parse(localStorage.getItem("user"))?.name ??
@@ -160,19 +162,26 @@ const Home = () => {
   
 
 
-  const card3Data_User = places.slice(0, 5).map((place, index) => ({
-    id: place.id,
-    mainImage: place.mainImage,
-    icon: place.footerLogo,
-    category: place.category,
-    title: place.footerDescription.slice(0, 20),
-    description: place.title,
-    time: `${new Date(place.eventTime).toLocaleTimeString()} - ${new Date(
-      place.eventEndTime
-    ).toLocaleTimeString()}`,
-    location: place.location,
-    cardNumber: index + 1,
-  }));
+    const card3Data_User = places.slice(0, 5).map((place, index) => {
+      const eventStartTime = new Date(place.eventTime);
+      const eventEndTime = new Date(place.eventEndTime);
+    
+      const options = { day: 'numeric', month: 'long', year: 'numeric' };
+      const formattedStartDate = eventStartTime.toLocaleDateString(undefined, options);
+      const formattedEndDate = eventEndTime.toLocaleDateString(undefined, options);
+    
+      return {
+        id: place.id,
+        mainImage: place.mainImage,
+        icon: place.footerLogo,
+        category: place.category,
+        title: place.footerDescription.slice(0, 20),
+        description: place.title,
+        time: `${formattedStartDate} - ${formattedEndDate}`,
+        location: place.location,
+        cardNumber: index + 1,
+      };
+    });
 
   // mainImage: cardImg4_1,
   // title: "Round of Golf",
@@ -187,15 +196,13 @@ const Home = () => {
     const eventStartTime = new Date(place.eventTime); // Assuming eventTime is a valid date string
     const eventEndTime = new Date(place.eventEndTime); // Assuming eventEndTime is a valid date string
 
-    console.log("Event End Time: ", eventEndTime);
+
     const now = new Date(); // Gets the current date and time in the local timezone
 
-    // Logs for debugging
-    console.log("Current Time: ", now);
-    console.log("Is Event Completed: ", eventEndTime < now); // true if event is completed
+    
 
     const isCompleted = eventEndTime < now; // ✅ Properly checks if event has ended
-
+    console.log("Event has ended: ", isCompleted);
     const placeData = {
       id: place.id,
       mainImage: place.mainImage,
@@ -207,7 +214,9 @@ const Home = () => {
     };
 
     if (isCompleted) {
+      console.log("Event is completed: ", place.id);
       completed.push(placeData); // ✅ Adds the place to completed synchronously
+      console.log("Completed places: ", completed);
       CompletedEvent(place.id); // ✅ Calls the function to mark the event as completed
     }
 
@@ -228,75 +237,100 @@ const Home = () => {
       console.error("Error marking event as completed:", error);
     }
   }
- // filter the accepted user from the  completed places on the basis of the id
-  const eventsData = acceptedUser.filter((place)=>{
-    return completed.find((completedPlace)=>completedPlace.id !== place.id);
-  })
+  console.log("Completed places: ", completed);
+  console.log("Accepted places: ", acceptedUser);
+ 
+   const eventsData = acceptedUser.filter((place) => {
+    return !completed.some((completedPlace) => completedPlace.id === place.id);
+  });
+ 
   const completedPlaces = completed.map((review) => review.id);
     
   const isReviewes = (placeId) => {
     return completedPlaces.includes(placeId);
   };
   
-  const card1Data1 = eventsData.map((place) => ({
-    id: place.id,
-    mainImage: place.mainImage,
-    weatherLogo: weather,
-    temperature: place.temperature,
-    title: place.title,
-    rating: place.rating,
-    ratingNum: place.rating.toFixed(1),
-    reviews: `(${place.reviews?.length || Math.round(Math.random() * 10)})`,
-    description: place.description,
-    readMore: " read more",
-    events: [
-      { description: new Date(place.eventTime).toLocaleString() },
-      { description: place.location },
-      { description: place.eventType },
-    ],
-    eventEndTime: new Date(place.eventEndTime).toLocaleString(),
-    footerLogo: place.footerLogo,
-    footerDescription: place.footerDescription,
-    footerLink: "Scheduled",
-  }));
-  const card2DataUser = places.slice(0, 5).map((place, index) => ({
-    id: place.id,
-    mainImage: place.mainImage,
-    logo: place.footerLogo,
-    description: place.description.slice(0, 300),
-    date: new Date(place.eventEndTime).toLocaleString(),
-    visited: place.visited,
-    isReviewd: isReviewes(place.id),
-    button1: [
-      {
-        text: "Yes, I accept",
-        class: "btn_black",
-      },
-      {
-        text: "No, thanks",
-        class: "btn_white",
-      },
-    ],
-    button2: [
-      {
-        text: "Yes, I would share",
-        class: "btn_black",
-      },
-      {
-        text: "Remind me later",
-        class: "btn_white",
-      },
-    ],
-  }));
-
+  const card1Data1 = eventsData.map((place) => {
+    const eventStartTime = new Date(place.eventTime);
+    const eventEndTime = new Date(place.eventEndTime);
+  
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    const formattedStartDate = eventStartTime.toLocaleDateString(undefined, options);
+    const formattedEndDate = eventEndTime.toLocaleDateString(undefined, options);
+  
+    return {
+      id: place.id,
+      mainImage: place.mainImage,
+      weatherLogo: weather,
+      temperature: place.temperature,
+      title: place.title,
+      rating: place.rating,
+      ratingNum: place.rating.toFixed(1),
+      reviews: `(${place.reviews?.length || Math.round(Math.random() * 10)})`,
+      description: place.description,
+      readMore: " read more",
+      events: [
+        { description: formattedStartDate },
+        { description: place.location },
+        { description: place.eventType },
+      ],
+      eventEndTime: formattedEndDate,
+      footerLogo: place.footerLogo,
+      footerDescription: place.footerDescription,
+      footerLink: "Scheduled",
+    };
+  });
+  
+  const card2DataUser = places.slice(0, 5).map((place, index) => {
+    const eventEndTime = new Date(place.eventEndTime);
+  
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    const formattedEndDate = eventEndTime.toLocaleDateString(undefined, options);
+  
+    return {
+      id: place.id,
+      mainImage: place.mainImage,
+      logo: place.footerLogo,
+      description: place.description.slice(0, 300),
+      date: formattedEndDate,
+      visited: place.visited,
+      isReviewd: isReviewes(place.id),
+      button1: [
+        {
+          text: "Yes, I accept",
+          class: "btn_black",
+        },
+        {
+          text: "No, thanks",
+          class: "btn_white",
+        },
+      ],
+      button2: [
+        {
+          text: "Yes, I would share",
+          class: "btn_black",
+        },
+        {
+          text: "Remind me later",
+          class: "btn_white",
+        },
+      ],
+    };
+  });
+ function handleStaticData() {
+    if(!isLogin){
+      navigate('/auth/login')
+    }
+ }
   return (
     <>
+ 
       <NotificationComponent />
-      <header>
         <Navbar />
+       <div onClick={handleStaticData}>
         <GoodMorning />
-      </header>
-
+    
+    
       <main>
         <Slider
           cardsData={isLogin ? card1Data1 : card1Data}
@@ -367,7 +401,9 @@ const Home = () => {
         <MapComponent />
       </div>
       <Footer />
+      </div>
     </>
+
   );
 };
 

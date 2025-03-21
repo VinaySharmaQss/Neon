@@ -12,8 +12,10 @@ import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { MdOutlineDateRange } from "react-icons/md";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
 const UpcomingEvents = () => {
+  const navigate = useNavigate();
   const userName =
     useSelector((state) => state.user?.user?.name) ||
     JSON.parse(localStorage.getItem("user"))?.name ||
@@ -98,9 +100,16 @@ const UpcomingEvents = () => {
   // Get unique locations from the places data
   const uniqueLocations = Array.from(new Set(places.map((p) => p.location))).filter(Boolean);
 
+  const handleStaticData = ()=>{
+    if(!isLogin){
+      navigate("/auth/login")
+    }
+  }
+
   return (
     <>
       <Navbar />
+      <div onClick={handleStaticData}>
       <div className={styles.container}>
         <div className={styles.title}>
           <h1>Hey {userName},</h1>
@@ -211,6 +220,7 @@ const UpcomingEvents = () => {
         )}
       </div>
       <Footer />
+      </div>
     </>
   );
 };

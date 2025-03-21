@@ -242,7 +242,6 @@ const EditProfile = () => {
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.title}>Edit Charlie&apos;s Profile</div>
           <div className={styles.content}>
-            <CiEdit/>
             <div
               className={styles.imgWrapper}
               onClick={() => fileInputRef.current.click()}

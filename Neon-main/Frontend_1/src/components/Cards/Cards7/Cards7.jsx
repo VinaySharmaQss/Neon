@@ -22,7 +22,6 @@ const EventCard = ({
     const eventDateObj = new Date(eventDate);
     const now = new Date();
     const difference = eventDateObj - now;
-
     return difference > 0
       ? {
           days: Math.floor(difference / (1000 * 60 * 60 * 24)),
@@ -53,6 +52,28 @@ const EventCard = ({
     setShowModal(false);
   };
 
+  const formatDate = (date) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(date).toLocaleDateString(undefined, options);
+  };
+
+  const formatTime = (date) => {
+    const options = { hour: 'numeric', minute: 'numeric', hour12: true };
+    return new Date(date).toLocaleTimeString(undefined, options);
+  };
+
+  const generateDateOptions = (baseDate) => {
+    const dates = [];
+    for (let i = 1; i <= 3; i++) {
+      const newDate = new Date(baseDate);
+      newDate.setDate(newDate.getDate() + i);
+      dates.push(newDate);
+    }
+    return dates;
+  };
+
+  const dateOptions = generateDateOptions(eventDate);
+
   return (
     <>
       <div
@@ -62,8 +83,14 @@ const EventCard = ({
         <div className={styles.overlay}>
           <h2 className={styles.title}>{eventTitle}</h2>
           <p className={styles.location}>{eventLocation}</p>
-          <p className={styles.date}>{new Date(eventDate).toLocaleString()}</p>
-
+         
+        {
+          !reschedule ? <p className={styles.date}>{formatDate(eventDate)} at {formatTime(eventDate)}</p>
+          :<div>
+           <p className={styles.date}>{formatDate(eventDate)}</p>
+           <p className="mt-[-20px]">7:00 AM | 11:00 AM | 3:00 PM</p>
+          </div>
+        }
           {!reschedule && (
             <div className={styles.countdown}>
               {Object.entries(timeLeft).map(([unit, value]) => (
@@ -78,6 +105,7 @@ const EventCard = ({
           {reschedule ? (
             <button
               className={styles.button}
+              style={{marginTop:"-10px"}}
               onClick={() => setShowModal(true)}
             >
               Reschedule
@@ -105,8 +133,8 @@ const EventCard = ({
             </h2>
             <p className="mb-4 text-gray-700">
               You have chosen a new "{eventTitle}" event on{" "}
-              {new Date(eventDate).toLocaleDateString()} at{" "}
-              {new Date(eventDate).toLocaleTimeString()}. Have a great day ahead
+              {formatDate(eventDate)} at{" "}
+              {formatTime(eventDate)}. Have a great day ahead
               and enjoy your new round of golf!
             </p>
 
@@ -120,9 +148,11 @@ const EventCard = ({
                   onChange={(e) => setSelectedDate(e.target.value)}
                   className="w-full mt-1 p-2 border rounded"
                 >
-                  <option>Jan 1, 2023</option>
-                  <option>Jan 2, 2023</option>
-                  <option>Jan 3, 2023</option>
+                  {dateOptions.map((date, index) => (
+                    <option key={index} value={date.toISOString()}>
+                      {formatDate(date)}
+                    </option>
+                  ))}
                 </select>
               </div>
 

@@ -12,6 +12,7 @@ const NotificationComponent = () => {
 
   useEffect(() => {
     socket.on("notification", (data) => {
+      console.log("Received notification:", data);
       dispatch(addNotification(data));          // Save the notification
       dispatch(toggleNotification());           // Open the notification modal
       toast.success(`${data.message}`);         // Optional toast

@@ -3,7 +3,7 @@ import { FaEnvelope, FaLock } from "react-icons/fa";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { backendUrl } from "../../utils/utils";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { loginReducer } from "../../redux/features/user";
@@ -126,6 +126,12 @@ const Login = () => {
             Login
           </motion.button>
         </form>
+        <p className="text-center mt-4">
+          Don't have an account?{" "}
+          <Link to="/auth/signup" className="text-blue-500 hover:underline">
+            Register
+          </Link>
+        </p>
       </motion.div>
     </motion.div>
   );
