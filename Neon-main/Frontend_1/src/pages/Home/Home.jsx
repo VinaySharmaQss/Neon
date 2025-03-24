@@ -81,6 +81,7 @@ const Home = () => {
         });
         if (response.data.success) {
           setPlaces(response.data.message);
+          
         } else {
           setError("Failed to load places");
           toast.error("Failed to load places");

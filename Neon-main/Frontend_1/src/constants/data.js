@@ -4,7 +4,7 @@ import CardImg3 from "../../assets/img/golf.png";
 import weatherLogo from "../../assets/img/weather.svg";
 import logo from "../../assets/img/joy.svg";
 import Image from "../../assets/img/mountain.jpg";
-import Image2 from "../../assets/img/Mountains_waterfall.jpg";
+import Image2 from "../../assets/img/mountain.jpg";
 import cardImg3_1 from "../../assets/img/card3_1.jpg"
 import cardImg3_2 from "../../assets/img/card3_2.jpg"
 import cardImg3_3 from "../../assets/img/card3_3.jpg"

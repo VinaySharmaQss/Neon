@@ -44,14 +44,22 @@ const Navbar = () => {
 
   const handleRescheduleConfirm = () => {
     closeReschedulePopup();
-    navigate(`/reschedules/${notifications[0]?.placeId}`)
+    if (notifications && notifications.length > 0) {
+      navigate(`/reschedules/${notifications[0]?.placeId}`);
+    } else {
+      navigate(`/reschedules/8`);
+    }
     toast.success("Event rescheduled successfully!");
   };
 
   const handleCancelConfirm = () => {
     closeCancelPopup();
-    console.log(notifications[0]);
-    navigate(`/recommendations/${notifications[0]?.placeId}`)
+    if (notifications && notifications.length > 0) {
+      console.log(notifications[0]);
+      navigate(`/recommendations/${notifications[0]?.placeId}`);
+    } else {
+      navigate(`/recommendations/8`);
+    }
     toast.success("Event cancelled successfully!");
   };
 
@@ -107,7 +115,7 @@ const Navbar = () => {
                       </button>
                     </div>
                     {notifications.length === 0 ? (
-                      <p>No new notifications</p>
+                      <p>“We regret to inform you that the current weather conditions are not conducive for a golf session. Would you like to reschedule or cancel your golf session for today?”</p>
                     ) : (
                       <ul className={styles.notificationList}>
                         {notifications.map((data, index) => (
@@ -189,24 +197,20 @@ const Navbar = () => {
   );
 };
 
+
+
+
 const Popup = ({ title, message, onConfirm, onCancel, confirmText }) => (
   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm z-50"
-   style={
-    {
-      fontFamily:"BrownRegular"
-    }
-   }>
-    <div
-      className="bg-white rounded-2xl p-8 w-full max-w-lg mx-auto shadow-2xl border border-gray-300"
-      style={{ animation: "popup 0.4s ease-out" }}
-    >
-      <h2 className="text-3xl font-bold text-gray-900 mb-4">{title}</h2>
-      <p className="text-gray-700 text-lg leading-relaxed mb-8">{message}</p>
-      <div className="flex justify-end gap-4">
-        <button onClick={onConfirm} className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-all">
+    style={{ fontFamily: "IvyMode" }}>
+    <div className="bg-white  p-8  max-w-lg  shadow-2xl w-[480px] h-[220px] border border-gray-300">
+      <h2 className="text-[27px] font-bold ml-[-200px] text-gray-900 mb-4">{title} ,</h2>
+      <p className="text-gray-700 text-[17px] leading-relaxed mb-8 ml-[-8px]">{message}</p>
+      <div className="flex justify-start gap-4 ml-[-8px] ">
+        <button onClick={onConfirm} className="px-3 py-3 text-sm bg-black text-white rounded-lg hover:bg-gray-800 transition-all">
           {confirmText}
         </button>
-        <button onClick={onCancel} className="px-6 py-3 bg-gray-200 rounded-lg hover:bg-gray-300 transition-all">
+        <button onClick={onCancel} className="px-3 py-3 text-sm bg-gray-200 rounded-lg hover:bg-gray-300 transition-all">
           No, thanks
         </button>
       </div>
