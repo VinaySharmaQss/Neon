@@ -11,6 +11,7 @@ import {
   getViewedPlaces,
   removeFromFaviourate,
   updatePlace,
+  updatePlaceStartTime,
 } from "../controllers/places.controllers.js";
 const router = Router();
 
@@ -41,6 +42,8 @@ router.route("/viewed/:userId").get(getViewedPlaces);
 
 // get all reviews by place id
  router.route("/reviews/:placeId").get(getAllReviewsofPlaces);
+
+ router.patch("/:id/start-time", updatePlaceStartTime);
 
  // get all 
 

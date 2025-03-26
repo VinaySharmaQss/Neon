@@ -354,7 +354,78 @@ const getCompletedPlaces = async (req, res) => {
 };
 
 
+const acceptUser = asyncHandler(async (req, res, next) => {
+  const { userId, placeId } = req.body;
 
+  try {
+    // Fetch the current user data
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(userId, 10) },
+      select: { accepted: true }, // Fetch only the accepted array
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    // If the placeId is already in the accepted array, return the user data without updating
+    if (user.accepted.includes(placeId)) {
+      return res.json({ message: "Place already accepted.", user });
+    }
+
+    // Update the user by pushing the new placeId
+    const updatedUser = await prisma.user.update({
+      where: { id: parseInt(userId, 10) },
+      data: {
+        accepted: {
+          push: placeId,
+        },
+      },
+    });
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.error("Error updating accepted places:", error);
+    res.status(500).json({ error: "An error occurred while updating the accepted array." });
+  }
+});
+
+// Function to remove from the accepted users array
+const removeAcceptedPlace = asyncHandler(async (req, res, next) => {
+  const { userId, placeId } = req.body;
+
+  try {
+    // Fetch the current user data
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(userId, 10) },
+      select: { accepted: true }, // Fetch only the accepted array
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    // If the placeId is not in the accepted array, return the user data without updating
+    if (!user.accepted.includes(placeId)) {
+      return res.json({ message: "Place not found in accepted array.", user });
+    }
+
+    // Update the user by removing the placeId from the accepted array
+    const updatedUser = await prisma.user.update({
+      where: { id: parseInt(userId, 10) },
+      data: {
+        accepted: {
+          set: user.accepted.filter((id) => id !== placeId),
+        },
+      },
+    });
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.error("Error updating accepted places:", error);
+    res.status(500).json({ error: "An error occurred while updating the accepted array." });
+  }
+});
 
 export {
   SignUp,
@@ -366,5 +437,7 @@ export {
   getUserName,
   getInterest,
   completedPlaces,
-  getCompletedPlaces
+  getCompletedPlaces,
+  acceptUser,
+  removeAcceptedPlace
 };

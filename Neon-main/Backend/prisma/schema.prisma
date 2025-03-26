@@ -54,6 +54,7 @@ model Place {
   reviews           Review[]
   favorites         Favorite[]
   payments          Payment[]
+  travelTime        Int @default(0)
   category          String
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt

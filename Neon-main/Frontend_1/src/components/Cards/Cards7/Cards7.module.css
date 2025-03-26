@@ -62,13 +62,11 @@ margin-right: 90px;
 }
 
 .timerBox {
-  border: 1px solid #fff;
   padding: 10px 15px;
   border-radius: 50px;
   text-align: center;
   height: 80px;
   width: 80px;
-  border-right-color: rgba(206, 50, 50, 0.863);
   transition: transform 0.3s ease;
 }
 

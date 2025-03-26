@@ -92,6 +92,7 @@ const getPlaceById = asyncHandler(async (req, res) => {
         reviews: true,
       },
     });
+    console.log("Place:", place);
     if (!place) {
       throw new ApiError(404, "Place not found");
     }
@@ -387,6 +388,42 @@ const getAllReviewsofPlaces = asyncHandler(async (req, res) => {
   }
 });
 
+const updatePlaceStartTime = asyncHandler(async (req, res) => {
+  try {
+    const placeId = parseInt(req.params.id);
+    const { eventTime } = req.body;
+
+    console.log("Received eventTime:", eventTime); // Debugging
+
+    // Validate and parse the eventTime
+    const parsedEventTime = eventTime ? new Date(eventTime) : undefined;
+
+    if (!eventTime || isNaN(parsedEventTime)) {
+      throw new ApiError(400, "Invalid or missing eventTime format");
+    }
+
+    // Format the date to ISO 8601 before saving
+    const formattedEventTime = parsedEventTime.toISOString();
+
+    // Update only the eventTime field
+    const updatedPlace = await prisma.place.update({
+      where: { id: placeId },
+      data: {
+        eventTime: formattedEventTime,
+      },
+    });
+
+    res
+      .status(200)
+      .json(new ApiResponse(200, "Place start time updated successfully", updatedPlace));
+  } catch (error) {
+    console.error("Error updating place start time:", error);
+    res
+      .status(500)
+      .json(new ApiResponse(500, "Internal server error", error.message));
+  }
+});
+
 
 export {
   createPlace,
@@ -399,4 +436,5 @@ export {
   getAllFavouritePlaces,
   removeFromFaviourate,
   getAllReviewsofPlaces,
+  updatePlaceStartTime,
 };

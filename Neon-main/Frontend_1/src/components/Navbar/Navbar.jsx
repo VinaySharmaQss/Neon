@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IoIosNotifications, IoIosMenu } from "react-icons/io";
 import { RiGlobalLine } from "react-icons/ri";
@@ -17,26 +17,40 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const notifications = useSelector((state) => state.notification.notifications);
-  const user = useSelector((state) => state.user?.user) || JSON.parse(localStorage.getItem("user")) || {};
-  const isSignup = useSelector((state) => state.user?.isSignup) ?? (localStorage.getItem("isSignup") === "true");
-  const isOpens = useSelector((state) => state.user?.isNotification) || false;
-  const isLogin = useSelector((state) => state.user?.isLogin) || (localStorage.getItem("isLogin") === "true") || false;
+  const user =
+    useSelector((state) => state.user?.user) ||
+    JSON.parse(localStorage.getItem("user")) ||
+    {};
+  const isSignup =
+    useSelector((state) => state.user?.isSignup) ??
+    localStorage.getItem("isSignup") === "true";
+  const isOpens =
+    useSelector((state) => state.user?.isNotification) || false;
+  const isLogin =
+    useSelector((state) => state.user?.isLogin) ||
+    localStorage.getItem("isLogin") === "true" ||
+    false;
 
   const userName = user?.name || "Charlie";
   const name = userName.trim().slice(0, 1).toUpperCase();
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // For profile menu
+  const [menuOpen, setMenuOpen] = useState(false); // For language menu
   const [isReschedulePopupOpen, setIsReschedulePopupOpen] = useState(false);
   const [isCancelPopupOpen, setIsCancelPopupOpen] = useState(false);
 
-  const toggleLang = () => setMenuOpen(!menuOpen);
-  const toggleMenu = () => setIsOpen(!isOpen);
+  // Refs for profile and language menu containers
+  const profileRef = useRef(null);
+  const langRef = useRef(null);
+
+  const toggleLang = () => setMenuOpen((prev) => !prev);
+  const toggleMenu = () => setIsOpen((prev) => !prev);
   const toggleNotificationModal = () => dispatch(toggleNotification());
 
-  const openReschedulePopup = () => (
-    toggleNotificationModal(),
-    setIsReschedulePopupOpen(true));
+  const openReschedulePopup = () => {
+    toggleNotificationModal();
+    setIsReschedulePopupOpen(true);
+  };
   const closeReschedulePopup = () => setIsReschedulePopupOpen(false);
 
   const openCancelPopup = () => setIsCancelPopupOpen(true);
@@ -63,6 +77,20 @@ const Navbar = () => {
     toast.success("Event cancelled successfully!");
   };
 
+  // Close profile and language menus when clicking outside of them
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+      if (langRef.current && !langRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <>
       <style>
@@ -80,7 +108,7 @@ const Navbar = () => {
 
       <nav className={styles.nav}>
         <div className={styles.logo}>
-          <img src={Logo} alt="Logo" />
+          <img src={Logo} alt="Logo" onClick={() => navigate("/")} />
         </div>
 
         <div className={styles.right_section}>
@@ -115,12 +143,13 @@ const Navbar = () => {
                       </button>
                     </div>
                     {notifications.length === 0 ? (
-                      <p>“We regret to inform you that the current weather conditions are not conducive for a golf session. Would you like to reschedule or cancel your golf session for today?”</p>
+                      <p>
+                        “We regret to inform you that the current weather conditions are not conducive for a golf session. Would you like to reschedule or cancel your golf session for today?”
+                      </p>
                     ) : (
                       <ul className={styles.notificationList}>
                         {notifications.map((data, index) => (
                           <li key={index} className={styles.notificationItem}>
-                            {console.log(data)}
                             "{data.message}"
                           </li>
                         ))}
@@ -138,7 +167,7 @@ const Navbar = () => {
                 )}
               </div>
 
-              <div className={styles.profile} onClick={toggleMenu}>
+              <div className={styles.profile} ref={profileRef} onClick={toggleMenu}>
                 <div className={styles.menu}>
                   <IoIosMenu />
                 </div>
@@ -150,7 +179,7 @@ const Navbar = () => {
                 </div>
               </div>
 
-              <div className={styles.global}>
+              <div className={styles.global} ref={langRef}>
                 <RiGlobalLine onClick={toggleLang} className="text-sm cursor-pointer" />
                 <LanguagueMenu isOpen={menuOpen} />
               </div>
@@ -197,20 +226,33 @@ const Navbar = () => {
   );
 };
 
-
-
-
 const Popup = ({ title, message, onConfirm, onCancel, confirmText }) => (
-  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm z-50"
-    style={{ fontFamily: "IvyMode" }}>
-    <div className="bg-white  p-8  max-w-lg  shadow-2xl w-[480px] h-[220px] border border-gray-300">
-      <h2 className="text-[27px] font-bold ml-[-200px] text-gray-900 mb-4">{title} ,</h2>
-      <p className="text-gray-700 text-[17px] leading-relaxed mb-8 ml-[-8px]">{message}</p>
-      <div className="flex justify-start gap-4 ml-[-8px] ">
-        <button onClick={onConfirm} className="px-3 py-3 text-sm bg-black text-white rounded-lg hover:bg-gray-800 transition-all">
+  <div
+    className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm z-50"
+    style={{ fontFamily: "IvyMode" }}
+    onClick={onCancel} // Clicking the overlay closes the popup
+  >
+    <div
+      className="bg-white p-8 max-w-lg shadow-2xl w-[480px] h-[220px] border border-gray-300"
+      onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the popup
+    >
+      <h2 className="text-[27px] font-bold ml-[-200px] text-gray-900 mb-4">
+        {title},
+      </h2>
+      <p className="text-gray-700 text-[17px] leading-relaxed mb-8 ml-[-8px]">
+        {message}
+      </p>
+      <div className="flex justify-start gap-4 ml-[-8px]">
+        <button
+          onClick={onConfirm}
+          className="px-3 py-3 text-sm bg-black text-white rounded-lg hover:bg-gray-800 transition-all"
+        >
           {confirmText}
         </button>
-        <button onClick={onCancel} className="px-3 py-3 text-sm bg-gray-200 rounded-lg hover:bg-gray-300 transition-all">
+        <button
+          onClick={onCancel}
+          className="px-3 py-3 text-sm bg-gray-200 rounded-lg hover:bg-gray-300 transition-all"
+        >
           No, thanks
         </button>
       </div>

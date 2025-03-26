@@ -115,8 +115,9 @@ const ReviewModal = ({ placeId, cusineId, isModalOpen }) => {
                     {[1, 2, 3, 4, 5].map((value) => (
                       <Star
                         key={value}
+                        fill={ratings[key] >= value ? "currentColor" : "none"}
                         className={`w-5 h-5 cursor-pointer ${
-                          ratings[key] >= value ? "text-black" : "text-gray-300"
+                          ratings[key] >= value ? "text-[#FF385C]" : "text-gray-300"
                         }`}
                         onClick={() => handleRating(key, value)}
                       />

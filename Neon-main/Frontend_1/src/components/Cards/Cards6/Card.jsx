@@ -3,13 +3,28 @@ import axios from 'axios';
 import styles from './Card6.module.css';
 import { backendUrl } from '../../../utils/utils';
 
-const Card6 = ({ userId, placeId, booked,scheduled }) => {
-  console.log("Scheduled" ,scheduled)
+// Function to format dates
+const formatDate = (date) => {
+  const parsedDate = new Date(date);
+  if (isNaN(parsedDate)) {
+    console.error("Invalid date:", date);
+    return "Invalid Date"; // Fallback for invalid dates
+  }
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return parsedDate.toLocaleDateString(undefined, options);
+};
+
+const Card6 = ({ userId, placeId, booked, scheduled, eventStart, eventEnd }) => {
+  console.log("Scheduled", eventEnd, eventStart);
+
   const [guestsDropdownOpen, setGuestsDropdownOpen] = useState(false);
   const [childrenDropdownOpen, setChildrenDropdownOpen] = useState(false);
   const [selectedGuests, setSelectedGuests] = useState('1 adult');
   const [selectedChildren, setSelectedChildren] = useState(0);
-  const [dates, setDates] = useState({ from: 'Nov 10, 2022', to: 'Nov 29, 2022' });
+  const [dates, setDates] = useState({
+    from: formatDate(eventStart), // Format eventStart
+    to: formatDate(eventEnd), // Format eventEnd
+  });
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');

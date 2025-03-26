@@ -110,16 +110,26 @@ const EventDetails = () => {
           `${backendUrl}places/event-details/${id}`,
           { withCredentials: true }
         );
-        if (response.data.success) {
+        if (response.data?.success) {
           setEvent(response.data.message);
+        } else {
+          throw new Error(
+            response.data?.message || "Failed to fetch event details"
+          );
         }
       } catch (error) {
         console.error("Error fetching event:", error);
         setError("Error fetching event");
-        toast.error(error.response?.data?.message || "Error fetching event");
+        toast.error(
+          error.response?.data?.message ||
+            "An error occurred while fetching the event"
+        );
       }
     };
-    getEvent();
+
+    if (id) {
+      getEvent();
+    }
   }, [id]);
 
   useEffect(() => {
@@ -237,6 +247,7 @@ const EventDetails = () => {
         <h1 className={styles.heading}>{event?.title}</h1>
         <div className={styles.reviews}>
           <div className={styles.stars}>
+            {console.log("Event", event)}
             {stars.map((_, index) => (
               <FaStar
                 key={index}
@@ -289,7 +300,20 @@ const EventDetails = () => {
 
         <div className="flex flex-col items-center mr-[120px]">
           <div className={styles.box}>
-            <Card6 userId={userId} placeId={id} booked={userReviewed} scheduled={scheduledPlace} />
+            {event?.eventTime && event?.eventEndTime ? (
+              <Card6
+                userId={userId}
+                placeId={id}
+                booked={userReviewed}
+                scheduled={scheduledPlace}
+                eventStart={new Date(event.eventTime).toISOString()} // Ensure valid format
+                eventEnd={new Date(event.eventEndTime).toISOString()} // Ensure valid format
+              />
+            ) : (
+              <p className="text-red-500">
+                Event time details are not available.
+              </p>
+            )}
           </div>
           <p className="font-['BrownRegular']">Need help?</p>
         </div>

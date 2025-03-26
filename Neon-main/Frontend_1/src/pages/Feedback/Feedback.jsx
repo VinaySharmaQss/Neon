@@ -3,11 +3,11 @@ import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import styles from "./Feedback.module.css";
 import logo from "../../../assets/img/overwhelmed.svg";
-import Speedometer from "react-d3-speedometer";
 import Cards8 from "../../components/Cards/Cards8/Cards8";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { backendUrl } from "../../utils/utils";
+import Speedometer from "../../UI/Speedometer";
 
 const Feedback = () => {
   const userName =
@@ -103,8 +103,8 @@ const Feedback = () => {
               visit to Sindalah City.
             </div>
           </div>
-          <div className="flex justify-center items-center mr-40 mt-20">
-            <Speedometer
+          <div className="flex justify-center items-center mr-40 mt-40">
+            {/* <Speedometer
               value={(overallVibeValue)*100}
               currentValueText={getVibeText((overallVibeValue)*100)}
               minValue={0}
@@ -117,7 +117,9 @@ const Feedback = () => {
               width={350}
               height={200} // Adjusted for better fit
               textColor="black"
-            />
+            /> */}
+            <Speedometer value={-10}/>
+            
           </div>
         </div>
 
